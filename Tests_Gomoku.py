@@ -8,10 +8,22 @@ def test_vide():
     # assert distance([1,3],[4,3])==3
 
 def test_grille_complete():
+    # Complète = False, a_gagne = 0
     grille_zeros=np.zeros((15,15),int)
+    # complete = True, a_gagne = 1
     grille_ones=np.ones((15,15),int)
+
+    # complete = False, a_gagne = 1
     grille_identite=np.eye((15),int)
+    # complete = False, a_gagne = 0
     grille_diag=np.diag([1,1,1,2,2,2,2,1,2,1,2,1,0,1,0])
+    # complete = False, a_gagne = 1
+    grille_presque_complete = np.ones((15,15),int)
+    grille_presque_complete[4][11] = 0
+    # complete = False, a_gagne = 0
+    grille_presque_vide = np.zeros((15,15),int)
+    grille_presque_vide[7][1] = 1
+    
 
     liste_grille_true=[grille_ones]
     liste_grille_false=[grille_zeros,grille_identite,grille_diag,grille_presque_complete,grille_presque_vide]
@@ -22,4 +34,7 @@ def test_grille_complete():
     for grille_false in liste_grille_false:
         assert(grille_complete(grille_false)==False)
 
+def test_grille_a_gagne():
+
+    #assert
 
