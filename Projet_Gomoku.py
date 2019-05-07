@@ -35,13 +35,13 @@ if __name__ == '__main__':
     Gomoku()
 
 
-def verif_tour3(grille, coordonnee):
+def verif_tour3(grille, coordonnees):
     res = True
-    (i,j) = coordonnee
-    # La position est déjà converti en coordonée dans la grille
+    (i,j) = coordonnees
+    # La position est déjà converti en coordonnées dans la grille
     if grille[i][j] != 0 :
         res = False
-    # On vérifie la distance au centre
+    # On vérifie la distance au centre de coordonnées (7,7)
     distance = abs(7-i)+abs(7-j)
     if distance < 7 : 
         res = False
