@@ -12,7 +12,6 @@ def test_grille_complete():
     grille_zeros=np.zeros((15,15),int)
     # complete = True, a_gagne = 1
     grille_ones=np.ones((15,15),int)
-
     # complete = False, a_gagne = 1
     grille_identite=np.eye((15),int)
     # complete = False, a_gagne = 0
@@ -35,6 +34,5 @@ def test_grille_complete():
         assert(grille_complete(grille_false)==False)
 
 def test_grille_a_gagne():
-
-    #assert
+    grille=np.zeros((15,15))
 
