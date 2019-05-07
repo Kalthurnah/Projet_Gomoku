@@ -63,10 +63,32 @@ def a_gagne(grille):
                     cmpt = 0
     # Il s'agit maintenant de tester sur les colonnes. On remet encore le compteur à zéros.
     cmpt = 0
+    # On se limite à 0,11 car on ne doit pas dépasser les dimenseions de la grille !
+    # On teste donc d'abord pour les diagonales allant d'en haut à gauche à en bas à droite.
+    for i in range(0,11):
+        for j in range(0,11):
+            # On regarde si les 5 cases en diagonales (haut gauche vers bas droite) ont le même symbole
+            if grille[i][j] == grille[i+1][j+1] and grille[i+1][j+1] == grille[i+2][j+2] :
+                if grille[i+2][j+2] == grille[i+3][j+3] and grille[i+3][j+3]== grille[i+4][j+4] :
+                    # Si c'est le cas on vérifie qu'il ne s'agit pas d'un zéros.
+                    if grille[i][j] != 0:
+                        print("Le jeu est fini, le joueur" + grille[i][j] + "a gagné.")
+                        return grille[i][j]
+    # Maintenant on teste les diagonales allant du bas gauche vers le haut droit.
+    for i in range(4,15):
+        for j in range(0,11):
+            # On regarde si les 5 cases en diagonales (haut gauche vers bas droite) ont le même symbole
+            if grille[i][j] == grille[i-1][j+1] and grille[i-1][j+1] == grille[i-2][j+2] :
+                if grille[i-2][j+2] == grille[i-3][j+3] and grille[i-3][j+3]== grille[i-4][j+4] :
+                    # Si c'est le cas on vérifie qu'il ne s'agit pas d'un zéros.
+                    if grille[i][j] != 0:
+                        print("Le jeu est fini, le joueur" + grille[i][j] + "a gagné.")
+                        return grille[i][j]
+    print("Le jeu n'est pas fini.")
+    return grille[i][j]
+
 
 vide_char = 0
-def Gomoku():
-    (IA_char,user_char)=demander_couleur()
 
 
 def demander_couleur():
@@ -84,6 +106,11 @@ def demander_couleur():
     return (IA_char,user_char)
 
 
+def Gomoku():
+    (IA_char,user_char)=demander_couleur()
+
+
 if __name__ == '__main__':
     # Appeler main ici
     exit()
+
