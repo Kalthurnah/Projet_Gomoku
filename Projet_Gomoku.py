@@ -25,4 +25,4 @@ def demander_couleur():
 
 if __name__ == '__main__':
     # Appeler main ici
-    exit()
+    Gomoku()
