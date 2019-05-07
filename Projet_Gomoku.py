@@ -33,3 +33,17 @@ if __name__ == '__main__':
     # Appeler main ici
     (IA_char, user_char) = demander_couleur()
     Gomoku()
+
+
+def verif_tour3(grille, coordonnee):
+    res = True
+    (i,j) = coordonnee
+    # La position est déjà converti en coordonée dans la grille
+    if grille[i][j] != 0 :
+        res = False
+    # On vérifie la distance au centre
+    distance = abs(7-i)+abs(7-j)
+    if distance < 7 : 
+        res = False
+    return res
+
