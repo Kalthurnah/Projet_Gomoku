@@ -3,7 +3,16 @@
 Projet IA, Gomoku, Groupe TD A
 @author: Damien ALOUGES, Amine AGOUSSAL, Cécile AMSALLEM
 """
-vide_char = 0
+
+import numpy as np
+
+def creation_plateau():
+    plateau = np.zeros((15,15),dtype=int)
+    return plateau
+
+def Gomoku():
+    (IA_char,user_char)=demander_couleur()
+
 
 def demander_couleur():
     print("Les noirs commencent. Veux tu être :")
