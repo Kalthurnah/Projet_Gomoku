@@ -6,13 +6,10 @@ Projet IA, Gomoku, Groupe TD A
 
 import numpy as np
 
+
 def creation_plateau():
-    plateau = np.zeros((15,15),dtype=int)
+    plateau = np.zeros((15,15),dtype=int)#On crée une matrice 15x15 de 0
     return plateau
-
-def Gomoku():
-    (IA_char,user_char)=demander_couleur()
-
 
 def demander_couleur():
     print("Les noirs commencent. Veux tu être :")
@@ -29,8 +26,8 @@ def demander_couleur():
     return (IA_char, user_char)
 
 def Gomoku():
-
     print(user_char)
+    #Fonctionnement du Gomoku ici
 
 if __name__ == '__main__':
     # Appeler main ici
