@@ -9,7 +9,6 @@ def creation_plateau():
     plateau = np.zeros((15,15),dtype=int)
     return plateau
 
-vide_char = 0
 def Gomoku():
     (IA_char,user_char)=demander_couleur()
 
