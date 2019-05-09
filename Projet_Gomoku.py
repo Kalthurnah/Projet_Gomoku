@@ -27,7 +27,7 @@ def conversion_pos_coord(position: str):
 
     lettres = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"]
     ligne = -1  # Coordonnée invalide par défaut
-        for k in range(0, 15):
+    for k in range(0, 15):
         if lettres[k] == lettre:
             ligne = k
             break  # Sortie de la boucle quand la lettre est trouvée
@@ -117,6 +117,7 @@ def a_gagne(grille):
                         return grille[i][j]
     print("Le jeu n'est pas fini.")
     return grille[i][j]
+
 
 def creation_plateau():
     plateau = np.zeros((15, 15), dtype=int)  # On crée une matrice 15x15 de 0
