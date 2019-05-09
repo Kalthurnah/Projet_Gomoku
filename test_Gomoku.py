@@ -113,7 +113,7 @@ def test_demander_couleur(monkeypatch, entree_utilisateur, resultat_attendu):
     # This simulates the user entering "Mark" in the terminal:
     monkeypatch.setattr('builtins.input', lambda x: entree_utilisateur)
 
-    assert (IA_char,user_char) == resultat_attendu
+    assert demander_couleur() == resultat_attendu
 
 
 def test_creation_plateau():
