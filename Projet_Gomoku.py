@@ -17,8 +17,8 @@ def grille_complete(grille):
             # Toutes celles différentes de 0 contiennent une case jouée.
             if grille[i][j] != 0:
                 cmpt = cmpt + 1
-    # S'il y a 120 cases pleines alors la grille est complète puisqu'il n'y a plus de pions.
-    if cmpt == 120:
+    # S'il y a 120 cases pleines alors la grille est complète puisqu'il n'y a plus de pions. (Chaque joueur en a 60)
+    if cmpt >= 120:
         res = True
         print("La grille est complète, le jeu est fini.")
     # On renvoie le résultat
