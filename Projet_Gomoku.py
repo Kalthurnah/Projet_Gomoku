@@ -6,16 +6,16 @@ Projet IA, Gomoku, Groupe TD A
 
 import numpy as np
 
-def conversion_pos_coord(position) :
-    (lettre , chiffre) = position #On recupere lettre et chiffre depuis notre tuple position
-    j = chiffre-1
-    L=["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O"]
-    i=-1
-    for k in range(0,15):
-        if L[k]== lettre:
-            i=k
-    return (i,j)
 
+def conversion_pos_coord(position):
+    (lettre, chiffre) = position  # On recupere lettre et chiffre depuis notre tuple position
+    j = chiffre - 1
+    L = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"]
+    i = -1
+    for k in range(0, 15):
+        if L[k] == lettre:
+            i = k
+    return (i, j)
 
 
 def creation_plateau():
