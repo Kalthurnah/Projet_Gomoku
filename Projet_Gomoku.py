@@ -100,7 +100,7 @@ def grille_a_gagne(grille: {np.ndarray}):
                         print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné.")
                         return grille[i][j]
     print("Le jeu n'est pas fini.")
-    return grille[i][j]
+    return 0
 
 
 vide_char = 0
