@@ -49,13 +49,12 @@ def grille_a_gagne(grille: {np.ndarray}):
             if grille[i][j] == grille[i][j + 1]:
                 cmpt = cmpt + 1  # On incrémente le compteur si elles sont égales
             else:
-                # Sinon on remet le compteur à 0
-                cmpt = 0
-            # Si le compteur atteint 5, on regard si ce n'est pas 5 zéros d'affilés.
-            if cmpt == 5:
-                # Si le symbole est différent de 0 on renvoie le symbole, sinon on continue
+                cmpt = 0  # Sinon on remet le compteur à 0
+            # Si le compteur atteint 4, donc si on a 5 cases adjacentes identiques, on regarde si ce ne sont pas 5 zéros d'affilés.
+            if cmpt == 4:
+                # Si le symbole est différent de 0, quelqu'un a gagné, et on renvoie donc le gagnant, sinon on continue
                 if grille[i][j] != 0:
-                    print("Le jeu est fini, le joueur" + str(grille[i][j]) + "a gagné.")
+                    print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné.")
                     return grille[i][j]
                 # Si c'était 5 zéros à la suite, personne a gagné on remet le compteur à 0
                 else:
@@ -70,9 +69,9 @@ def grille_a_gagne(grille: {np.ndarray}):
                 cmpt = cmpt + 1
             else:
                 cmpt = 0
-            if cmpt == 5:
+            if cmpt == 4:
                 if grille[i][j] != 0:
-                    print("Le jeu est fini, le joueur" + grille[i][j] + "a gagné.")
+                    print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné.")
                     return grille[i][j]
                 else:
                     cmpt = 0
