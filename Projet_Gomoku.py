@@ -22,8 +22,10 @@ def grille_complete(grille: {np.ndarray}):
             # Toutes celles différentes de 0 contiennent une case jouée.
             if grille[i][j] != 0:
                 cmpt = cmpt + 1
+
     # S'il y a 120 cases pleines alors la grille est complète puisqu'il n'y a plus de pions.
-    if cmpt == 120:
+    # Le cas ou l'on a plus de pions que 120 n'est pas supposé arriver, mais on vérifie quand même au cas ou quelque chose tourne mal, et pour pouvoir tester plus facilement
+    if cmpt >= 120:
         res = True
         print("La grille est complète, le jeu est fini.")
     # On renvoie le résultat
