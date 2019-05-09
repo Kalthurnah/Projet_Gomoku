@@ -41,7 +41,7 @@ def a_gagne(grille):
             if cmpt == 5 :
                 # Si le symbole est différent de 0 on renvoie le symbole, sinon on continue
                 if grille[i][j] != 0 :
-                    print("Le jeu est fini, le joueur" + grille[i][j] + "a gagné.")
+                    print("Le jeu est fini, le joueur" + str(grille[i][j]) + "a gagné.")
                     return grille[i][j]
                 # Si c'était 5 zéros à la suite on remet le compteur à 0
                 else :
@@ -70,9 +70,9 @@ def a_gagne(grille):
             # On regarde si les 5 cases en diagonales (haut gauche vers bas droite) ont le même symbole
             if grille[i][j] == grille[i+1][j+1] and grille[i+1][j+1] == grille[i+2][j+2] :
                 if grille[i+2][j+2] == grille[i+3][j+3] and grille[i+3][j+3]== grille[i+4][j+4] :
-                    # Si c'est le cas on vérifie qu'il ne s'agit pas d'un zéros.
+                    # Si c'est le cas on vérifie qu'il ne s'agit pas d'un zéro.
                     if grille[i][j] != 0:
-                        print("Le jeu est fini, le joueur" + grille[i][j] + "a gagné.")
+                        print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné.")
                         return grille[i][j]
     # Maintenant on teste les diagonales allant du bas gauche vers le haut droit.
     for i in range(4,15):
@@ -82,7 +82,7 @@ def a_gagne(grille):
                 if grille[i-2][j+2] == grille[i-3][j+3] and grille[i-3][j+3]== grille[i-4][j+4] :
                     # Si c'est le cas on vérifie qu'il ne s'agit pas d'un zéros.
                     if grille[i][j] != 0:
-                        print("Le jeu est fini, le joueur" + grille[i][j] + "a gagné.")
+                        print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné.")
                         return grille[i][j]
     print("Le jeu n'est pas fini.")
     return grille[i][j]
