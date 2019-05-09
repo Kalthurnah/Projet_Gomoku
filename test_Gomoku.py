@@ -85,7 +85,7 @@ def generer_grilles_tests():
          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], ], dtype=int)
-    liste_infos_grilles.append(InfosGrille(grille=grille_gagne1_diag_haut_gauche, est_complete=False, a_gagne=2))
+    liste_infos_grilles.append(InfosGrille(grille=grille_gagne1_diag_haut_gauche, est_complete=False, a_gagne=1))
 
 
     # Pour ajouter une grille à la liste, la créer ci-dessous, et ajouter à liste_infos_grilles l'objet InfosGrille correspondant, cf exemples existants
