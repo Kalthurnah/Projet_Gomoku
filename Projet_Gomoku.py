@@ -7,6 +7,36 @@ Projet IA, Gomoku, Groupe TD A
 import numpy as np
 
 
+def conversion_pos_coord(position: str):
+    '''
+    Convertit une position entrée par l'utilisateur sous la forme "A4" en un tuple coordonnées d'une grille, sous la forme (0,3)
+
+    :param position: string de la forme "A4", contenant une lettre suivie d'un nombre.
+    :return: un tuple correspondant aux coordonnées sur la grille de la position fournie. Si l'entrée est invalide, l'un des membres de ce tuple est -1.
+    '''
+
+    (lettre, nombre) = (position[0], position[1:])
+    # On recupere lettre (1er char du string) et nombre (chars au dela du premier) depuis le string position donné
+
+    try:
+        colonne = int(nombre) - 1  # On tente de convertir le string du nombre en entier
+    except:
+        colonne = -1  # Si le charactère n'a pu être converti en entier, on le passe à -1
+    if (colonne < 0 | colonne >= 15):  # Si la colonne est supérieure ou égale à 15, ou inférieure à 0 elle est invalide
+        colonne = -1  # On remplace alors la colonne par -1
+
+    lettres = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"]
+    ligne = -1  # Coordonnée invalide par défaut
+    for k in range(0, 15):
+        if lettres[k] == lettre:
+            ligne = k
+            break  # Sortie de la boucle quand la lettre est trouvée
+
+    return (ligne, colonne)
+    # TODO : Verif à l'utilisation si (i==-1 ou j == -1), auquel cas la position fournie par l'utilisateur est invalide.
+
+
+
 def grille_complete(grille: np.ndarray):
     '''
     La fonction suivante renvoie un booléen représentant si la grille est complète ou non.
@@ -31,8 +61,6 @@ def grille_complete(grille: np.ndarray):
     # On renvoie le résultat
     return res
 
-
-#
 
 def grille_a_gagne(grille: np.ndarray):
     '''
@@ -101,17 +129,6 @@ def grille_a_gagne(grille: np.ndarray):
                     return grille[i][j]
     print("Le jeu n'est pas fini.")
     return 0
-
-
-def conversion_pos_coord(position):
-    (lettre, chiffre) = position  # On recupere lettre et chiffre depuis notre tuple position
-    j = chiffre - 1
-    L = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"]
-    i = -1
-    for k in range(0, 15):
-        if L[k] == lettre:
-            i = k
-    return (i, j)
 
 
 def creation_plateau():
