@@ -8,6 +8,40 @@ import minimax_modulable
 import numpy as np
 
 
+def actions(state_grille, tour):
+    '''
+    Retourne les actions possibles d'un joueur à une grille de jeu, pour le Gomoku
+
+    :param state_grille: grille du jeu
+    :param tour: numero du tour actuel
+    :return:actions possibles du joueur
+    '''
+    # TODO
+    return []
+
+
+def terminal_test(state_grille):
+    '''
+    Teste si une grille donnée est en fin de jeu, pour le Gomoku
+
+    :param state_grille:  état de la grille
+    :return: soit le caractere du gagnant, soit True si il y a une égalité, soit False si l'état n'est pas terminal
+    '''
+    # TODO
+    return False
+
+
+def heuristic(state_grille):
+    '''
+    Fournit une heuristique évaluant approximativement l'état de la grille pour le Gomoku
+
+    :param state_grille:  état de la grille
+    :return:Entier entre -99 et 99 représentant le gain approximatif de la grille
+    '''
+    # TODO
+    return 0
+
+
 def conversion_pos_coord(position: str):
     '''
     Convertit une position entrée par l'utilisateur sous la forme "A4" en un tuple coordonnées d'une grille, sous la forme (0,3)
@@ -164,3 +198,25 @@ if __name__ == '__main__':
     (user_char, IA_char) = demander_couleur()
     Gomoku()
 # Ne pas mettre de fonctions ci dessous !
+
+    def charger_minimax():
+        '''
+        Fonction chargeant le module minimax modulable et remplacant ses fonctions dépendant du jeu par les notres.
+        '''
+
+        # On affecte les caractères des joueurs
+        minimax_modulable.user_char = user_char
+        minimax_modulable.IA_char = IA_char
+        minimax_modulable.vide_char = 0
+        # On affecte les fonctions spécifiques au jeu pour qu'elles soient utilisées par le minimax modulable
+        minimax_modulable.actions = actions
+        minimax_modulable.terminal_test = terminal_test
+        minimax_modulable.heuristic = heuristic
+
+    if __name__ == '__main__':
+        # Appeler main ici
+        (user_char, IA_char) = demander_couleur()
+        charger_minimax()
+
+        Gomoku()
+    # Ne pas mettre de fonctions ci dessous !
