@@ -18,10 +18,10 @@ def conversion_pos_coord(position):
     # On recupere lettre (1er char du string) et nombre (chars au dela du premier) depuis le string position donné
 
     try:
-        colonne = int(nombre) - 1
+        colonne = int(nombre) - 1  # On tente de convertir le string du nombre en entier
     except:
         colonne = -1  # Si le charactère n'a pu être converti en entier, on le passe à -1
-    if (colonne < 0 | colonne >= 15):  # Si la colonne est supérieure ou égale à 15, elle est invalide
+    if (colonne < 0 | colonne >= 15):  # Si la colonne est supérieure ou égale à 15, ou inférieure à 0 elle est invalide
         colonne = -1  # On remplace alors la colonne par -1
 
     lettres = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"]
