@@ -1,7 +1,7 @@
 # -*- coding utf-8 -*-
 """
 Projet IA, Variante du minimax adaptable. Remplacer actions, terminal_test, et heuristic.
-@author:Amine AGOUSSAL, Groupe TD A
+@author:Amine AGOUSSAL, Damien ALOUGES, Cécile AMSALLEM
 """
 
 import numpy as np
