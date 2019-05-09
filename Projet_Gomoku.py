@@ -7,9 +7,14 @@ Projet IA, Gomoku, Groupe TD A
 import numpy as np
 
 
-# La fonction suivante renvoie un booléen représentant si la grille est complète ou non.
-def grille_complete(grille):
-    # On compte les cases que l'on rempli
+def grille_complete(grille: {np.ndarray}):
+    '''
+    La fonction suivante renvoie un booléen représentant si la grille est complète ou non.
+
+    :param grille: grille np.array d'entiers correspondant au plateau de jeu
+    :return: Booléen True si la grille est complète, false sinon
+    '''
+    # On compte les cases déja jouées
     cmpt = 0
     res = False
     for i in range(0, 15):
@@ -25,17 +30,22 @@ def grille_complete(grille):
     return res
 
 
-# Le but de la fonction suivante est de savoir si le joueur k a gagné.
-# La fonction renvoie 0 si personne n'a gagné, 1 si le joueur 1 a gagné, 2 si le joueur 2 a gagné.
-def a_gagne(grille):
+#
+
+def grille_a_gagne(grille: {np.ndarray}):
+    '''
+    Fonction indiquant si un joueur k a gagné.
+    :param grille: grille np.array d'entiers correspondant au plateau de jeu
+    :return: 0 si personne n'a gagné, 1 si le joueur 1 a gagné, 2 si le joueur 2 a gagné.
+    '''
     cmpt = 0
-    # On regarde d'abord sur les colonnes.
+
+    # Verification des gains par colonne, si qqn a 5 pions adjacents sur une même ligne
     for i in range(0, 15):
         for j in range(0, 14):
-            # On regarde si le symbole et le suivant sont égaux
+            # On regarde si la case et la suivante sont égales
             if grille[i][j] == grille[i][j + 1]:
-                # On ajoute un au compteur si les deux symboles sont égaux
-                cmpt = cmpt + 1
+                cmpt = cmpt + 1  # On incrémente le compteur si elles sont égales
             else:
                 # Sinon on remet le compteur à 0
                 cmpt = 0
@@ -45,12 +55,13 @@ def a_gagne(grille):
                 if grille[i][j] != 0:
                     print("Le jeu est fini, le joueur" + str(grille[i][j]) + "a gagné.")
                     return grille[i][j]
-                # Si c'était 5 zéros à la suite on remet le compteur à 0
+                # Si c'était 5 zéros à la suite, personne a gagné on remet le compteur à 0
                 else:
                     cmpt = 0
     # On remet le compteur à 0 pour s'il n'a pas trouvé de fin de jeu avant.
     cmpt = 0
-    # On fait de même pour les lignes.
+
+    # On vérifie de même les gains par lignes, ie si 5 cases adjacentes sont trouvées sur la même colonne
     for j in range(0, 15):
         for i in range(0, 14):
             if grille[i][j] == grille[i + 1][j]:
@@ -63,7 +74,8 @@ def a_gagne(grille):
                     return grille[i][j]
                 else:
                     cmpt = 0
-    # Il s'agit maintenant de tester sur les colonnes. On remet encore le compteur à zéros.
+
+    # Il s'agit maintenant de tester sur les diagonales. On remet encore le compteur à zéro.
     cmpt = 0
     # On se limite à 0,11 car on ne doit pas dépasser les dimenseions de la grille !
     # On teste donc d'abord pour les diagonales allant d'en haut à gauche à en bas à droite.
