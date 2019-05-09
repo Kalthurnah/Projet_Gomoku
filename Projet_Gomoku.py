@@ -4,6 +4,7 @@ Projet IA, Gomoku, Groupe TD A
 @author: Damien ALOUGES, Amine AGOUSSAL, Cécile AMSALLEM
 """
 
+import minimax_modulable
 import numpy as np
 
 
