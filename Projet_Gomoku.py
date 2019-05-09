@@ -103,7 +103,20 @@ def grille_a_gagne(grille: {np.ndarray}):
     return 0
 
 
-vide_char = 0
+def conversion_pos_coord(position):
+    (lettre, chiffre) = position  # On recupere lettre et chiffre depuis notre tuple position
+    j = chiffre - 1
+    L = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"]
+    i = -1
+    for k in range(0, 15):
+        if L[k] == lettre:
+            i = k
+    return (i, j)
+
+
+def creation_plateau():
+    plateau = np.zeros((15, 15), dtype=int)  # On crée une matrice 15x15 de 0
+    return plateau
 
 
 def demander_couleur():
@@ -112,7 +125,7 @@ def demander_couleur():
     print("2 - Les blancs")
     choix = input(">")
 
-    if choix == 1:
+    if choix == "1":
         user_char = 1
         IA_char = 2
     else:
@@ -121,10 +134,27 @@ def demander_couleur():
     return (IA_char, user_char)
 
 
+def verif_tour3(grille, coordonnees):
+    res = True
+    (i, j) = coordonnees
+    # La position est déjà converti en coordonnées dans la grille
+    if grille[i][j] != 0:
+        res = False
+    else:
+        # On vérifie la distance au centre de coordonnées (7,7)
+        distance = abs(7 - i) + abs(7 - j)
+        if distance < 7:
+            res = False
+    return res
+
+
 def Gomoku():
-    (IA_char, user_char) = demander_couleur()
+    print(user_char)
+    # Fonctionnement du Gomoku ici
 
 
 if __name__ == '__main__':
     # Appeler main ici
-    exit()
+    (IA_char, user_char) = demander_couleur()
+    Gomoku()
+# Ne pas mettre de fonctions ci dessous !
