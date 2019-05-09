@@ -7,6 +7,10 @@ Projet IA, Gomoku, Groupe TD A
 import numpy as np
 
 
+user_char = None
+IA_char = None
+
+
 def conversion_pos_coord(position: str):
     '''
     Convertit une position entrée par l'utilisateur sous la forme "A4" en un tuple coordonnées d'une grille, sous la forme (0,3)
