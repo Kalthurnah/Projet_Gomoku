@@ -204,7 +204,7 @@ if __name__ == '__main__':
 
     def charger_minimax():
         '''
-        Fonction chargeant le module minimax modulable et remplacant ses fonctions dépendant du jeu par les notres.
+        Fonction chargeant le module minimax modulable et remplacant ses fonctions dépendant du jeu par celles du Gomoku.
         '''
 
         # On affecte les caractères des joueurs
