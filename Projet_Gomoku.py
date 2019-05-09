@@ -10,6 +10,7 @@ import numpy as np
 def conversion_pos_coord(position):
     '''
     Convertit une position entrée par l'utilisateur sous la forme "A4" en un tuple coordonnées d'une grille, sous la forme (0,3)
+
     :param position: string de la forme "A4", contenant une lettre et un chiffre.
     :return: un tuple correspondant aux coordonnées sur la grille de la position fournie. Si l'entrée est invalide, l'un des membres de ce tuple est -1.
     '''
