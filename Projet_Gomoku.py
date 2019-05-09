@@ -7,6 +7,9 @@ Projet IA, Gomoku, Groupe TD A
 import minimax_modulable
 import numpy as np
 
+user_char = None
+IA_char = None
+
 
 def actions(state_grille, tour):
     '''
