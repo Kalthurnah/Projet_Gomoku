@@ -16,4 +16,5 @@ def test_verif_tour3():
 def test_conversion_pos_coord():
     assert conversion_pos_coord("A4") == (0, 3)
     assert conversion_pos_coord("B7") == (1, 6)
-    assert conversion_pos_coord("O1") == (14, 0)
+    assert conversion_pos_coord("O15") == (14, 14)
+    assert conversion_pos_coord("D1") == (3, 0)

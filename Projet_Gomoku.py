@@ -14,14 +14,15 @@ def conversion_pos_coord(position):
     :return: un tuple correspondant aux coordonnées sur la grille de la position fournie. Si l'entrée est invalide, l'un des membres de ce tuple est -1.
     '''
 
-    (lettre, chiffre) = (position[0], position[1])  # On recupere lettre et chiffre depuis le string position donné
+    (lettre, nombre) = (position[0], position[1:])
+    # On recupere lettre (1er char du string) et nombre (chars au dela du premier) depuis le string position donné
 
     try:
-        colonne = int(chiffre) - 1
+        colonne = int(nombre) - 1
     except:
         colonne = -1  # Si le charactère n'a pu être converti en entier, on le passe à -1
-    if (colonne >= 15):  # Si la colonne est supérieure ou égale à 15, elle est invalide
-        colonne = -1  # On remplace j par -1
+    if (colonne < 0 | colonne >= 15):  # Si la colonne est supérieure ou égale à 15, elle est invalide
+        colonne = -1  # On remplace alors la colonne par -1
 
     lettres = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"]
     ligne = -1  # Coordonnée invalide par défaut
