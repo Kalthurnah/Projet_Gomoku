@@ -17,28 +17,28 @@ class InfosGrille:
 def generer_grilles_tests():
     liste_infos_grilles = []
 
-    #Grille 0
+    # Grille 0
     grille_zeros = np.zeros((15, 15), int)
     liste_infos_grilles.append(InfosGrille(grille=grille_zeros, est_complete=False, a_gagne=0))
 
-    #Grille 1
+    # Grille 1
     grille_ones = np.ones((15, 15), int)
     liste_infos_grilles.append(InfosGrille(grille=grille_ones, est_complete=True, a_gagne=1))
 
-    #Grille 2
+    # Grille 2
     grille_identite = np.eye(15, dtype=int)
     liste_infos_grilles.append(InfosGrille(grille=grille_identite, est_complete=False, a_gagne=1))
 
-    #Grille 3
+    # Grille 3
     grille_diag = np.diag([1, 1, 1, 2, 2, 2, 2, 1, 2, 1, 2, 1, 0, 1, 0])
     liste_infos_grilles.append(InfosGrille(grille=grille_diag, est_complete=False, a_gagne=0))
 
-    #Grille 4
+    # Grille 4
     grille_presque_complete = np.ones((15, 15), int)
     grille_presque_complete[4][11] = 0
     liste_infos_grilles.append(InfosGrille(grille=grille_presque_complete, est_complete=False, a_gagne=1))
 
-    #Grille 5
+    # Grille 5
     grille_presque_vide = np.zeros((15, 15), int)
     grille_presque_vide[7][1] = 1
     liste_infos_grilles.append(InfosGrille(grille=grille_presque_vide, est_complete=False, a_gagne=0))
