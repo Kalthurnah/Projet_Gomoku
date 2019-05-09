@@ -62,9 +62,34 @@ def generer_grilles_tests():
     grille_gagne2_colonne[10][14] = 2
     liste_infos_grilles.append(InfosGrille(grille=grille_gagne2_colonne, est_complete=False, a_gagne=2))
 
+    # Grille 8
+    grille_gagne2_diag_bas_droite = np.array(
+        [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, ],
+         [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, ], [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, ],
+         [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, ], ], dtype=int)
+    liste_infos_grilles.append(
+        InfosGrille(grille=grille_gagne2_diag_bas_droite, est_complete=False, a_gagne=2))  # Grille 8
+
+    # Grille 9
+    grille_gagne1_diag_haut_gauche = np.array(
+        [[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, ], [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, ],
+         [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, ], [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, ],
+         [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], ], dtype=int)
+    liste_infos_grilles.append(InfosGrille(grille=grille_gagne1_diag_haut_gauche, est_complete=False, a_gagne=2))
+
+
     # Pour ajouter une grille à la liste, la créer ci-dessous, et ajouter à liste_infos_grilles l'objet InfosGrille correspondant, cf exemples existants
     return liste_infos_grilles
-
 
 liste_infos_grilles = generer_grilles_tests()
 
@@ -78,25 +103,11 @@ def test_grille_complete(infos_grille):
 
 @pytest.mark.parametrize('infos_grille', liste_infos_grilles)
 def test_a_gagne(infos_grille):
-    # grille_gagne = np.array([[2, 1, 0, 2, 1, 2, 2, 1, 2, 1, 1, 1, 0, 1, 0],
-    #                          [1, 2, 1, 2, 0, 2, 2, 1, 2, 1, 2, 1, 1, 1, 0],
-    #                          [1, 2, 1, 2, 2, 1, 0, 1, 2, 1, 2, 0, 0, 1, 0],
-    #                          [1, 0, 1, 2, 0, 2, 2, 1, 1, 1, 2, 1, 0, 1, 0],
-    #                          [2, 2, 1, 2, 0, 0, 2, 1, 0, 1, 2, 1, 0, 1, 0],
-    #                          [0, 0, 0, 0, 0, 2, 1, 0, 2, 2, 1, 1, 0, 1, 0],
-    #                          [1, 1, 1, 2, 2, 2, 2, 1, 2, 1, 2, 1, 0, 1, 0],
-    #                          [2, 1, 2, 2, 0, 0, 1, 1, 0, 1, 2, 1, 0, 1, 0],
-    #                          [2, 0, 1, 2, 1, 1, 0, 1, 2, 1, 2, 1, 0, 1, 0],
-    #                          [1, 1, 1, 2, 2, 2, 2, 1, 2, 1, 2, 1, 0, 1, 0],
-    #                          [1, 1, 1, 2, 2, 2, 2, 1, 2, 1, 2, 1, 0, 1, 0],
-    #                          [1, 1, 1, 2, 2, 2, 2, 1, 2, 1, 2, 1, 0, 1, 0],
-    #                          [1, 1, 0, 2, 0, 0, 2, 1, 2, 1, 2, 0, 0, 1, 0],
-    #                          [1, 1, 1, 2, 1, 2, 2, 1, 2, 1, 2, 1, 1, 1, 1],
-    #                          [1, 1, 1, 2, 2, 2, 2, 1, 2, 1, 2, 1, 0, 1, 0],], dtype=int)
     grille = infos_grille.grille
     a_gagne = infos_grille.a_gagne
     assert grille_a_gagne(grille) == a_gagne
     print()
+
 
 def test_verif_tour3():
     grille = np.zeros((15, 15), int)
