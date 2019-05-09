@@ -85,6 +85,7 @@ valeurs_tests_verif_tour3 = [((1, 3), False),
                              ((6, 4), False),
                              ((0, 0), True)]
 
+
 @pytest.mark.parametrize('coordonnee, resultat_attendu', valeurs_tests_verif_tour3)
 def test_verif_tour3(coordonnee, resultat_attendu):
     grille = np.zeros((15, 15), int)
@@ -105,3 +106,15 @@ valeurs_tests_conversion_pos_coord = [("A4", (0, 3)),
 @pytest.mark.parametrize('position, resultat_attendu', valeurs_tests_conversion_pos_coord)
 def test_conversion_pos_coord(position, resultat_attendu):
     assert conversion_pos_coord(position) == resultat_attendu
+
+
+@pytest.mark.parametrize('entree_utilisateur, resultat_attendu', [("1", (1, 2)), ("2", (2, 1))])
+def test_demander_couleur(monkeypatch, entree_utilisateur, resultat_attendu):
+    # This simulates the user entering "Mark" in the terminal:
+    monkeypatch.setattr('builtins.input', lambda x: entree_utilisateur)
+
+    assert demander_couleur() == resultat_attendu
+
+
+def test_creation_plateau():
+    assert np.all(creation_plateau() == 0)

@@ -136,7 +136,7 @@ def demander_couleur():
     else:
         user_char = 2
         IA_char = 1
-    return (IA_char, user_char)
+    return (user_char, IA_char)
 
 
 def verif_tour3(grille, coordonnees):
@@ -160,6 +160,6 @@ def Gomoku():
 
 if __name__ == '__main__':
     # Appeler main ici
-    (IA_char, user_char) = demander_couleur()
+    (user_char, IA_char) = demander_couleur()
     Gomoku()
 # Ne pas mettre de fonctions ci dessous !
