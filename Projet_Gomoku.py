@@ -54,7 +54,7 @@ def grille_a_gagne(grille: {np.ndarray}):
             if cmpt == 4:
                 # Si le symbole est différent de 0, quelqu'un a gagné, et on renvoie donc le gagnant, sinon on continue
                 if grille[i][j] != 0:
-                    print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné.")
+                    print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné en ligne.")
                     return grille[i][j]
                 # Si c'était 5 zéros à la suite, personne a gagné on remet le compteur à 0
                 else:
@@ -71,34 +71,34 @@ def grille_a_gagne(grille: {np.ndarray}):
                 cmpt = 0
             if cmpt == 4:
                 if grille[i][j] != 0:
-                    print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné.")
+                    print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné en colonne.")
                     return grille[i][j]
                 else:
                     cmpt = 0
 
     # Il s'agit maintenant de tester sur les diagonales. On remet encore le compteur à zéro.
     cmpt = 0
-    # On se limite à 0,11 car on ne doit pas dépasser les dimenseions de la grille !
+    # On se limite à 0,11 car on ne doit pas dépasser les dimensions de la grille !
     # On teste donc d'abord pour les diagonales allant d'en haut à gauche à en bas à droite.
     for i in range(0, 11):
         for j in range(0, 11):
-            # On regarde si les 5 cases en diagonales (haut gauche vers bas droite) ont le même symbole
-            if grille[i][j] == grille[i + 1][j + 1] and grille[i + 1][j + 1] == grille[i + 2][j + 2]:
-                if grille[i + 2][j + 2] == grille[i + 3][j + 3] and grille[i + 3][j + 3] == grille[i + 4][j + 4]:
-                    # Si c'est le cas on vérifie qu'il ne s'agit pas d'un zéro.
-                    if grille[i][j] != 0:
-                        print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné.")
-                        return grille[i][j]
+            # On regarde si les 5 cases en diagonales (haut gauche vers bas droite)sont identiques
+            if grille[i][j] == grille[i + 1][j + 1] and grille[i + 1][j + 1] == grille[i + 2][j + 2] \
+                    and grille[i + 2][j + 2] == grille[i + 3][j + 3] and grille[i + 3][j + 3] == grille[i + 4][j + 4]:
+                # Si c'est le cas on vérifie qu'il ne s'agit pas d'un zéro.
+                if grille[i][j] != 0:
+                    print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné en diagonale.")
+                    return grille[i][j]
     # Maintenant on teste les diagonales allant du bas gauche vers le haut droit.
     for i in range(4, 15):
         for j in range(0, 11):
-            # On regarde si les 5 cases en diagonales (haut gauche vers bas droite) ont le même symbole
-            if grille[i][j] == grille[i - 1][j + 1] and grille[i - 1][j + 1] == grille[i - 2][j + 2]:
-                if grille[i - 2][j + 2] == grille[i - 3][j + 3] and grille[i - 3][j + 3] == grille[i - 4][j + 4]:
-                    # Si c'est le cas on vérifie qu'il ne s'agit pas d'un zéros.
-                    if grille[i][j] != 0:
-                        print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné.")
-                        return grille[i][j]
+            # On regarde si les 5 cases en diagonales (bas gauche vers haut droite) sont identiques
+            if grille[i][j] == grille[i - 1][j + 1] and grille[i - 1][j + 1] == grille[i - 2][j + 2] \
+                    and grille[i - 2][j + 2] == grille[i - 3][j + 3] and grille[i - 3][j + 3] == grille[i - 4][j + 4]:
+                # Si c'est le cas on vérifie qu'il ne s'agit pas d'un zéro.
+                if grille[i][j] != 0:
+                    print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné en diagonale.")
+                    return grille[i][j]
     print("Le jeu n'est pas fini.")
     return 0
 
