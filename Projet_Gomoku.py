@@ -7,7 +7,7 @@ Projet IA, Gomoku, Groupe TD A
 import numpy as np
 
 
-def grille_complete(grille: {np.ndarray}):
+def grille_complete(grille: np.ndarray):
     '''
     La fonction suivante renvoie un booléen représentant si la grille est complète ou non.
 
@@ -34,7 +34,7 @@ def grille_complete(grille: {np.ndarray}):
 
 #
 
-def grille_a_gagne(grille: {np.ndarray}):
+def grille_a_gagne(grille: np.ndarray):
     '''
     Fonction indiquant si un joueur k a gagné.
     :param grille: grille np.array d'entiers correspondant au plateau de jeu
