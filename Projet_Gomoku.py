@@ -138,6 +138,26 @@ def creation_plateau():
     return plateau
 
 
+def verif_tour3(grille, coordonnees):
+    '''
+    Fonction verifiant si un pion peut être placé à une coordonnée donnée lors du tour 3
+    :param grille: grille du jeu
+    :param coordonnees: coordonnées à jouer
+    :return:
+    '''
+    res = True
+    (i, j) = coordonnees
+    # La position est déjà convertie en coordonnées dans la grille
+    if grille[i][j] != 0:
+        res = False
+    else:
+        # On vérifie la distance au centre de coordonnées (7,7)
+        distance = abs(7 - i) + abs(7 - j)
+        if distance < 7:
+            res = False
+    return res
+
+
 def demander_couleur():
     print("Les noirs commencent. Veux tu être :")
     print("1 - Les noirs")
@@ -151,20 +171,6 @@ def demander_couleur():
         user_char = 2
         IA_char = 1
     return (user_char, IA_char)
-
-
-def verif_tour3(grille, coordonnees):
-    res = True
-    (i, j) = coordonnees
-    # La position est déjà converti en coordonnées dans la grille
-    if grille[i][j] != 0:
-        res = False
-    else:
-        # On vérifie la distance au centre de coordonnées (7,7)
-        distance = abs(7 - i) + abs(7 - j)
-        if distance < 7:
-            res = False
-    return res
 
 
 def Gomoku():
