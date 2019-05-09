@@ -1,11 +1,10 @@
 # -*- coding utf-8 -*-
 """
-Projet IA, Gomoku, Groupe TD A
+Projet IA, Gomoku (variante long pro), Groupe TD A
 @author: Damien ALOUGES, Amine AGOUSSAL, Cécile AMSALLEM
 """
 
 import numpy as np
-
 
 user_char = None
 IA_char = None
@@ -37,7 +36,6 @@ def conversion_pos_coord(position: str):
             break  # Sortie de la boucle quand la lettre est trouvée
 
     return (ligne, colonne)
-    # TODO : Verif à l'utilisation si (i==-1 ou j == -1), auquel cas la position fournie par l'utilisateur est invalide.
 
 
 # La fonction suivante renvoie un booléen représentant si la grille est complète ou non.
@@ -158,8 +156,44 @@ def verif_tour3(grille, coordonnees):
 
 
 def Gomoku():
-    print(user_char)
+    print("L'ordinateur sera le J%s. Vous serez le J%s. Veuillez patienter." % (IA_char, user_char))
+    state_grille = creation_plateau()  # On initialise le plateau
+    joueur_actif = 1  # On initialise le 1er joueur comme étant le joueur actif.
+    tour_actif = 1  # On initialise le numéro du tour
+
     # Fonctionnement du Gomoku ici
+    while terminal_test(state_grille) == False:  # Tant que le jeu n'est pas fini
+
+        if joueur_actif == IA_char:  # tour IA :
+            action_IA = minimax_modulable.minimax(state_grille, IA_char)[1]  # Action choisie par l'IA suite à l'algo du minimax
+            state_grille = minimax_modulable.result(state_grille, action_IA, IA_char)  # On place le pion aux coordonnées demandées
+            position_choisie_IA = conversion_coord_pos(action_IA)
+            print("\nL'ordinateur a joué en %s.", position_choisie_IA)
+            joueur_actif = user_char
+
+        else:  # joueur_actif == user_char:
+            # tour joueur
+            position_valide = False
+            while not position_valide:  # Tant qu'une position valide n'a pas été renseignée, on en redemande une
+                print("Entrer une position valide ou placer votre pion :")
+                position_choisie_user = input(">")
+                action_user = conversion_pos_coord(position_choisie_user)  # On obtient les coordonnées correspondant à l'entrée utilisateur
+                if action_user[0] != -1 and action_user[1] != -1:  # Si les deux coordonnées sont valides
+                    position_valide = True
+            state_grille = minimax_modulable.result(state_grille, action_user, user_char)  # On place le pion aux coordonnées demandées
+            print("\nL'utilisateur a joué en %s.", position_choisie_user)
+            joueur_actif = IA_char
+
+        # Quelqu'un a joué, on affiche avant de passer au tour suivant
+        afficher_plateau(state_grille)
+        tour_actif += 1
+
+    joueur_gagnant = terminal_test(state_grille)
+    print("Fin du jeu !")
+    if (joueur_gagnant == True):
+        print("Egalité entre vous !")
+    else:
+        print("Le J%s a gagné." % joueur_gagnant)
 
 
 if __name__ == '__main__':
