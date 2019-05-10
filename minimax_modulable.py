@@ -17,7 +17,7 @@ def actions(state_grille, tour=0):
     Retourne les actions possibles d'un joueur sur une grille de jeu. Modèle, à remplacer par une fonction spécifique au jeu !
 
     :param state_grille: grille du jeu
-    :param joueur dont on cherche les actions possibles
+    :param joueur: joueur dont on cherche les actions possibles
     :param tour: numero du tour actuel pour les jeux dont le tour influe sur les actions possibles
     :return: liste des actions possibles du joueur, sous la forme de tuple de coordonnées
     """
