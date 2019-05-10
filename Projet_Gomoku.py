@@ -266,6 +266,7 @@ def Gomoku():
     tour_actif = 2  # On initialise le numéro du tour à 2, le premier tour ayant été joué ci dessus
     joueur_actif = 2  # On initialise le 2eme joueur comme étant le joueur actif, le premier ayant joué de force ci dessus.
 
+    print("Au 3e tour, il est possible de jouer n’importe où excepté dans un carré de taille 7 cases sur 7 cases de centre H8.")
     # Fonctionnement du Gomoku ici
     while terminal_test(grille_jeu) == False:  # Tant que le jeu n'est pas fini
 
@@ -291,6 +292,7 @@ def Gomoku():
         # Quelqu'un a joué, on affiche avant de passer au tour suivant
         afficher_plateau(grille_jeu)
         tour_actif += 1
+        print("Tour " + tour_actif)
 
     joueur_gagnant = terminal_test(grille_jeu)
     print("Fin du jeu !")
