@@ -7,6 +7,10 @@ Projet IA, Gomoku, Groupe TD A
 import numpy as np
 
 
+user_char = None
+IA_char = None
+
+
 def conversion_pos_coord(position: str):
     '''
     Convertit une position entrée par l'utilisateur sous la forme "A4" en un tuple coordonnées d'une grille, sous la forme (0,3)
@@ -148,7 +152,7 @@ def demander_couleur():
     else:
         user_char = 2
         IA_char = 1
-    return (IA_char, user_char)
+    return (user_char, IA_char)
 
 
 def verif_tour3(grille, coordonnees):
@@ -172,6 +176,6 @@ def Gomoku():
 
 if __name__ == '__main__':
     # Appeler main ici
-    (IA_char, user_char) = demander_couleur()
+    (user_char, IA_char) = demander_couleur()
     Gomoku()
 # Ne pas mettre de fonctions ci dessous !
