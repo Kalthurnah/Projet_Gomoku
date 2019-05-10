@@ -33,14 +33,14 @@ def terminal_test(state_grille):
     :return: Soit le caractere du gagnant, soit 0 si il y a une égalité, soit -1 si l'état n'est pas terminal
     '''
 
-    return -1
+    return 0
 
 
 def heuristic(state_grille):
     '''
     Fournit une heuristique évaluant approximativement l'état de la grille. Modèle, à remplacer par une heuristique spécifique au jeu!
     :param state_grille:  état de la grille
-    :return: Entier entre -99 et 99 représentant le gain approximatif de la grille
+    :return: Entier entre -infini et +infini exclus représentant le gain approximatif de la grille (son intêret, donc)
     '''
 
     return 0
@@ -61,7 +61,7 @@ def result(state_grille, action, joueur):
 
 def utility(state_grille):
     '''
-    Fournit une évaluation de l'état de la grille. 100/-100 si l'un des joueurs gagne, et une valeur entre les deux si une heuristique est utilisée
+    Fournit une évaluation de l'état de la grille. -infini/+infini si l'un des joueurs gagne, et une valeur entre les deux si une heuristique est utilisée
 
     :param state_grille:  état de la grille
     :return: entier representant l'évaluation de la grille. Gain minimum si le joueur gagne, maximum si l'IA gagne
@@ -70,9 +70,9 @@ def utility(state_grille):
 
     if fin != -1:  # Si le jeu est fini
         if fin == user_char:
-            return -100  # Adversaire gagne : gain minimum
+            return -math.inf  # Adversaire gagne : gain minimum
         if fin == IA_char:
-            return 100  # IA gagne : gain maximum
+            return math.inf  # IA gagne : gain maximum
         # Grille pleine sans gagnant :
         return 0
 
@@ -82,7 +82,7 @@ def utility(state_grille):
         return heuristic(state_grille)
 
 
-def minimax(grille_state, joueur, tour=0, profondeur=5, borne_min=-math.inf, borne_max=math.inf):
+def minimax(grille_state, joueur, tour=0, profondeur=2, borne_min=-math.inf, borne_max=math.inf):
     '''
     Algorithme principal du minimax. Vérifier que les fonctions heuristic, terminal_test, actions
 
