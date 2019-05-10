@@ -20,7 +20,7 @@ def afficher_plateau(grille):
     # On commence par afficher les numéros des colonnes
     print(' ', end='')
     for k in range(1,16):
-        if k<10:
+        if k<10: # Cosmétique : On espace les chiffres plus que les nombres, pour qu'ils soient correctement placés au dessus de la grille
             # Le end='' permet de ne pas faire de retour à la ligne avant un print vide
             print(' ', end='')
         print(k, end='')
