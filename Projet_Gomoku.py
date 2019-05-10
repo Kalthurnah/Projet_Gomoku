@@ -240,9 +240,6 @@ def verif_tour3(grille, coordonnees):
 def verif_validite_action(grille, coordonnees, tour):
     if coordonnees[0] == -1 or coordonnees[1] == -1:  # Si les coordonnées ne sont pas valides, l'action non plus
         return False
-    if tour == 1:  # Au tour 1 le joueur ne peut poser son pion qu'en H8
-        print("Au premier tour, il n'est possible de jouer qu'au centre H8")
-        return coordonnees == (7, 7)  # On retourne donc le booléen correspondant à cette égalité
     if tour == 3:  # Si on est au tour 3 on vérifie la validité conformément au règles du tour 3
         print("Au 3e tour, il n'est possible de jouer n’importe où excepté dans un carré de taille 7 cases sur 7 cases de centre H8")
         if not verif_tour3(grille, coordonnees):
@@ -267,17 +264,20 @@ def demander_couleur():
 
 
 def Gomoku():
+    print("Au premier tour, il n'est possible de jouer qu'au centre H8 - le 1er joueur voit donc son pion placé de force")
     print("L'ordinateur sera le J%s. Vous serez le J%s. Veuillez patienter." % (IA_char, user_char))
-    state_grille = creation_plateau()  # On initialise le plateau
-    joueur_actif = 1  # On initialise le 1er joueur comme étant le joueur actif.
-    tour_actif = 1  # On initialise le numéro du tour
+    grille_jeu = creation_plateau()  # On initialise le plateau
+    grille_jeu[7][7] = 1  # On place un pion du premier joueur au centre
+    afficher_plateau(grille_jeu)
+    tour_actif = 2  # On initialise le numéro du tour à 2, le premier tour ayant été joué ci dessus
+    joueur_actif = 2  # On initialise le 2eme joueur comme étant le joueur actif, le premier ayant joué de force ci dessus.
 
     # Fonctionnement du Gomoku ici
-    while terminal_test(state_grille) == False:  # Tant que le jeu n'est pas fini
+    while terminal_test(grille_jeu) == False:  # Tant que le jeu n'est pas fini
 
         if joueur_actif == IA_char:  # tour IA :
-            action_IA = minimax_modulable.minimax(state_grille, IA_char)[1]  # Action choisie par l'IA suite à l'algo du minimax
-            state_grille = minimax_modulable.result(state_grille, action_IA, IA_char)  # On place le pion aux coordonnées demandées
+            action_IA = minimax_modulable.minimax(grille_jeu, IA_char)[1]  # Action choisie par l'IA suite à l'algo du minimax
+            grille_jeu = minimax_modulable.result(grille_jeu, action_IA, IA_char)  # On place le pion aux coordonnées demandées
             position_choisie_IA = 'undef'  # TODO : conversion_coord_pos(action_IA)
             print("\nL'ordinateur a joué en %s.", position_choisie_IA)
             joueur_actif = user_char
@@ -289,16 +289,16 @@ def Gomoku():
                 print("Entrer une position valide où placer votre pion :")
                 position_choisie_user = input(">")
                 action_user = conversion_pos_coord(position_choisie_user)  # On obtient les coordonnées correspondant à l'entrée utilisateur
-                position_valide = verif_validite_action(state_grille, action_user, tour_actif)  # On vérif si elles sont valides et jouables
-            state_grille = minimax_modulable.result(state_grille, action_user, user_char)  # On place le pion aux coordonnées demandées
+                position_valide = verif_validite_action(grille_jeu, action_user, tour_actif)  # On vérif si elles sont valides et jouables
+            grille_jeu = minimax_modulable.result(grille_jeu, action_user, user_char)  # On place le pion aux coordonnées demandées
             print("\nL'utilisateur a joué en %s.", position_choisie_user)
             joueur_actif = IA_char
 
         # Quelqu'un a joué, on affiche avant de passer au tour suivant
-        afficher_plateau(state_grille)
+        afficher_plateau(grille_jeu)
         tour_actif += 1
 
-    joueur_gagnant = terminal_test(state_grille)
+    joueur_gagnant = terminal_test(grille_jeu)
     print("Fin du jeu !")
     if (joueur_gagnant == True):
         print("Egalité entre vous !")
