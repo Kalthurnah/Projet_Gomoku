@@ -123,7 +123,6 @@ def conversion_pos_coord(position: str):
     return (ligne, colonne)
 
 
-
 def grille_complete(grille: np.ndarray):
     '''
     La fonction suivante renvoie un booléen représentant si la grille est complète ou non.
@@ -239,6 +238,8 @@ def verif_tour3(grille, coordonnees):
 
 
 def verif_validite_action(grille, coordonnees, tour):
+    if coordonnees[1] != -1 and coordonnees[0] != -1:  # Si les coordonnées ne sont pas valides, l'action non plus
+        return False
     if tour == 1:  # Au tour 1 le joueur ne peut poser son pion qu'en H8
         return coordonnees == (7, 7)  # On retourne donc le booléen correspondant à cette égalité
     if tour == 3:  # Si on est au tour 3 on vérifie la validité conformément au règles du tour 3
@@ -246,7 +247,6 @@ def verif_validite_action(grille, coordonnees, tour):
             return False
     # Si la coordonnée est valide jusqu'à maintenant, on vérifie si la case est bien vide
     return grille[coordonnees[0]][coordonnees[1]] == 0  # On retourne donc le booléen correspondant à cette égalité
-
 
 
 def demander_couleur():
@@ -276,19 +276,18 @@ def Gomoku():
         if joueur_actif == IA_char:  # tour IA :
             action_IA = minimax_modulable.minimax(state_grille, IA_char)[1]  # Action choisie par l'IA suite à l'algo du minimax
             state_grille = minimax_modulable.result(state_grille, action_IA, IA_char)  # On place le pion aux coordonnées demandées
-            position_choisie_IA = 'undef' # TODO : conversion_coord_pos(action_IA)
+            position_choisie_IA = 'undef'  # TODO : conversion_coord_pos(action_IA)
             print("\nL'ordinateur a joué en %s.", position_choisie_IA)
             joueur_actif = user_char
 
         else:  # joueur_actif == user_char:
             # tour joueur
             position_valide = False
-            while not position_valide:  # Tant qu'une position valide n'a pas été renseignée, on en redemande une
-                print("Entrer une position valide ou placer votre pion :")
+            while not position_valide:  # Tant que la position n'est pas valide on en redemande une
+                print("Entrer une position valide où placer votre pion :")
                 position_choisie_user = input(">")
                 action_user = conversion_pos_coord(position_choisie_user)  # On obtient les coordonnées correspondant à l'entrée utilisateur
-                if action_user[0] != -1 and action_user[1] != -1:  # Si les deux coordonnées sont valides
-                    position_valide = True
+                position_valide = verif_validite_action(state_grille, action_user, tour_actif)  # On vérif si elles sont valides et jouables
             state_grille = minimax_modulable.result(state_grille, action_user, user_char)  # On place le pion aux coordonnées demandées
             print("\nL'utilisateur a joué en %s.", position_choisie_user)
             joueur_actif = IA_char
@@ -318,6 +317,7 @@ def charger_minimax():
     minimax_modulable.actions = actions
     minimax_modulable.terminal_test = terminal_test
     minimax_modulable.heuristic = heuristic
+
 
 if __name__ == '__main__':
     # Appeler main ici
