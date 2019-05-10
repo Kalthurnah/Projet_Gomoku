@@ -167,7 +167,7 @@ def Gomoku():
         if joueur_actif == IA_char:  # tour IA :
             action_IA = minimax_modulable.minimax(state_grille, IA_char)[1]  # Action choisie par l'IA suite à l'algo du minimax
             state_grille = minimax_modulable.result(state_grille, action_IA, IA_char)  # On place le pion aux coordonnées demandées
-            position_choisie_IA = conversion_coord_pos(action_IA)
+            position_choisie_IA = 'undef' # TODO : conversion_coord_pos(action_IA)
             print("\nL'ordinateur a joué en %s.", position_choisie_IA)
             joueur_actif = user_char
 
