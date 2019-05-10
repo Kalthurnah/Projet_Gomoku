@@ -4,10 +4,57 @@ Projet IA, Gomoku, Groupe TD A
 @author: Damien ALOUGES, Amine AGOUSSAL, Cécile AMSALLEM
 """
 
+import minimax_modulable
 import numpy as np
 
 user_char = None
 IA_char = None
+
+
+def actions(state_grille, tour):
+    '''
+    Retourne les actions possibles d'un joueur à une grille de jeu, pour le Gomoku
+
+    :param state_grille: grille du jeu
+    :param tour: numero du tour actuel
+    :return:actions possibles du joueur
+    '''
+    actions_possibles = []
+    for j in range(0, 15):
+        for i in range(0, 15):
+            # Pour chaque case du jeu, si l'action est valide, on l'ajoute aux actions possibles
+            if verif_validite_action(state_grille, (i, j), tour):
+                actions_possibles.append((i, j))
+
+    return
+
+
+def terminal_test(state_grille):
+    '''
+    Teste si une grille donnée est en fin de jeu, pour le Gomoku
+
+    :param state_grille:  état de la grille
+    :return: soit le caractere du gagnant, soit True si il y a une égalité, soit False si l'état n'est pas terminal
+    '''
+    if grille_complete(state_grille):  # Grille complète, égalité
+        return True
+    gagnant = grille_a_gagne(state_grille)
+    if gagnant != 0:
+        return gagnant  # Si quelqu'un a gagné, on retourne son caractère
+
+    # Sinon, le jeu n'est pas fini, on retourne false
+    return False
+
+
+def heuristic(state_grille):
+    '''
+    Fournit une heuristique évaluant approximativement l'état de la grille pour le Gomoku
+
+    :param state_grille:  état de la grille
+    :return:Entier entre -99 et 99 représentant le gain approximatif de la grille
+    '''
+    # TODO
+    return 0
 
 
 def creation_plateau():
@@ -223,8 +270,24 @@ def Gomoku():
     # Fonctionnement du Gomoku ici
 
 
+def charger_minimax():
+    '''
+    Fonction chargeant le module minimax modulable et remplacant ses fonctions dépendant du jeu par celles du Gomoku.
+    '''
+
+    # On affecte les caractères des joueurs
+    minimax_modulable.user_char = user_char
+    minimax_modulable.IA_char = IA_char
+    minimax_modulable.vide_char = 0
+    # On affecte les fonctions spécifiques au jeu pour qu'elles soient utilisées par le minimax modulable
+    minimax_modulable.actions = actions
+    minimax_modulable.terminal_test = terminal_test
+    minimax_modulable.heuristic = heuristic
+
 if __name__ == '__main__':
     # Appeler main ici
     (user_char, IA_char) = demander_couleur()
+    charger_minimax()
+
     Gomoku()
 # Ne pas mettre de fonctions ci dessous !
