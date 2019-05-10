@@ -188,11 +188,11 @@ def afficher_plateau(grille):
     lettres = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"]
     for i in range(0, 15):
         # Pour chaque ligne, on affiche d'abord la lettre correspondante
-        print(lettres[i], end='')
+        print(lettres[i], end=' |')
         for j in range(0, 15):
             # Puis on affiche toute la ligne de la grille
             if grille[i][j] == 0:
-                print(' - ', end='')
+                print('   ', end='')
             elif grille[i][j] == 1:  # Le joueur 1 joue les pions noir
                 # Nous avons choisi ce symbole comme rond noir par rapport aux couleurs de la console
                 # La console étant sur fond noir, la police est blanche et le rond apparait donc noir
@@ -200,9 +200,8 @@ def afficher_plateau(grille):
             else:
                 # Et celui ci comme pion blanc
                 print(' • ', end='')
-            if j != 14:
-                # On sépare deux cases par une barre verticale
-                print('|', end='')
+            # On sépare deux cases par une barre verticale
+            print('|', end='')
         print()
     return
 

@@ -170,3 +170,9 @@ def test_demander_couleur(monkeypatch, entree_utilisateur, resultat_attendu):
 
 def test_creation_plateau():
     assert np.all(creation_plateau() == 0)
+
+
+@pytest.mark.parametrize('infos_grille', liste_infos_grilles)
+def test_afficher_plateau(infos_grille):
+    grille = infos_grille.grille
+    afficher_plateau(grille)
