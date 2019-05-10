@@ -65,9 +65,9 @@ def utility(state_grille):
     :param state_grille:  état de la grille
     :return: entier representant l'évaluation de la grille. Gain minimum si le joueur gagne, maximum si l'IA gagne
     '''
-    fin = (terminal_test(state_grille) != -1)  # Fin est le booléen indiquant si le jeu est fini ou pas.
+    fin = terminal_test(state_grille)  # Fin est le booléen indiquant si le jeu est fini ou pas.
 
-    if not fin:
+    if fin != -1:  # Si le jeu est fini
         if fin == user_char:
             return -100  # Adversaire gagne : gain minimum
         if fin == IA_char:
