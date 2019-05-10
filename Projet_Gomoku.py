@@ -6,12 +6,56 @@ Projet IA, Gomoku (variante long pro), Groupe TD A
 
 import minimax_modulable
 import numpy as np
+from random import randint
 
 user_char = None
 IA_char = None
 
 
-def actions(state_grille, joueur, tour):
+def actions_opti(state_grille, tour, rayon=3):
+    '''
+    Retourne les actions possibles d'un joueur à une grille de jeu, pour le Gomoku, en ne prenant en compte que les cas les plus probables,
+    c'est à dire les cases comportant un pion dans un rayon donné aux alentours
+
+    :param state_grille: grille du jeu
+    :param rayon: rayon dans lequel on doit trouver des pions autour d'une case pour qu'elle soit jugée probable d'être jouée
+    :param tour: numero du tour actuel
+    :return:actions possibles du joueur
+    '''
+
+    # TODO : Reduire le champ des actions possibles d'un joueur pour n'inclure que les cas pertinents
+    actions_possibles = []
+
+    # Si on est en début de jeu, et que le tour est <=3 (c'est donc le premier tour jouable de l'IA ou du joueur),
+    # Alors on ne peut pas vraiment prédire son jeu : On prend donc une action au hasard que l'on peut jouer selon les règles.
+    if tour <= 3:
+        (i, j) = (randint(0, 14), randint(0, 14))
+        while not verif_validite_action(state_grille, (i, j), tour):
+            # Tant que le coup n'est pas valide on reprend des nouvelles coordonnées
+            (i, j) = (randint(0, 14), randint(0, 14))
+        actions_possibles.append((i, j))
+
+    # Sinon, on suppose que le joueur ne joue que dans des cases qui sont dans un rayon donné d'un pion déja joué.
+    else:
+        for i in range(0, 15):
+            for j in range(0, 15):
+                if state_grille[i][j] != 0:  # Si un pion est dans cette case
+                    # On ajoute toutes les cases jouables dans un rayon de 4 cases autour de lui aux actions possibles,
+                    # Ligne : On prend un intervalle de valeurs entre i-rayon et i+rayon inclus, en excluant les valeurs hors de la grille
+                    for dist in (0, rayon + 1):
+                        # coordonnées des points à cette distance du point i,j en diagonale
+                        coordonneesdiags = [(i - dist, j - dist), (i - dist, j + dist), (i + dist, j - dist), (i + dist, j + dist)]
+                        # coordonnées des points à cette distance du point i,j en colonne et ligne
+                        coordonneeslignescolonnes = [(i + dist, j), (i - dist, j), (i, j - dist), (i, j + dist)]
+                        for coordonnee in (coordonneesdiags + coordonneeslignescolonnes):
+                            if verif_validite_action(state_grille, coordonnee, tour) and coordonnee not in actions_possibles:
+                                actions_possibles.append(coordonnee)
+                                # Si la coordonnées n'est pas déja dans la liste et est valide,
+                                # On estime que le joueur a des chances d'y jouer, on l'y ajoute donc
+    return actions_possibles
+
+
+def actions(state_grille, tour):
     '''
     Retourne les actions possibles d'un joueur à une grille de jeu, pour le Gomoku
 
@@ -239,7 +283,8 @@ def verif_tour3(grille, coordonnees):
 
 
 def verif_validite_action(grille, coordonnees, tour):
-    if coordonnees[0] == -1 or coordonnees[1] == -1:  # Si les coordonnées ne sont pas valides, l'action non plus
+    if coordonnees[0] < 0 or coordonnees[0] > 14 or coordonnees[1] < 0 or coordonnees[1] > 14:
+        # Si les coordonnées ne sont pas valides, l'action non plus
         return False
     # Le premier tour est géré en dur dans le jeu, puisque le joueur n'a qu'un choix.
     if tour == 3:  # Si on est au tour 3 on vérifie la validité conformément au règles du tour 3
@@ -320,7 +365,7 @@ def charger_minimax():
     minimax_modulable.IA_char = IA_char
     minimax_modulable.vide_char = 0
     # On affecte les fonctions spécifiques au jeu pour qu'elles soient utilisées par le minimax modulable
-    minimax_modulable.actions = actions
+    minimax_modulable.actions = actions_opti
     minimax_modulable.terminal_test = terminal_test
     minimax_modulable.heuristic = heuristic
 
