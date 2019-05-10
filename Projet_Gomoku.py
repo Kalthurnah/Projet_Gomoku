@@ -259,7 +259,7 @@ def demander_couleur():
 
 def Gomoku():
     print("Au premier tour, il n'est possible de jouer qu'au centre H8 - le 1er joueur voit donc son pion placé de force")
-    print("L'ordinateur sera le J%s. Vous serez le J%s. Veuillez patienter." % (IA_char, user_char))
+    print("L'ordinateur sera le J%s. Vous serez le J%s. " % (IA_char, user_char))
     grille_jeu = creation_plateau()  # On initialise le plateau
     grille_jeu[7][7] = 1  # On place un pion du premier joueur au centre
     afficher_plateau(grille_jeu)
@@ -268,9 +268,10 @@ def Gomoku():
 
     print("Au 3e tour, il est possible de jouer n’importe où excepté dans un carré de taille 7 cases sur 7 cases de centre H8.")
     # Fonctionnement du Gomoku ici
-    while terminal_test(grille_jeu) == False:  # Tant que le jeu n'est pas fini
+    while not terminal_test(grille_jeu):  # Tant que le jeu n'est pas fini
 
         if joueur_actif == IA_char:  # tour IA :
+            print("L'ordinateur réfléchit.. Veuillez patienter.")
             action_IA = minimax_modulable.minimax(grille_jeu, IA_char, tour_actif)[1]  # Action choisie par l'IA suite à l'algo du minimax
             grille_jeu = minimax_modulable.result(grille_jeu, action_IA, IA_char)  # On place le pion aux coordonnées demandées
             position_choisie_IA = 'undef'  # TODO : conversion_coord_pos(action_IA)
