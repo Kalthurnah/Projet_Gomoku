@@ -6,9 +6,46 @@ Projet IA, Gomoku, Groupe TD A
 
 import numpy as np
 
-
 user_char = None
 IA_char = None
+
+
+def creation_plateau():
+    plateau = np.zeros((15, 15), dtype=int)  # On crée une matrice 15x15 de 0
+    return plateau
+
+
+def afficher_plateau(grille):
+    # On commence par afficher les numéros des colonnes
+    print(' ', end='')
+    for k in range(1, 16):
+        if k < 10:  # On espace les chiffres plus que les nombres, pour qu'ils soient correctement placés au dessus de la grille
+            # Le end='' permet de ne pas faire de retour à la ligne avant un print vide
+            print(' ', end='')
+        print(k, end='')
+        print('  ', end='')
+    print()
+    # On stocke toutes les lettres dont on a besoin pour indexer le plateau
+    lettres = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"]
+    for i in range(0, 15):
+        # Pour chaque ligne, on affiche d'abord la lettre correspondante
+        print(lettres[i], end='')
+        for j in range(0, 15):
+            # Puis on affiche toute la ligne de la grille
+            if grille[i][j] == 0:
+                print(' - ', end='')
+            elif grille[i][j] == 1:  # Le joueur 1 joue les pions noir
+                # Nous avons choisi ce symbole comme rond noir par rapport aux couleurs de la console
+                # La console étant sur fond noir, la police est blanche et le rond apparait donc noir
+                print(' ○ ', end='')
+            else:
+                # Et celui ci comme pion blanc
+                print(' • ', end='')
+            if j != 14:
+                # On sépare deux cases par une barre verticale
+                print('|', end='')
+        print()
+    return
 
 
 def conversion_pos_coord(position: str):
@@ -135,30 +172,16 @@ def grille_a_gagne(grille: np.ndarray):
     return 0
 
 
-def creation_plateau():
-    plateau = np.zeros((15, 15), dtype=int)  # On crée une matrice 15x15 de 0
-    return plateau
-
-
-def demander_couleur():
-    print("Les noirs commencent. Veux tu être :")
-    print("1 - Les noirs")
-    print("2 - Les blancs")
-    choix = input(">")
-
-    if choix == "1":
-        user_char = 1
-        IA_char = 2
-    else:
-        user_char = 2
-        IA_char = 1
-    return (user_char, IA_char)
-
-
 def verif_tour3(grille, coordonnees):
+    '''
+    Fonction verifiant si un pion peut être placé à une coordonnée donnée lors du tour 3
+    :param grille: grille du jeu
+    :param coordonnees: coordonnées à jouer
+    :return:
+    '''
     res = True
     (i, j) = coordonnees
-    # La position est déjà converti en coordonnées dans la grille
+    # La position est déjà convertie en coordonnées dans la grille
     if grille[i][j] != 0:
         res = False
     else:
@@ -177,6 +200,22 @@ def verif_validite_action(grille, coordonnees, tour):
             return False
     # Si la coordonnée est valide jusqu'à maintenant, on vérifie si la case est bien vide
     return grille[coordonnees[0]][coordonnees[1]] == 0  # On retourne donc le booléen correspondant à cette égalité
+
+
+
+def demander_couleur():
+    print("Les noirs commencent. Veux tu être :")
+    print("1 - Les noirs")
+    print("2 - Les blancs")
+    choix = input(">")
+
+    if choix == "1":
+        user_char = 1
+        IA_char = 2
+    else:
+        user_char = 2
+        IA_char = 1
+    return (user_char, IA_char)
 
 
 def Gomoku():
