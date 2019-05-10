@@ -11,15 +11,25 @@ user_char = None
 IA_char = None
 
 
+def creation_plateau():
+    plateau = np.zeros((15, 15), dtype=int)  # On crée une matrice 15x15 de 0
+    return plateau
+
+
 def afficher_plateau(grille):
-    '''
-    Fonction affichant un plateau de Gomoku
-
-    :param grille: grille numpy du plateau à afficher
-    '''
-    # TODO
-    print()
-
+    for i in range(0,15):
+        for j in range(0,15):
+            if grille[i][j]==0 :
+                print(' - ', end='')
+            elif grille[i][j] ==1 :
+                print(' N ', end='')
+            else :
+                print(' B ', end='')
+            if j!=14 :
+                print('|', end='')
+        print()
+    return
+            
 
 def conversion_pos_coord(position: str):
     '''
@@ -131,11 +141,6 @@ def a_gagne(grille):
                         return grille[i][j]
     print("Le jeu n'est pas fini.")
     return grille[i][j]
-
-
-def creation_plateau():
-    plateau = np.zeros((15, 15), dtype=int)  # On crée une matrice 15x15 de 0
-    return plateau
 
 
 def verif_tour3(grille, coordonnees):

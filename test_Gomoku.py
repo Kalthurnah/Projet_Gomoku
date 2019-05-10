@@ -118,3 +118,4 @@ def test_demander_couleur(monkeypatch, entree_utilisateur, resultat_attendu):
 
 def test_creation_plateau():
     assert np.all(creation_plateau() == 0)
+    
