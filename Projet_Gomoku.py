@@ -406,8 +406,7 @@ def Gomoku():
                 print("Entrer une position valide où placer votre pion :")
                 position_choisie_user = input(">")
                 action_user = conversion_pos_coord(position_choisie_user)  # On obtient les coordonnées correspondant à l'entrée utilisateur
-                if action_user[0] != -1 and action_user[1] != -1:  # Si les coordonnées ne sont pas valides, l'action non plus
-                    position_valide = True
+                position_valide = verif_validite_action(grille_jeu, action_user, tour_actif)  # Vérif si les coord sont valides & jouables
             grille_jeu = minimax_modulable.result(grille_jeu, action_user, user_char)  # On place le pion aux coordonnées demandées
             print("\nL'utilisateur a joué en %s." % position_choisie_user)
             joueur_actif = IA_char
@@ -438,7 +437,6 @@ def charger_minimax():
     minimax_modulable.actions = actions_opti
     minimax_modulable.terminal_test = terminal_test
     minimax_modulable.heuristic = heuristic
-
 
 
 if __name__ == '__main__':
