@@ -43,7 +43,7 @@ def actions_opti(state_grille, tour, rayon=3):
                 if state_grille[i][j] != 0:  # Si un pion est dans cette case
                     # On ajoute toutes les cases jouables dans un rayon de 4 cases autour de lui aux actions possibles,
                     # Ligne : On prend un intervalle de valeurs entre i-rayon et i+rayon inclus, en excluant les valeurs hors de la grille
-                    for dist in (0, rayon + 1):
+                    for dist in (0, rayon):
                         # coordonnées des points à cette distance du point i,j en diagonale
                         coordonneesretenues += [(i - dist, j - dist), (i - dist, j + dist), (i + dist, j - dist), (i + dist, j + dist)]
                         # coordonnées des points à cette distance du point i,j en colonne et ligne
@@ -67,10 +67,9 @@ def actions(state_grille, tour):
     :return:actions possibles du joueur
     '''
 
-    #TODO : Reduire le champ des actions possibles d'un joueur pour n'inclure que les cas pertinents
     actions_possibles = []
-    for j in range(0, 15):
-        for i in range(0, 15):
+    for i in range(0, 15):
+        for j in range(0, 15):
             # Pour chaque case du jeu, si l'action est valide, on l'ajoute aux actions possibles
             if verif_validite_action(state_grille, (i, j), tour):
                 actions_possibles.append((i, j))
@@ -98,12 +97,76 @@ def terminal_test(state_grille):
 def heuristic(state_grille):
     '''
     Fournit une heuristique évaluant approximativement l'état de la grille pour le Gomoku
+    Ici, on compte le nombre de pions avantageux par joueur, c'est à dire le nombre de pions sur une ligne, colonne ou diagonale de 5 cases,
+    qui ne sont pas bloqués par l'adversaire.
 
     :param state_grille:  état de la grille
-    :return:Entier entre -99 et 99 représentant le gain approximatif de la grille
+    :return: Entier entre -infini et +infini exclus représentant le gain approximatif de la grille (son intêret, donc)
     '''
-    # TODO
-    return 0
+
+    total_pions_gains_potentiels_IA = 0  # Total des pions avantageux pour l'IA, initialisé à 0
+    total_pions_gains_potentiels_user = 0
+
+    rayon = 5  # Rayon de test au dela duquel on arrete de compter les pions non bloqués.
+
+    for i in range(0, 15):
+        for j in range(0, 15):
+            # On parcourt la grille de gauche à droite puis de bas en haut.
+            # Il ne suffit donc de verifier que les 5 cases sur les lignes vers la droite, colonnes vers le bas, et diagonales vers la droite
+
+            joueur_case = state_grille[i][j]  # Le joueur dont le pion est sur la case parcourue, ou 0 si la case est vide
+            if joueur_case != 0:  # Si un pion est dans cette case
+
+                # On initialise les compteur de pions potentiellements gagnants dans tous les sens
+
+                compteur_pions_gains_potentiels_ligne = 1
+                compteur_pions_gains_potentiels_col = 1
+                compteur_pions_gains_potentiels_diaghg = 1
+                compteur_pions_gains_potentiels_diagbd = 1
+                # On compte toutes les cases dans un rayon de 4 cases autour de lui
+                # Ligne : On prend un intervalle de valeurs entre i-rayon et i+rayon inclus, en excluant les valeurs hors de la grille
+                for dist in (1, rayon):  # On compte le nombre de pions sur les 5 prochaines cases de la diagonale vers le haut gauche
+                    if state_grille[i - dist][j + dist] == joueur_case:
+                        # Si il y a un pion du joueur, on l'ajoute au compteur,
+                        compteur_pions_gains_potentiels_diaghg += 1
+                    elif state_grille[i - dist][j + dist] != 0:
+                        # Si il y a un pion de son adversaire, on réinitialise le compteur à 0 car la diagonale est "inexploitable"
+                        compteur_pions_gains_potentiels_diaghg = 0
+                        break  # Et on arrete de chercher cette diagonale
+
+                for dist in (1, rayon):
+                    # De meme, sur la diagonale bas droite
+                    if state_grille[i + dist][j + dist] == joueur_case:
+                        compteur_pions_gains_potentiels_diagbd += 1
+                    elif state_grille[i + dist][j] != 0:
+                        compteur_pions_gains_potentiels_diagbd = 0
+                        break
+
+                for dist in (1, rayon):
+                    # De meme, sur la colonne descendante
+                    if state_grille[i + dist][j] == joueur_case:
+                        compteur_pions_gains_potentiels_col += 1
+                    elif state_grille[i + dist][j] != 0:
+                        compteur_pions_gains_potentiels_col = 0
+                        break
+
+                for dist in (1, rayon):
+                    # De meme, sur la ligne vers la droite
+                    if state_grille[i][j + dist] == joueur_case:
+                        compteur_pions_gains_potentiels_ligne += 1
+                    elif state_grille[i][j + dist]:
+                        compteur_pions_gains_potentiels_ligne = 0
+                        break
+
+                # Maintenant qu'on a fini de compter les pions potentiellement avantageux sur lignes colonnes diagonales, on les ajoute au compteur total de l'utilisateur
+                if joueur_case == IA_char:
+                    total_pions_gains_potentiels_IA += compteur_pions_gains_potentiels_ligne + compteur_pions_gains_potentiels_col + compteur_pions_gains_potentiels_diagbd + compteur_pions_gains_potentiels_diaghg
+                else:
+                    total_pions_gains_potentiels_user += compteur_pions_gains_potentiels_ligne + compteur_pions_gains_potentiels_col + compteur_pions_gains_potentiels_diagbd + compteur_pions_gains_potentiels_diaghg
+
+            # Si pas de pion sur cette case, on continue
+
+    return total_pions_gains_potentiels_IA - total_pions_gains_potentiels_user
 
 
 def creation_plateau():
