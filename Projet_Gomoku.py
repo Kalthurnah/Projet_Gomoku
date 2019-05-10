@@ -10,7 +10,7 @@ import numpy as np
 user_char = None
 IA_char = None
 
-
+  
 def actions(state_grille, tour):
     '''
     Retourne les actions possibles d'un joueur à une grille de jeu, pour le Gomoku
@@ -123,6 +123,23 @@ def conversion_pos_coord(position: str):
     return (ligne, colonne)
     # TODO : Verif à l'utilisation si (i==-1 ou j == -1), auquel cas la position fournie par l'utilisateur est invalide.
 
+
+def conversion_coord_pos(coordonnees):
+    '''
+    Fonction qui pour un tuple de coordonnées retourne une position lisible
+
+    :param coordonnees: tuple de coordonnées sous la forme (0,3)
+    :return: chaine lisible sous la forme "A4"
+    '''
+    coord1=str(0)
+    coord2=0
+    
+    coord1=chr(coordonnees[0]+65)
+    coord2=str((coordonnees[1]+1))
+    
+    position=coord1 + coord2
+    
+    return (position)
 
 
 def grille_complete(grille: np.ndarray):
