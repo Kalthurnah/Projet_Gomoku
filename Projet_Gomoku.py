@@ -35,8 +35,9 @@ def afficher_plateau(grille):
             # Puis on affiche toute la ligne de la grille
             if grille[i][j]==0 :
                 print(' - ', end='')
-            elif grille[i][j] ==1 :
+            elif grille[i][j] ==1 : # Le joueur 1 joue les pions noir
                 # Nous avons choisi ce symbole comme rond noir par rapport aux couleurs de la console
+                # La console étant sur fond noir, la police est blanche et le rond apparait donc noir
                 print(' ○ ', end='')
             else :
                 # Et celui ci comme pion blanc
