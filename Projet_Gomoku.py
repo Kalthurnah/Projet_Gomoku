@@ -6,7 +6,6 @@ Projet IA, Gomoku, Groupe TD A
 
 import numpy as np
 
-
 user_char = None
 IA_char = None
 
@@ -19,8 +18,8 @@ def creation_plateau():
 def afficher_plateau(grille):
     # On commence par afficher les numéros des colonnes
     print(' ', end='')
-    for k in range(1,16):
-        if k<10: # Cosmétique : On espace les chiffres plus que les nombres, pour qu'ils soient correctement placés au dessus de la grille
+    for k in range(1, 16):
+        if k < 10:  # On espace les chiffres plus que les nombres, pour qu'ils soient correctement placés au dessus de la grille
             # Le end='' permet de ne pas faire de retour à la ligne avant un print vide
             print(' ', end='')
         print(k, end='')
@@ -28,26 +27,26 @@ def afficher_plateau(grille):
     print()
     # On stocke toutes les lettres dont on a besoin pour indexer le plateau
     lettres = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"]
-    for i in range(0,15):
+    for i in range(0, 15):
         # Pour chaque ligne, on affiche d'abord la lettre correspondante
         print(lettres[i], end='')
-        for j in range(0,15):
+        for j in range(0, 15):
             # Puis on affiche toute la ligne de la grille
-            if grille[i][j]==0 :
+            if grille[i][j] == 0:
                 print(' - ', end='')
-            elif grille[i][j] ==1 : # Le joueur 1 joue les pions noir
+            elif grille[i][j] == 1:  # Le joueur 1 joue les pions noir
                 # Nous avons choisi ce symbole comme rond noir par rapport aux couleurs de la console
                 # La console étant sur fond noir, la police est blanche et le rond apparait donc noir
                 print(' ○ ', end='')
-            else :
+            else:
                 # Et celui ci comme pion blanc
                 print(' • ', end='')
-            if j!=14 :
+            if j != 14:
                 # On sépare deux cases par une barre verticale
                 print('|', end='')
         print()
     return
-            
+
 
 def conversion_pos_coord(position: str):
     '''
