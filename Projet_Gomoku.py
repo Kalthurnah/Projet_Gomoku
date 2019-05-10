@@ -12,16 +12,16 @@ user_char = None
 IA_char = None
 
 
-def actions_opti(state_grille, tour, rayon=3):
-    '''
+def actions_opti(state_grille: np.ndarray, tour: int, rayon=3):
+    """
     Retourne les actions possibles d'un joueur à une grille de jeu, pour le Gomoku, en ne prenant en compte que les cas les plus probables,
     c'est à dire les cases comportant un pion dans un rayon donné aux alentours
 
     :param state_grille: grille du jeu
     :param rayon: rayon dans lequel on doit trouver des pions autour d'une case pour qu'elle soit jugée probable d'être jouée
     :param tour: numero du tour actuel
-    :return:actions possibles du joueur
-    '''
+    :return: actions possibles du joueur
+    """
 
     actions_possibles = []
 
@@ -56,14 +56,13 @@ def actions_opti(state_grille, tour, rayon=3):
     return actions_possibles
 
 
-def actions(state_grille, tour):
+def actions(state_grille: np.ndarray, tour: int):
     """
     Retourne les actions possibles d'un joueur à une grille de jeu, pour le Gomoku
 
     :param state_grille: grille du jeu
-    :param joueur dont on cherche les actions possibles
     :param tour: numero du tour actuel
-    :return:actions possibles du joueur
+    :return: actions possibles du joueur
     """
 
     actions_possibles = []
@@ -76,7 +75,7 @@ def actions(state_grille, tour):
     return actions_possibles
 
 
-def terminal_test(state_grille):
+def terminal_test(state_grille: np.ndarray):
     """
     Teste si une grille donnée est en fin de jeu, pour le Gomoku
 
@@ -93,7 +92,7 @@ def terminal_test(state_grille):
     return -1
 
 
-def heuristic(state_grille):
+def heuristic(state_grille: np.ndarray):
     """
     Fournit une heuristique évaluant approximativement l'état de la grille pour le Gomoku
     Ici, on compte le nombre de pions avantageux par joueur, c'est à dire le nombre de pions sur une ligne, colonne ou diagonale de 5 cases,
@@ -173,11 +172,21 @@ def heuristic(state_grille):
 
 
 def creation_plateau():
+    """
+    Initialise un plateau vide
+
+    :return: Matrice numpy 15x15 remplie de 0
+    """
     plateau = np.zeros((15, 15), dtype=int)  # On crée une matrice 15x15 de 0
     return plateau
 
 
-def afficher_plateau(grille):
+def afficher_plateau(grille: np.ndarray):
+    """
+    Affiche un plateau donné sur la console
+
+    :param grille: matrice du plateau à afficher
+    """
     # On commence par afficher les numéros des colonnes
     print(' ', end='')
     for k in range(1, 16):
@@ -264,6 +273,7 @@ def grille_complete(grille: np.ndarray):
 def grille_a_gagne(grille: np.ndarray):
     """
     Fonction indiquant si un joueur k a gagné.
+
     :param grille: grille np.array d'entiers correspondant au plateau de jeu
     :return: 0 si personne n'a gagné, 1 si le joueur 1 a gagné, 2 si le joueur 2 a gagné.
     """
@@ -329,9 +339,10 @@ def grille_a_gagne(grille: np.ndarray):
     return 0
 
 
-def verif_tour3(grille, coordonnees):
+def verif_tour3(grille: np.ndarray, coordonnees: (int, int)):
     """
     Fonction verifiant si un pion peut être placé à une coordonnée donnée lors du tour 3
+
     :param grille: grille du jeu
     :param coordonnees: coordonnées à jouer
     :return:
@@ -349,9 +360,10 @@ def verif_tour3(grille, coordonnees):
     return res
 
 
-def verif_validite_action(grille, coordonnees, tour):
+def verif_validite_action(grille: np.ndarray, coordonnees: (int, int), tour: int):
     """
     Vérifie si une action est valide ou pas
+
     :param grille: grille de jeu actuelle
     :param coordonnees: coordonnées de l'action que l'on veut jouer
     :param tour: numéro du tour actuel
@@ -371,6 +383,10 @@ def verif_validite_action(grille, coordonnees, tour):
 
 
 def demander_couleur():
+    """
+    Demande la couleur de son choix à l'utilisateur (les noirs ou les blancs)
+    :return: tuple d'entiers correspondant respectivement au numéro de joueur de l'utilisateur, et au numéro de l'ordinateur.
+    """
     print("Les noirs commencent. Veux tu être :")
     print("1 - Les noirs")
     print("2 - Les blancs")
@@ -386,6 +402,10 @@ def demander_couleur():
 
 
 def Gomoku():
+    """
+    Fonction principale du jeu de Gomoku
+
+    """
     print("Au premier tour, il n'est possible de jouer qu'au centre H8 - le 1er joueur voit donc son pion placé de force")
     print("L'ordinateur sera le J%s. Vous serez le J%s. " % (IA_char, user_char))
     grille_jeu = creation_plateau()  # On initialise le plateau
@@ -433,23 +453,21 @@ def Gomoku():
 
 def charger_minimax():
     """
-    Fonction chargeant le module minimax modulable et remplacant ses fonctions dépendant du jeu par celles du Gomoku.
+    Fonction chargeant le module minimax modulable et remplacant ses fonctions dépendant du jeu par celles spécifiques au Gomoku.
+    (Nos heuristiques, actions, et terminal_test customisés pour ce jeu, donc)
     """
 
     # On affecte les caractères des joueurs
     minimax_modulable.user_char = user_char
     minimax_modulable.IA_char = IA_char
     minimax_modulable.vide_char = 0
-    # On affecte les fonctions spécifiques au jeu pour qu'elles soient utilisées par le minimax modulable
+    # On affecte les fonctions spécifiques au jeu pour qu'elles soient utilisées par notre minimax modulable
     minimax_modulable.actions = actions_opti
     minimax_modulable.terminal_test = terminal_test
     minimax_modulable.heuristic = heuristic
 
 
 if __name__ == '__main__':
-    # Appeler main ici
     (user_char, IA_char) = demander_couleur()
-    charger_minimax()
-
+    charger_minimax()  # Après le choix des couleurs, car on passe au minimax les chaines user_char et IA_char !
     Gomoku()
-# Ne pas mettre de fonctions ci dessous !
