@@ -293,7 +293,7 @@ def Gomoku():
         # Quelqu'un a joué, on affiche avant de passer au tour suivant
         afficher_plateau(grille_jeu)
         tour_actif += 1
-        print("Tour " + tour_actif)
+        print("Tour %s" % tour_actif)
 
     joueur_gagnant = terminal_test(grille_jeu)
     print("Fin du jeu !")
