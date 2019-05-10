@@ -77,9 +77,15 @@ def conversion_pos_coord(position: str):
     # TODO : Verif à l'utilisation si (i==-1 ou j == -1), auquel cas la position fournie par l'utilisateur est invalide.
 
 
-# La fonction suivante renvoie un booléen représentant si la grille est complète ou non.
-def grille_complete(grille):
-    # On compte les cases que l'on rempli
+
+def grille_complete(grille: np.ndarray):
+    '''
+    La fonction suivante renvoie un booléen représentant si la grille est complète ou non.
+
+    :param grille: grille np.array d'entiers correspondant au plateau de jeu
+    :return: Booléen True si la grille est complète, false sinon
+    '''
+    # On compte les cases déja jouées
     cmpt = 0
     res = False
     for i in range(0, 15):
@@ -87,7 +93,9 @@ def grille_complete(grille):
             # Toutes celles différentes de 0 contiennent une case jouée.
             if grille[i][j] != 0:
                 cmpt = cmpt + 1
-    # S'il y a 120 cases pleines alors la grille est complète puisqu'il n'y a plus de pions. (Chaque joueur en a 60)
+
+    # S'il y a 120 cases pleines alors la grille est complète puisqu'il n'y a plus de pions.
+    # Le cas ou l'on a plus de pions que 120 n'est pas supposé arriver, mais on vérifie quand même au cas ou quelque chose tourne mal, et pour pouvoir tester plus facilement
     if cmpt >= 120:
         res = True
         print("La grille est complète, le jeu est fini.")
@@ -95,69 +103,73 @@ def grille_complete(grille):
     return res
 
 
-# Le but de la fonction suivante est de savoir si le joueur k a gagné.
-# La fonction renvoie 0 si personne n'a gagné, 1 si le joueur 1 a gagné, 2 si le joueur 2 a gagné.
-def a_gagne(grille):
+def grille_a_gagne(grille: np.ndarray):
+    '''
+    Fonction indiquant si un joueur k a gagné.
+    :param grille: grille np.array d'entiers correspondant au plateau de jeu
+    :return: 0 si personne n'a gagné, 1 si le joueur 1 a gagné, 2 si le joueur 2 a gagné.
+    '''
     cmpt = 0
-    # On regarde d'abord sur les colonnes.
+
+    # Verification des gains par colonne, si qqn a 5 pions adjacents sur une même ligne
     for i in range(0, 15):
         for j in range(0, 14):
-            # On regarde si le symbole et le suivant sont égaux
+            # On regarde si la case et la suivante sont égales
             if grille[i][j] == grille[i][j + 1]:
-                # On ajoute un au compteur si les deux symboles sont égaux
-                cmpt = cmpt + 1
+                cmpt = cmpt + 1  # On incrémente le compteur si elles sont égales
             else:
-                # Sinon on remet le compteur à 0
-                cmpt = 0
-            # Si le compteur atteint 5, on regard si ce n'est pas 5 zéros d'affilés.
-            if cmpt == 5:
-                # Si le symbole est différent de 0 on renvoie le symbole, sinon on continue
+                cmpt = 0  # Sinon on remet le compteur à 0
+            # Si le compteur atteint 4, donc si on a 5 cases adjacentes identiques, on regarde si ce ne sont pas 5 zéros d'affilés.
+            if cmpt == 4:
+                # Si le symbole est différent de 0, quelqu'un a gagné, et on renvoie donc le gagnant, sinon on continue
                 if grille[i][j] != 0:
-                    print("Le jeu est fini, le joueur" + str(grille[i][j]) + "a gagné.")
+                    print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné en ligne.")
                     return grille[i][j]
-                # Si c'était 5 zéros à la suite on remet le compteur à 0
+                # Si c'était 5 zéros à la suite, personne a gagné on remet le compteur à 0
                 else:
                     cmpt = 0
     # On remet le compteur à 0 pour s'il n'a pas trouvé de fin de jeu avant.
     cmpt = 0
-    # On fait de même pour les lignes.
+
+    # On vérifie de même les gains par lignes, ie si 5 cases adjacentes sont trouvées sur la même colonne
     for j in range(0, 15):
         for i in range(0, 14):
             if grille[i][j] == grille[i + 1][j]:
                 cmpt = cmpt + 1
             else:
                 cmpt = 0
-            if cmpt == 5:
+            if cmpt == 4:
                 if grille[i][j] != 0:
-                    print("Le jeu est fini, le joueur" + grille[i][j] + "a gagné.")
+                    print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné en colonne.")
                     return grille[i][j]
                 else:
                     cmpt = 0
-    # Il s'agit maintenant de tester sur les colonnes. On remet encore le compteur à zéros.
+
+    # Il s'agit maintenant de tester sur les diagonales. On remet encore le compteur à zéro.
     cmpt = 0
-    # On se limite à 0,11 car on ne doit pas dépasser les dimenseions de la grille !
+    # On se limite à 0,11 car on ne doit pas dépasser les dimensions de la grille !
     # On teste donc d'abord pour les diagonales allant d'en haut à gauche à en bas à droite.
     for i in range(0, 11):
         for j in range(0, 11):
-            # On regarde si les 5 cases en diagonales (haut gauche vers bas droite) ont le même symbole
-            if grille[i][j] == grille[i + 1][j + 1] and grille[i + 1][j + 1] == grille[i + 2][j + 2]:
-                if grille[i + 2][j + 2] == grille[i + 3][j + 3] and grille[i + 3][j + 3] == grille[i + 4][j + 4]:
-                    # Si c'est le cas on vérifie qu'il ne s'agit pas d'un zéro.
-                    if grille[i][j] != 0:
-                        print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné.")
-                        return grille[i][j]
+            # On regarde si les 5 cases en diagonales (haut gauche vers bas droite)sont identiques
+            if grille[i][j] == grille[i + 1][j + 1] and grille[i + 1][j + 1] == grille[i + 2][j + 2] \
+                    and grille[i + 2][j + 2] == grille[i + 3][j + 3] and grille[i + 3][j + 3] == grille[i + 4][j + 4]:
+                # Si c'est le cas on vérifie qu'il ne s'agit pas d'un zéro.
+                if grille[i][j] != 0:
+                    print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné en diagonale.")
+                    return grille[i][j]
     # Maintenant on teste les diagonales allant du bas gauche vers le haut droit.
     for i in range(4, 15):
         for j in range(0, 11):
-            # On regarde si les 5 cases en diagonales (haut gauche vers bas droite) ont le même symbole
-            if grille[i][j] == grille[i - 1][j + 1] and grille[i - 1][j + 1] == grille[i - 2][j + 2]:
-                if grille[i - 2][j + 2] == grille[i - 3][j + 3] and grille[i - 3][j + 3] == grille[i - 4][j + 4]:
-                    # Si c'est le cas on vérifie qu'il ne s'agit pas d'un zéros.
-                    if grille[i][j] != 0:
-                        print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné.")
-                        return grille[i][j]
+            # On regarde si les 5 cases en diagonales (bas gauche vers haut droite) sont identiques
+            if grille[i][j] == grille[i - 1][j + 1] and grille[i - 1][j + 1] == grille[i - 2][j + 2] \
+                    and grille[i - 2][j + 2] == grille[i - 3][j + 3] and grille[i - 3][j + 3] == grille[i - 4][j + 4]:
+                # Si c'est le cas on vérifie qu'il ne s'agit pas d'un zéro.
+                if grille[i][j] != 0:
+                    print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné en diagonale.")
+                    return grille[i][j]
     print("Le jeu n'est pas fini.")
-    return grille[i][j]
+    return 0
 
 
 def verif_tour3(grille, coordonnees):
@@ -178,6 +190,17 @@ def verif_tour3(grille, coordonnees):
         if distance < 7:
             res = False
     return res
+
+
+def verif_validite_action(grille, coordonnees, tour):
+    if tour == 1:  # Au tour 1 le joueur ne peut poser son pion qu'en H8
+        return coordonnees == (7, 7)  # On retourne donc le booléen correspondant à cette égalité
+    if tour == 3:  # Si on est au tour 3 on vérifie la validité conformément au règles du tour 3
+        if not verif_tour3(grille, coordonnees):
+            return False
+    # Si la coordonnée est valide jusqu'à maintenant, on vérifie si la case est bien vide
+    return grille[coordonnees[0]][coordonnees[1]] == 0  # On retourne donc le booléen correspondant à cette égalité
+
 
 
 def demander_couleur():

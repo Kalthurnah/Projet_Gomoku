@@ -35,14 +35,69 @@ def generer_grilles_tests():
     liste_infos_grilles.append(InfosGrille(grille=grille_diag, est_complete=False, a_gagne=0))
 
     # Grille 4
-    grille_presque_complete = np.ones((15, 15), int)
-    grille_presque_complete[4][11] = 0
-    liste_infos_grilles.append(InfosGrille(grille=grille_presque_complete, est_complete=False, a_gagne=1))
+    grille_presque_pleine = np.ones((15, 15), int)
+    grille_presque_pleine[4][11] = 0
+    liste_infos_grilles.append(InfosGrille(grille=grille_presque_pleine, est_complete=True, a_gagne=1))
 
     # Grille 5
     grille_presque_vide = np.zeros((15, 15), int)
     grille_presque_vide[7][1] = 1
     liste_infos_grilles.append(InfosGrille(grille=grille_presque_vide, est_complete=False, a_gagne=0))
+
+    # Grille 6
+    grille_gagne1_ligne = np.zeros((15, 15), int)
+    grille_gagne1_ligne[14][14] = 1
+    grille_gagne1_ligne[14][13] = 1
+    grille_gagne1_ligne[14][12] = 1
+    grille_gagne1_ligne[14][11] = 1
+    grille_gagne1_ligne[14][10] = 1
+    liste_infos_grilles.append(InfosGrille(grille=grille_gagne1_ligne, est_complete=False, a_gagne=1))
+
+    # Grille 7
+    grille_gagne2_colonne = np.zeros((15, 15), int)
+    grille_gagne2_colonne[14][14] = 2
+    grille_gagne2_colonne[13][14] = 2
+    grille_gagne2_colonne[12][14] = 2
+    grille_gagne2_colonne[11][14] = 2
+    grille_gagne2_colonne[10][14] = 2
+    liste_infos_grilles.append(InfosGrille(grille=grille_gagne2_colonne, est_complete=False, a_gagne=2))
+
+    # Grille 8
+    grille_gagne2_diag_bas_droite = np.array(
+        [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, ],
+         [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, ], [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, ],
+         [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, ], ], dtype=int)
+    liste_infos_grilles.append(
+        InfosGrille(grille=grille_gagne2_diag_bas_droite, est_complete=False, a_gagne=2))  # Grille 8
+
+    # Grille 9
+    grille_gagne1_diag_haut_gauche = np.array(
+        [[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, ], [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, ],
+         [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, ], [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, ],
+         [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], ], dtype=int)
+    liste_infos_grilles.append(InfosGrille(grille=grille_gagne1_diag_haut_gauche, est_complete=False, a_gagne=1))
+
+    # Grille 10
+    grille_gagne2_diag_haut_droit = np.array(
+        [[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, ], [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, ],
+         [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, ], [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], ], dtype=int)
+    liste_infos_grilles.append(InfosGrille(grille=grille_gagne2_diag_haut_droit, est_complete=False, a_gagne=2))
 
     # Pour ajouter une grille à la liste, la créer ci-dessous, et ajouter à liste_infos_grilles l'objet InfosGrille correspondant, cf exemples existants
     return liste_infos_grilles
@@ -60,24 +115,10 @@ def test_grille_complete(infos_grille):
 
 @pytest.mark.parametrize('infos_grille', liste_infos_grilles)
 def test_a_gagne(infos_grille):
-    # grille_gagne = np.array([[2, 1, 0, 2, 1, 2, 2, 1, 2, 1, 1, 1, 0, 1, 0],
-    #                          [1, 2, 1, 2, 0, 2, 2, 1, 2, 1, 2, 1, 1, 1, 0],
-    #                          [1, 2, 1, 2, 2, 1, 0, 1, 2, 1, 2, 0, 0, 1, 0],
-    #                          [1, 0, 1, 2, 0, 2, 2, 1, 1, 1, 2, 1, 0, 1, 0],
-    #                          [2, 2, 1, 2, 0, 0, 2, 1, 0, 1, 2, 1, 0, 1, 0],
-    #                          [0, 0, 0, 0, 0, 2, 1, 0, 2, 2, 1, 1, 0, 1, 0],
-    #                          [1, 1, 1, 2, 2, 2, 2, 1, 2, 1, 2, 1, 0, 1, 0],
-    #                          [2, 1, 2, 2, 0, 0, 1, 1, 0, 1, 2, 1, 0, 1, 0],
-    #                          [2, 0, 1, 2, 1, 1, 0, 1, 2, 1, 2, 1, 0, 1, 0],
-    #                          [1, 1, 1, 2, 2, 2, 2, 1, 2, 1, 2, 1, 0, 1, 0],
-    #                          [1, 1, 1, 2, 2, 2, 2, 1, 2, 1, 2, 1, 0, 1, 0],
-    #                          [1, 1, 1, 2, 2, 2, 2, 1, 2, 1, 2, 1, 0, 1, 0],
-    #                          [1, 1, 0, 2, 0, 0, 2, 1, 2, 1, 2, 0, 0, 1, 0],
-    #                          [1, 1, 1, 2, 1, 2, 2, 1, 2, 1, 2, 1, 1, 1, 1],
-    #                          [1, 1, 1, 2, 2, 2, 2, 1, 2, 1, 2, 1, 0, 1, 0],], dtype=int)
     grille = infos_grille.grille
-    grille_a_gagne = infos_grille.a_gagne
-    assert a_gagne(grille) == grille_a_gagne
+    a_gagne = infos_grille.a_gagne
+    assert grille_a_gagne(grille) == a_gagne
+    print()
 
 
 # Coordonnées à tester pour le test de verif_tour3, ainsi que leur resultat attendu
