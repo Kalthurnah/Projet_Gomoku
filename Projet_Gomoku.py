@@ -26,7 +26,7 @@ def actions(state_grille, tour):
             if verif_validite_action(state_grille, (i, j), tour):
                 actions_possibles.append((i, j))
 
-    return
+    return actions_possibles
 
 
 def terminal_test(state_grille):
@@ -277,7 +277,7 @@ def Gomoku():
     while terminal_test(grille_jeu) == False:  # Tant que le jeu n'est pas fini
 
         if joueur_actif == IA_char:  # tour IA :
-            action_IA = minimax_modulable.minimax(grille_jeu, IA_char)[1]  # Action choisie par l'IA suite à l'algo du minimax
+            action_IA = minimax_modulable.minimax(grille_jeu, IA_char, tour_actif)[1]  # Action choisie par l'IA suite à l'algo du minimax
             grille_jeu = minimax_modulable.result(grille_jeu, action_IA, IA_char)  # On place le pion aux coordonnées demandées
             position_choisie_IA = 'undef'  # TODO : conversion_coord_pos(action_IA)
             print("\nL'ordinateur a joué en %s.", position_choisie_IA)
