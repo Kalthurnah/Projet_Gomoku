@@ -36,8 +36,10 @@ def afficher_plateau(grille):
             if grille[i][j]==0 :
                 print(' - ', end='')
             elif grille[i][j] ==1 :
+                # Nous avons choisi ce symbole comme rond noir par rapport aux couleurs de la console
                 print(' ○ ', end='')
             else :
+                # Et celui ci comme pion blanc
                 print(' • ', end='')
             if j!=14 :
                 # On sépare deux cases par une barre verticale
