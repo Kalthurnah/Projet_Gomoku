@@ -16,8 +16,14 @@ def actions(state_grille, tour):
     :param tour: numero du tour actuel
     :return:actions possibles du joueur
     '''
-    # TODO
-    return []
+    actions_possibles = []
+    for j in range(0, 15):
+        for i in range(0, 15):
+            # Pour chaque case du jeu, si l'action est valide, on l'ajoute aux actions possibles
+            if verif_validite_action(state_grille, (i, j), tour):
+                actions_possibles.append((i, j))
+
+    return
 
 
 def terminal_test(state_grille):
@@ -197,7 +203,9 @@ if __name__ == '__main__':
     # Appeler main ici
     (user_char, IA_char) = demander_couleur()
     Gomoku()
-# Ne pas mettre de fonctions ci dessous !
+
+
+    # Ne pas mettre de fonctions ci dessous !
 
     def charger_minimax():
         '''
@@ -212,6 +220,7 @@ if __name__ == '__main__':
         minimax_modulable.actions = actions
         minimax_modulable.terminal_test = terminal_test
         minimax_modulable.heuristic = heuristic
+
 
     if __name__ == '__main__':
         # Appeler main ici
