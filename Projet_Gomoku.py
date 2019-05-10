@@ -11,9 +11,8 @@ from random import randint
 user_char = None
 IA_char = None
 
-
 def actions_opti(state_grille, tour, rayon=3):
-    '''
+    """
     Retourne les actions possibles d'un joueur à une grille de jeu, pour le Gomoku, en ne prenant en compte que les cas les plus probables,
     c'est à dire les cases comportant un pion dans un rayon donné aux alentours
 
@@ -21,7 +20,7 @@ def actions_opti(state_grille, tour, rayon=3):
     :param rayon: rayon dans lequel on doit trouver des pions autour d'une case pour qu'elle soit jugée probable d'être jouée
     :param tour: numero du tour actuel
     :return:actions possibles du joueur
-    '''
+    """
 
     actions_possibles = []
 
@@ -236,6 +235,23 @@ def conversion_pos_coord(position: str):
 
     return (ligne, colonne)
 
+def conversion_coord_pos(coordonnees):
+    '''
+    Fonction qui pour un tuple de coordonnées retourne une position lisible
+
+    :param coordonnees: tuple de coordonnées sous la forme (0,3)
+    :return: chaine lisible sous la forme "A4"
+    '''
+    coord1=str(0)
+    coord2=0
+    
+    coord1=chr(coordonnees[0]+65)
+    coord2=str((coordonnees[1]+1))
+    
+    position=coord1 + coord2
+    
+    return (position)
+
 
 def grille_complete(grille: np.ndarray):
     """
@@ -402,7 +418,7 @@ def Gomoku():
             print("L'ordinateur réfléchit.. Veuillez patienter.")
             action_IA = minimax_modulable.minimax(grille_jeu, user_char, tour_actif)[1]  # Action choisie par l'IA suite à l'algo du minimax
             grille_jeu = minimax_modulable.result(grille_jeu, action_IA, IA_char)  # On place le pion aux coordonnées demandées
-            position_choisie_IA = 'undef'  # TODO : conversion_coord_pos(action_IA)
+            position_choisie_IA = conversion_coord_pos(action_IA)
             print("\nL'ordinateur a joué en %s." % position_choisie_IA)
             joueur_actif = user_char
 
