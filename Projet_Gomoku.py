@@ -157,6 +157,16 @@ def verif_tour3(grille, coordonnees):
     return res
 
 
+def verif_validite_action(grille, coordonnees, tour):
+    if tour == 1:  # Au tour 1 le joueur ne peut poser son pion qu'en H8
+        return coordonnees == (7, 7)  # On retourne donc le booléen correspondant à cette égalité
+    if tour == 3:  # Si on est au tour 3 on vérifie la validité conformément au règles du tour 3
+        if not verif_tour3(grille, coordonnees):
+            return False
+    # Si la coordonnée est valide jusqu'à maintenant, on vérifie si la case est bien vide
+    return grille[coordonnees[0]][coordonnees[1]] == 0  # On retourne donc le booléen correspondant à cette égalité
+
+
 def Gomoku():
     print(user_char)
     # Fonctionnement du Gomoku ici
