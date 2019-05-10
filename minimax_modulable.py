@@ -82,7 +82,7 @@ def utility(state_grille):
         return heuristic(state_grille)
 
 
-def minimax(grille_state, joueur, tour=0, profondeur=2, borne_min=-math.inf, borne_max=math.inf):
+def minimax(grille_state, joueur, tour=0, profondeur=3, borne_min=-math.inf, borne_max=math.inf):
     """
     Algorithme principal du minimax. Vérifier que les fonctions heuristic, terminal_test, actions
 
