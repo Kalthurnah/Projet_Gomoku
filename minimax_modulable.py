@@ -29,10 +29,10 @@ def terminal_test(state_grille):
     Teste si une grille donnée est en fin de jeu. Modèle, à remplacer par une fonction spécifique au jeu !
 
     :param state_grille:  état de la grille
-    :return: Soit le caractere du gagnant, soit True si il y a une égalité, soit False si l'état n'est pas terminal
+    :return: Soit le caractere du gagnant, soit 0 si il y a une égalité, soit -1 si l'état n'est pas terminal
     '''
 
-    return False
+    return -1
 
 
 def heuristic(state_grille):
@@ -61,10 +61,11 @@ def result(state_grille, action, joueur):
 def utility(state_grille):
     '''
     Fournit une évaluation de l'état de la grille. 100/-100 si l'un des joueurs gagne, et une valeur entre les deux si une heuristique est utilisée
+
     :param state_grille:  état de la grille
     :return: entier representant l'évaluation de la grille. Gain minimum si le joueur gagne, maximum si l'IA gagne
     '''
-    fin = terminal_test(state_grille)
+    fin = (terminal_test(state_grille) != -1)  # Fin est le booléen indiquant si le jeu est fini ou pas.
 
     if not fin:
         if fin == user_char:
@@ -91,7 +92,7 @@ def minimax(grille_state, joueur, tour=0, profondeur=2, borne_min=-math.inf, bor
     :param borne_max:
     :return:
     '''
-    if terminal_test(grille_state) or profondeur == 0:
+    if terminal_test(grille_state) != -1 or profondeur == 0:
         return (utility(grille_state), None)
 
     if joueur == IA_char:

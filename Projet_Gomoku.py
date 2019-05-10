@@ -34,16 +34,16 @@ def terminal_test(state_grille):
     Teste si une grille donnée est en fin de jeu, pour le Gomoku
 
     :param state_grille:  état de la grille
-    :return: soit le caractere du gagnant, soit True si il y a une égalité, soit False si l'état n'est pas terminal
+    :return: soit le caractère du gagnant, soit 0 si il y a une égalité, soit -1 si l'état n'est pas terminal
     '''
     if grille_complete(state_grille):  # Grille complète, égalité
-        return True
+        return 0
     gagnant = grille_a_gagne(state_grille)
     if gagnant != 0:
         return gagnant  # Si quelqu'un a gagné, on retourne son caractère
 
-    # Sinon, le jeu n'est pas fini, on retourne false
-    return False
+    # Sinon, le jeu n'est pas fini, on retourne -1
+    return -1
 
 
 def heuristic(state_grille):
@@ -268,7 +268,7 @@ def Gomoku():
 
     print("Au 3e tour, il est possible de jouer n’importe où excepté dans un carré de taille 7 cases sur 7 cases de centre H8.")
     # Fonctionnement du Gomoku ici
-    while not terminal_test(grille_jeu):  # Tant que le jeu n'est pas fini
+    while terminal_test(grille_jeu) == -1:  # Tant que le jeu n'est pas fini
 
         if joueur_actif == IA_char:  # tour IA :
             print("L'ordinateur réfléchit.. Veuillez patienter.")
@@ -297,7 +297,7 @@ def Gomoku():
 
     joueur_gagnant = terminal_test(grille_jeu)
     print("Fin du jeu !")
-    if (joueur_gagnant == True):
+    if joueur_gagnant == 0:
         print("Egalité entre vous !")
     else:
         print("Le J%s a gagné." % joueur_gagnant)
