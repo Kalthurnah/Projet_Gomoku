@@ -47,10 +47,6 @@ def afficher_plateau(grille):
         print()
     return
             
-grille = creation_plateau()
-grille[7][7]=1
-grille[3][4]=2
-afficher_plateau(grille)
 
 def conversion_pos_coord(position: str):
     '''
