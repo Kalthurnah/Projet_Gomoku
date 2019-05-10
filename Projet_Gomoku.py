@@ -23,7 +23,6 @@ def actions_opti(state_grille, tour, rayon=3):
     :return:actions possibles du joueur
     '''
 
-    # TODO : Reduire le champ des actions possibles d'un joueur pour n'inclure que les cas pertinents
     actions_possibles = []
 
     # Si on est en début de jeu, et que le tour est <=3 (c'est donc le premier tour jouable de l'IA ou du joueur),
@@ -58,14 +57,14 @@ def actions_opti(state_grille, tour, rayon=3):
 
 
 def actions(state_grille, tour):
-    '''
+    """
     Retourne les actions possibles d'un joueur à une grille de jeu, pour le Gomoku
 
     :param state_grille: grille du jeu
     :param joueur dont on cherche les actions possibles
     :param tour: numero du tour actuel
     :return:actions possibles du joueur
-    '''
+    """
 
     actions_possibles = []
     for i in range(0, 15):
@@ -78,12 +77,12 @@ def actions(state_grille, tour):
 
 
 def terminal_test(state_grille):
-    '''
+    """
     Teste si une grille donnée est en fin de jeu, pour le Gomoku
 
     :param state_grille:  état de la grille
     :return: soit le caractère du gagnant, soit 0 si il y a une égalité, soit -1 si l'état n'est pas terminal
-    '''
+    """
     if grille_complete(state_grille):  # Grille complète, égalité
         return 0
     gagnant = grille_a_gagne(state_grille)
@@ -95,14 +94,14 @@ def terminal_test(state_grille):
 
 
 def heuristic(state_grille):
-    '''
+    """
     Fournit une heuristique évaluant approximativement l'état de la grille pour le Gomoku
     Ici, on compte le nombre de pions avantageux par joueur, c'est à dire le nombre de pions sur une ligne, colonne ou diagonale de 5 cases,
     qui ne sont pas bloqués par l'adversaire.
 
     :param state_grille:  état de la grille
     :return: Entier entre -infini et +infini exclus représentant le gain approximatif de la grille (son intêret, donc)
-    '''
+    """
 
     total_pions_gains_potentiels_IA = 0  # Total des pions avantageux pour l'IA, initialisé à 0
     total_pions_gains_potentiels_user = 0
@@ -211,12 +210,12 @@ def afficher_plateau(grille):
 
 
 def conversion_pos_coord(position: str):
-    '''
+    """
     Convertit une position entrée par l'utilisateur sous la forme "A4" en un tuple coordonnées d'une grille, sous la forme (0,3)
 
     :param position: string de la forme "A4", contenant une lettre suivie d'un nombre.
     :return: un tuple correspondant aux coordonnées sur la grille de la position fournie. Si l'entrée est invalide, l'un des membres de ce tuple est -1.
-    '''
+    """
 
     try:
         # On recupere lettre (1er char du string) et nombre (chars au dela du premier) depuis le string position donné
@@ -239,12 +238,12 @@ def conversion_pos_coord(position: str):
 
 
 def grille_complete(grille: np.ndarray):
-    '''
+    """
     La fonction suivante renvoie un booléen représentant si la grille est complète ou non.
 
     :param grille: grille np.array d'entiers correspondant au plateau de jeu
     :return: Booléen True si la grille est complète, false sinon
-    '''
+    """
     # On compte les cases déja jouées
     cmpt = 0
     res = False
@@ -263,11 +262,11 @@ def grille_complete(grille: np.ndarray):
 
 
 def grille_a_gagne(grille: np.ndarray):
-    '''
+    """
     Fonction indiquant si un joueur k a gagné.
     :param grille: grille np.array d'entiers correspondant au plateau de jeu
     :return: 0 si personne n'a gagné, 1 si le joueur 1 a gagné, 2 si le joueur 2 a gagné.
-    '''
+    """
     cmpt = 0
 
     # Verification des gains par colonne, si qqn a 5 pions adjacents sur une même ligne
@@ -331,12 +330,12 @@ def grille_a_gagne(grille: np.ndarray):
 
 
 def verif_tour3(grille, coordonnees):
-    '''
+    """
     Fonction verifiant si un pion peut être placé à une coordonnée donnée lors du tour 3
     :param grille: grille du jeu
     :param coordonnees: coordonnées à jouer
     :return:
-    '''
+    """
     res = True
     (i, j) = coordonnees
     # La position est déjà convertie en coordonnées dans la grille
@@ -351,6 +350,14 @@ def verif_tour3(grille, coordonnees):
 
 
 def verif_validite_action(grille, coordonnees, tour):
+    """
+    Vérifie si une action est valide ou pas
+    :param grille: grille de jeu actuelle
+    :param coordonnees: coordonnées de l'action que l'on veut jouer
+    :param tour: numéro du tour actuel
+    :return: booléen indiquant si l'action est valide
+    """
+
     if coordonnees[0] < 0 or coordonnees[0] > 14 or coordonnees[1] < 0 or coordonnees[1] > 14:
         # Si les coordonnées ne sont pas valides, l'action non plus
         return False
@@ -425,9 +432,9 @@ def Gomoku():
 
 
 def charger_minimax():
-    '''
+    """
     Fonction chargeant le module minimax modulable et remplacant ses fonctions dépendant du jeu par celles du Gomoku.
-    '''
+    """
 
     # On affecte les caractères des joueurs
     minimax_modulable.user_char = user_char

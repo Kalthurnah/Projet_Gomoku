@@ -13,59 +13,59 @@ vide_char = None
 
 
 def actions(state_grille, tour=0):
-    '''
+    """
     Retourne les actions possibles d'un joueur sur une grille de jeu. Modèle, à remplacer par une fonction spécifique au jeu !
 
     :param state_grille: grille du jeu
     :param joueur dont on cherche les actions possibles
     :param tour: numero du tour actuel pour les jeux dont le tour influe sur les actions possibles
     :return: liste des actions possibles du joueur, sous la forme de tuple de coordonnées
-    '''
+    """
 
     return [(-1, -1)]
 
 
 def terminal_test(state_grille):
-    '''
+    """
     Teste si une grille donnée est en fin de jeu. Modèle, à remplacer par une fonction spécifique au jeu !
 
     :param state_grille:  état de la grille
     :return: Soit le caractere du gagnant, soit 0 si il y a une égalité, soit -1 si l'état n'est pas terminal
-    '''
+    """
 
     return 0
 
 
 def heuristic(state_grille):
-    '''
+    """
     Fournit une heuristique évaluant approximativement l'état de la grille. Modèle, à remplacer par une heuristique spécifique au jeu!
     :param state_grille:  état de la grille
     :return: Entier entre -infini et +infini exclus représentant le gain approximatif de la grille (son intêret, donc)
-    '''
+    """
 
     return 0
 
 
 def result(state_grille, action, joueur):
-    '''
+    """
     Applique une action d'un joueur à une grille de jeu
     :param state_grille: grille de l'état
     :param action: coordonnées de la case à jouer. Doit être jouable (vide) avant tout.
     :param joueur: joueur qui place la case
     :return: Nouvelle grille résultant de l'action appliquée
-    '''
+    """
     result_grille = np.copy(state_grille)
     result_grille[action[0]][action[1]] = joueur
     return result_grille
 
 
 def utility(state_grille):
-    '''
+    """
     Fournit une évaluation de l'état de la grille. -infini/+infini si l'un des joueurs gagne, et une valeur entre les deux si une heuristique est utilisée
 
     :param state_grille:  état de la grille
     :return: entier representant l'évaluation de la grille. Gain minimum si le joueur gagne, maximum si l'IA gagne
-    '''
+    """
     fin = terminal_test(state_grille)  # Fin est le booléen indiquant si le jeu est fini ou pas.
 
     if fin != -1:  # Si le jeu est fini
@@ -83,7 +83,7 @@ def utility(state_grille):
 
 
 def minimax(grille_state, joueur, tour=0, profondeur=2, borne_min=-math.inf, borne_max=math.inf):
-    '''
+    """
     Algorithme principal du minimax. Vérifier que les fonctions heuristic, terminal_test, actions
 
     :param grille_state: grille de l'état actuel du jeu
@@ -93,7 +93,7 @@ def minimax(grille_state, joueur, tour=0, profondeur=2, borne_min=-math.inf, bor
     :param borne_min:
     :param borne_max:
     :return:
-    '''
+    """
     if profondeur == 0 or terminal_test(grille_state) != -1:
         return (utility(grille_state), None)
 
