@@ -33,7 +33,13 @@ def terminal_test(state_grille):
     :param state_grille:  état de la grille
     :return: soit le caractere du gagnant, soit True si il y a une égalité, soit False si l'état n'est pas terminal
     '''
-    # TODO
+    if grille_complete(state_grille):  # Grille complète, égalité
+        return True
+    gagnant = grille_a_gagne(state_grille)
+    if gagnant != 0:
+        return gagnant  # Si quelqu'un a gagné, on retourne son caractère
+
+    # Sinon, le jeu n'est pas fini, on retourne false
     return False
 
 
