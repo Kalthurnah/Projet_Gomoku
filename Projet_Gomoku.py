@@ -160,9 +160,9 @@ def grille_a_gagne(grille: np.ndarray):
         for j in range(0, 14):
             # On regarde si la case et la suivante sont égales
             if grille[i][j] == grille[i][j + 1]:
-                cmpt = cmpt + 1 # On incrémente le compteur si elles sont égales
+                cmpt = cmpt + 1  # On incrémente le compteur si elles sont égales
             else:
-                cmpt = 0   # Sinon on remet le compteur à 0
+                cmpt = 0  # Sinon on remet le compteur à 0
             # Si le compteur atteint 4, donc si on a 5 cases adjacentes identiques, on regarde si ce ne sont pas 5 zéros d'affilés.
             if cmpt == 4:
                 # Si le symbole est différent de 0, quelqu'un a gagné, et on renvoie donc le gagnant, sinon on continue
@@ -171,9 +171,9 @@ def grille_a_gagne(grille: np.ndarray):
                 # Si c'était 5 zéros à la suite, personne a gagné on remet le compteur à 0
                 else:
                     cmpt = 0
-            if j==13 :
-                cmpt = 0
-    # On remet le compteur à 0 pour s'il n'a pas trouvé de fin de jeu avant.
+        cmpt = 0  # On arrive en bout de ligne, on réinitialise donc le compteur
+
+    # On remet le compteur à 0 s'il n'a pas trouvé de fin de jeu avant.
     cmpt = 0
 
     # On vérifie de même les gains par lignes, ie si 5 cases adjacentes sont trouvées sur la même colonne
@@ -188,7 +188,7 @@ def grille_a_gagne(grille: np.ndarray):
                     return grille[i][j]
                 else:
                     cmpt = 0
-            if i == 13 :
+            if i == 13:
                 cmpt = 0
 
     # Il s'agit maintenant de tester sur les diagonales. On remet encore le compteur à zéro.
@@ -279,7 +279,7 @@ def Gomoku():
             action_IA = minimax_modulable.minimax(grille_jeu, IA_char, tour_actif)[1]  # Action choisie par l'IA suite à l'algo du minimax
             grille_jeu = minimax_modulable.result(grille_jeu, action_IA, IA_char)  # On place le pion aux coordonnées demandées
             position_choisie_IA = 'undef'  # TODO : conversion_coord_pos(action_IA)
-            print("\nL'ordinateur a joué en %s." %position_choisie_IA)
+            print("\nL'ordinateur a joué en %s." % position_choisie_IA)
             joueur_actif = user_char
 
         else:  # joueur_actif == user_char:
@@ -291,7 +291,7 @@ def Gomoku():
                 action_user = conversion_pos_coord(position_choisie_user)  # On obtient les coordonnées correspondant à l'entrée utilisateur
                 position_valide = verif_validite_action(grille_jeu, action_user, tour_actif)  # On vérif si elles sont valides et jouables
             grille_jeu = minimax_modulable.result(grille_jeu, action_user, user_char)  # On place le pion aux coordonnées demandées
-            print("\nL'utilisateur a joué en %s." %position_choisie_user)
+            print("\nL'utilisateur a joué en %s." % position_choisie_user)
             joueur_actif = IA_char
 
         # Quelqu'un a joué, on affiche avant de passer au tour suivant
@@ -323,19 +323,19 @@ def charger_minimax():
 
 
 grille_non_gagnante = np.array(
-        [[2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
-         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
-         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
-         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, ],
-         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
-         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
-         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
-         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], ], dtype=int)
-    
+    [[2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, ],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], ], dtype=int)
+
 grille_a_gagne(grille_non_gagnante)
 
 if __name__ == '__main__':
-    #Appeler main ici
+    # Appeler main ici
     (user_char, IA_char) = demander_couleur()
     charger_minimax()
 
