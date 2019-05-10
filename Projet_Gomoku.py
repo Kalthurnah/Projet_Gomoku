@@ -11,14 +11,17 @@ user_char = None
 IA_char = None
 
 
-def actions(state_grille, tour):
+def actions(state_grille, joueur, tour):
     '''
     Retourne les actions possibles d'un joueur à une grille de jeu, pour le Gomoku
 
     :param state_grille: grille du jeu
+    :param joueur dont on cherche les actions possibles
     :param tour: numero du tour actuel
     :return:actions possibles du joueur
     '''
+
+    #TODO : Reduire le champ des actions possibles d'un joueur pour n'inclure que les cas pertinents
     actions_possibles = []
     for j in range(0, 15):
         for i in range(0, 15):
