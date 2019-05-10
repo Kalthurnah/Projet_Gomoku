@@ -18,9 +18,15 @@ def conversion_coord_pos(coordonnees):
     :param coordonnees: tuple de coordonnées sous la forme (0,3)
     :return: chaine lisible sous la forme "A4"
     '''
-    # TODO
-    return
-
+    coord1=str(0)
+    coord2=0
+    
+    coord1=chr(coordonnees[0]+65)
+    coord2=str((coordonnees[1]+1))
+    
+    position=coord1 + coord2
+    
+    return (position)
 
 def conversion_pos_coord(position: str):
     '''
