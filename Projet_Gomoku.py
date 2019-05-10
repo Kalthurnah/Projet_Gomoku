@@ -239,8 +239,6 @@ def verif_tour3(grille, coordonnees):
 
 
 def verif_validite_action(grille, coordonnees, tour):
-    if coordonnees[0] == -1 or coordonnees[1] == -1:  # Si les coordonnées ne sont pas valides, l'action non plus
-        return False
     # Le premier tour est géré en dur dans le jeu, puisque le joueur n'a qu'un choix.
     if tour == 3:  # Si on est au tour 3 on vérifie la validité conformément au règles du tour 3
         if not verif_tour3(grille, coordonnees):
@@ -292,7 +290,8 @@ def Gomoku():
                 print("Entrer une position valide où placer votre pion :")
                 position_choisie_user = input(">")
                 action_user = conversion_pos_coord(position_choisie_user)  # On obtient les coordonnées correspondant à l'entrée utilisateur
-                position_valide = verif_validite_action(grille_jeu, action_user, tour_actif)  # On vérif si elles sont valides et jouables
+                if action_user[0] != -1 and action_user[1] != -1:  # Si les coordonnées ne sont pas valides, l'action non plus
+                    position_valide = True
             grille_jeu = minimax_modulable.result(grille_jeu, action_user, user_char)  # On place le pion aux coordonnées demandées
             print("\nL'utilisateur a joué en %s." % position_choisie_user)
             joueur_actif = IA_char
@@ -325,17 +324,6 @@ def charger_minimax():
     minimax_modulable.heuristic = heuristic
 
 
-grille_non_gagnante = np.array(
-    [[2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, ],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], ], dtype=int)
-
-grille_a_gagne(grille_non_gagnante)
 
 if __name__ == '__main__':
     # Appeler main ici
