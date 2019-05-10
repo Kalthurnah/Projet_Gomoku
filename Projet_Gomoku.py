@@ -103,13 +103,13 @@ def conversion_pos_coord(position: str):
     :return: un tuple correspondant aux coordonnées sur la grille de la position fournie. Si l'entrée est invalide, l'un des membres de ce tuple est -1.
     '''
 
-    (lettre, nombre) = (position[0], position[1:])
-    # On recupere lettre (1er char du string) et nombre (chars au dela du premier) depuis le string position donné
-
     try:
+        # On recupere lettre (1er char du string) et nombre (chars au dela du premier) depuis le string position donné
+        (lettre, nombre) = (position[0], position[1:])
         colonne = int(nombre) - 1  # On tente de convertir le string du nombre en entier
     except:
-        colonne = -1  # Si le charactère n'a pu être converti en entier, on le passe à -1
+        return (-1, -1)  # Si le caractère n'a pu être converti en entier ou pas pu être obtenu, on retourne -1,-1
+
     if (colonne < 0 | colonne >= 15):  # Si la colonne est supérieure ou égale à 15, ou inférieure à 0 elle est invalide
         colonne = -1  # On remplace alors la colonne par -1
 
