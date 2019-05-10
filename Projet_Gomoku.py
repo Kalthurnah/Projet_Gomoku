@@ -240,6 +240,7 @@ def verif_tour3(grille, coordonnees):
 def verif_validite_action(grille, coordonnees, tour):
     if coordonnees[0] == -1 or coordonnees[1] == -1:  # Si les coordonnées ne sont pas valides, l'action non plus
         return False
+    # Le premier tour est géré en dur dans le jeu, puisque le joueur n'a qu'un choix.
     if tour == 3:  # Si on est au tour 3 on vérifie la validité conformément au règles du tour 3
         print("Au 3e tour, il n'est possible de jouer n’importe où excepté dans un carré de taille 7 cases sur 7 cases de centre H8")
         if not verif_tour3(grille, coordonnees):
