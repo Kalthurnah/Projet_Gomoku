@@ -275,7 +275,7 @@ def Gomoku():
             action_IA = minimax_modulable.minimax(grille_jeu, IA_char, tour_actif)[1]  # Action choisie par l'IA suite à l'algo du minimax
             grille_jeu = minimax_modulable.result(grille_jeu, action_IA, IA_char)  # On place le pion aux coordonnées demandées
             position_choisie_IA = 'undef'  # TODO : conversion_coord_pos(action_IA)
-            print("\nL'ordinateur a joué en %s.", position_choisie_IA)
+            print("\nL'ordinateur a joué en %s." %position_choisie_IA)
             joueur_actif = user_char
 
         else:  # joueur_actif == user_char:
@@ -287,7 +287,7 @@ def Gomoku():
                 action_user = conversion_pos_coord(position_choisie_user)  # On obtient les coordonnées correspondant à l'entrée utilisateur
                 position_valide = verif_validite_action(grille_jeu, action_user, tour_actif)  # On vérif si elles sont valides et jouables
             grille_jeu = minimax_modulable.result(grille_jeu, action_user, user_char)  # On place le pion aux coordonnées demandées
-            print("\nL'utilisateur a joué en %s.", position_choisie_user)
+            print("\nL'utilisateur a joué en %s." %position_choisie_user)
             joueur_actif = IA_char
 
         # Quelqu'un a joué, on affiche avant de passer au tour suivant
