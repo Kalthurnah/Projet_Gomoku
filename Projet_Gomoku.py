@@ -17,19 +17,38 @@ def creation_plateau():
 
 
 def afficher_plateau(grille):
+    # On commence par afficher les numéros des colonnes
+    print(' ', end='')
+    for k in range(1,16):
+        if k<10:
+            # Le end='' permet de ne pas faire de retour à la ligne avant un print vide
+            print(' ', end='')
+        print(k, end='')
+        print('  ', end='')
+    print()
+    # On stocke toutes les lettres dont on a besoin pour indexer le plateau
+    lettres = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"]
     for i in range(0,15):
+        # Pour chaque ligne, on affiche d'abord la lettre correspondante
+        print(lettres[i], end='')
         for j in range(0,15):
+            # Puis on affiche toute la ligne de la grille
             if grille[i][j]==0 :
                 print(' - ', end='')
             elif grille[i][j] ==1 :
-                print(' N ', end='')
+                print(' ○ ', end='')
             else :
-                print(' B ', end='')
+                print(' • ', end='')
             if j!=14 :
+                # On sépare deux cases par une barre verticale
                 print('|', end='')
         print()
     return
             
+grille = creation_plateau()
+grille[7][7]=1
+grille[3][4]=2
+afficher_plateau(grille)
 
 def conversion_pos_coord(position: str):
     '''
