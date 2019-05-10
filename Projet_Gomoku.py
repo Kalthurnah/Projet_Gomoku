@@ -241,8 +241,10 @@ def verif_validite_action(grille, coordonnees, tour):
     if coordonnees[1] != -1 and coordonnees[0] != -1:  # Si les coordonnées ne sont pas valides, l'action non plus
         return False
     if tour == 1:  # Au tour 1 le joueur ne peut poser son pion qu'en H8
+        print("Au premier tour, il n'est possible de jouer qu'au centre H8")
         return coordonnees == (7, 7)  # On retourne donc le booléen correspondant à cette égalité
     if tour == 3:  # Si on est au tour 3 on vérifie la validité conformément au règles du tour 3
+        print("Au 3e tour, il n'est possible de jouer n’importe où excepté dans un carré de taille 7 cases sur 7 cases de centre H8")
         if not verif_tour3(grille, coordonnees):
             return False
     # Si la coordonnée est valide jusqu'à maintenant, on vérifie si la case est bien vide
