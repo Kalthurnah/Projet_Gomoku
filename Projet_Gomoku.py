@@ -26,7 +26,7 @@ def actions(state_grille, tour):
             if verif_validite_action(state_grille, (i, j), tour):
                 actions_possibles.append((i, j))
 
-    return
+    return actions_possibles
 
 
 def terminal_test(state_grille):
