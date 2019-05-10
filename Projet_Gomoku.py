@@ -143,7 +143,6 @@ def grille_complete(grille: np.ndarray):
     # Le cas ou l'on a plus de pions que 120 n'est pas supposé arriver, mais on vérifie quand même au cas ou quelque chose tourne mal, et pour pouvoir tester plus facilement
     if cmpt >= 120:
         res = True
-        print("La grille est complète, le jeu est fini.")
     # On renvoie le résultat
     return res
 
@@ -168,7 +167,6 @@ def grille_a_gagne(grille: np.ndarray):
             if cmpt == 4:
                 # Si le symbole est différent de 0, quelqu'un a gagné, et on renvoie donc le gagnant, sinon on continue
                 if grille[i][j] != 0:
-                    print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné en ligne.")
                     return grille[i][j]
                 # Si c'était 5 zéros à la suite, personne a gagné on remet le compteur à 0
                 else:
@@ -185,7 +183,6 @@ def grille_a_gagne(grille: np.ndarray):
                 cmpt = 0
             if cmpt == 4:
                 if grille[i][j] != 0:
-                    print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné en colonne.")
                     return grille[i][j]
                 else:
                     cmpt = 0
@@ -201,7 +198,6 @@ def grille_a_gagne(grille: np.ndarray):
                     and grille[i + 2][j + 2] == grille[i + 3][j + 3] and grille[i + 3][j + 3] == grille[i + 4][j + 4]:
                 # Si c'est le cas on vérifie qu'il ne s'agit pas d'un zéro.
                 if grille[i][j] != 0:
-                    print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné en diagonale.")
                     return grille[i][j]
     # Maintenant on teste les diagonales allant du bas gauche vers le haut droit.
     for i in range(4, 15):
@@ -211,9 +207,7 @@ def grille_a_gagne(grille: np.ndarray):
                     and grille[i - 2][j + 2] == grille[i - 3][j + 3] and grille[i - 3][j + 3] == grille[i - 4][j + 4]:
                 # Si c'est le cas on vérifie qu'il ne s'agit pas d'un zéro.
                 if grille[i][j] != 0:
-                    print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné en diagonale.")
                     return grille[i][j]
-    print("Le jeu n'est pas fini.")
     return 0
 
 
@@ -242,7 +236,6 @@ def verif_validite_action(grille, coordonnees, tour):
         return False
     # Le premier tour est géré en dur dans le jeu, puisque le joueur n'a qu'un choix.
     if tour == 3:  # Si on est au tour 3 on vérifie la validité conformément au règles du tour 3
-        print("Au 3e tour, il n'est possible de jouer n’importe où excepté dans un carré de taille 7 cases sur 7 cases de centre H8")
         if not verif_tour3(grille, coordonnees):
             return False
     # Si la coordonnée est valide jusqu'à maintenant, on vérifie si la case est bien vide
