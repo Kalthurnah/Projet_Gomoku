@@ -12,7 +12,7 @@ user_char = None
 vide_char = None
 
 
-def actions(state_grille, joueur, tour=0):
+def actions(state_grille, tour=0):
     '''
     Retourne les actions possibles d'un joueur sur une grille de jeu. Modèle, à remplacer par une fonction spécifique au jeu !
 
@@ -78,10 +78,11 @@ def utility(state_grille):
 
     else:
         # Si l'état n'est pas terminal, on utilise une heuristique
+
         return heuristic(state_grille)
 
 
-def minimax(grille_state, joueur, tour=0, profondeur=3, borne_min=-math.inf, borne_max=math.inf):
+def minimax(grille_state, joueur, tour=0, profondeur=5, borne_min=-math.inf, borne_max=math.inf):
     '''
     Algorithme principal du minimax. Vérifier que les fonctions heuristic, terminal_test, actions
 
@@ -93,14 +94,14 @@ def minimax(grille_state, joueur, tour=0, profondeur=3, borne_min=-math.inf, bor
     :param borne_max:
     :return:
     '''
-    if terminal_test(grille_state) != -1 or profondeur == 0:
+    if profondeur == 0 or terminal_test(grille_state) != -1:
         return (utility(grille_state), None)
 
     if joueur == IA_char:
         # On initialise le maximum d'utilité trouvé, par défaut - l'infini, et l'action associée (None par défaut)
         (utility_max, action_max) = (-math.inf, None)
 
-        for action in actions(grille_state, joueur,tour):
+        for action in actions(grille_state, tour):
             grille_state_action = result(grille_state, action, joueur)
             utility_action = minimax(grille_state_action, user_char, tour + 1, profondeur - 1, borne_min, borne_max)[0]
             new_maxi = max(utility_max, utility_action)  # nouveau maximum entre le maximum et l'utilité de cette action
