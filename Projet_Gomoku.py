@@ -238,7 +238,7 @@ def verif_tour3(grille, coordonnees):
 
 
 def verif_validite_action(grille, coordonnees, tour):
-    if coordonnees[1] != -1 and coordonnees[0] != -1:  # Si les coordonnées ne sont pas valides, l'action non plus
+    if coordonnees[0] == -1 or coordonnees[1] == -1:  # Si les coordonnées ne sont pas valides, l'action non plus
         return False
     if tour == 1:  # Au tour 1 le joueur ne peut poser son pion qu'en H8
         print("Au premier tour, il n'est possible de jouer qu'au centre H8")
