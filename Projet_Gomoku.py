@@ -7,6 +7,9 @@ Projet IA, Gomoku, Groupe TD A
 import minimax_modulable
 import numpy as np
 
+user_char = None
+IA_char = None
+
 
 def actions(state_grille, tour):
     '''
@@ -205,33 +208,24 @@ def Gomoku():
     # Fonctionnement du Gomoku ici
 
 
+def charger_minimax():
+    '''
+    Fonction chargeant le module minimax modulable et remplacant ses fonctions dépendant du jeu par celles du Gomoku.
+    '''
+
+    # On affecte les caractères des joueurs
+    minimax_modulable.user_char = user_char
+    minimax_modulable.IA_char = IA_char
+    minimax_modulable.vide_char = 0
+    # On affecte les fonctions spécifiques au jeu pour qu'elles soient utilisées par le minimax modulable
+    minimax_modulable.actions = actions
+    minimax_modulable.terminal_test = terminal_test
+    minimax_modulable.heuristic = heuristic
+
 if __name__ == '__main__':
     # Appeler main ici
     (user_char, IA_char) = demander_couleur()
+    charger_minimax()
+
     Gomoku()
-
-
-    # Ne pas mettre de fonctions ci dessous !
-
-    def charger_minimax():
-        '''
-        Fonction chargeant le module minimax modulable et remplacant ses fonctions dépendant du jeu par les notres.
-        '''
-
-        # On affecte les caractères des joueurs
-        minimax_modulable.user_char = user_char
-        minimax_modulable.IA_char = IA_char
-        minimax_modulable.vide_char = 0
-        # On affecte les fonctions spécifiques au jeu pour qu'elles soient utilisées par le minimax modulable
-        minimax_modulable.actions = actions
-        minimax_modulable.terminal_test = terminal_test
-        minimax_modulable.heuristic = heuristic
-
-
-    if __name__ == '__main__':
-        # Appeler main ici
-        (user_char, IA_char) = demander_couleur()
-        charger_minimax()
-
-        Gomoku()
-    # Ne pas mettre de fonctions ci dessous !
+# Ne pas mettre de fonctions ci dessous !
