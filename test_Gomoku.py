@@ -109,7 +109,7 @@ def generer_grilles_tests():
          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ], ], dtype=int)
-    liste_infos_grilles.append(InfosGrille(grille=grille_gagne2_diag_haut_droit, est_complete=False, a_gagne=0))
+    liste_infos_grilles.append(InfosGrille(grille=grille_non_gagnante, est_complete=False, a_gagne=0))
 
     # Pour ajouter une grille à la liste, la créer ci-dessous, et ajouter à liste_infos_grilles l'objet InfosGrille correspondant, cf exemples existants
     return liste_infos_grilles
@@ -126,11 +126,10 @@ def test_grille_complete(infos_grille):
 
 
 @pytest.mark.parametrize('infos_grille', liste_infos_grilles)
-def test_a_gagne(infos_grille):
+def test_grille_a_gagne(infos_grille):
     grille = infos_grille.grille
     a_gagne = infos_grille.a_gagne
     assert grille_a_gagne(grille) == a_gagne
-    print()
 
 
 # Coordonnées à tester pour le test de verif_tour3, ainsi que leur resultat attendu
