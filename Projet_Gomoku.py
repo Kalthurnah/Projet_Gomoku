@@ -109,8 +109,8 @@ def heuristic(state_grille):
 
     rayon = 5  # Rayon de test au dela duquel on arrete de compter les pions non bloqués.
 
-    for i in range(0, 15):
-        for j in range(0, 15):
+    for i in range(0, 11):
+        for j in range(0, 11):
             # On parcourt la grille de gauche à droite puis de bas en haut.
             # Il ne suffit donc de verifier que les 5 cases sur les lignes vers la droite, colonnes vers le bas, et diagonales vers la droite
 
@@ -126,37 +126,41 @@ def heuristic(state_grille):
                 # On compte toutes les cases dans un rayon de 4 cases autour de lui
                 # Ligne : On prend un intervalle de valeurs entre i-rayon et i+rayon inclus, en excluant les valeurs hors de la grille
                 for dist in (1, rayon):  # On compte le nombre de pions sur les 5 prochaines cases de la diagonale vers le haut gauche
-                    if state_grille[i - dist][j + dist] == joueur_case:
-                        # Si il y a un pion du joueur, on l'ajoute au compteur,
-                        compteur_pions_gains_potentiels_diaghg += 1
-                    elif state_grille[i - dist][j + dist] != 0:
-                        # Si il y a un pion de son adversaire, on réinitialise le compteur à 0 car la diagonale est "inexploitable"
-                        compteur_pions_gains_potentiels_diaghg = 0
-                        break  # Et on arrete de chercher cette diagonale
+                    if i - dist >= 0 and j + dist < 15:  # Si la coordonnées est valide
+                        if state_grille[i - dist][j + dist] == joueur_case:
+                            # Si il y a un pion du joueur, on l'ajoute au compteur,
+                            compteur_pions_gains_potentiels_diaghg += 1
+                        elif state_grille[i - dist][j + dist] != 0:
+                            # Si il y a un pion de son adversaire, on réinitialise le compteur à 0 car la diagonale est "inexploitable"
+                            compteur_pions_gains_potentiels_diaghg = 0
+                            break  # Et on arrete de chercher cette diagonale
 
                 for dist in (1, rayon):
                     # De meme, sur la diagonale bas droite
-                    if state_grille[i + dist][j + dist] == joueur_case:
-                        compteur_pions_gains_potentiels_diagbd += 1
-                    elif state_grille[i + dist][j] != 0:
-                        compteur_pions_gains_potentiels_diagbd = 0
-                        break
+                    if i + dist < 15 and j + dist < 15:  # Si la coordonnées est valide
+                        if state_grille[i + dist][j + dist] == joueur_case:
+                            compteur_pions_gains_potentiels_diagbd += 1
+                        elif state_grille[i + dist][j] != 0:
+                            compteur_pions_gains_potentiels_diagbd = 0
+                            break
 
                 for dist in (1, rayon):
                     # De meme, sur la colonne descendante
-                    if state_grille[i + dist][j] == joueur_case:
-                        compteur_pions_gains_potentiels_col += 1
-                    elif state_grille[i + dist][j] != 0:
-                        compteur_pions_gains_potentiels_col = 0
-                        break
+                    if i + dist < 15:  # Si la coordonnées est valide
+                        if state_grille[i + dist][j] == joueur_case:
+                            compteur_pions_gains_potentiels_col += 1
+                        elif state_grille[i + dist][j] != 0:
+                            compteur_pions_gains_potentiels_col = 0
+                            break
 
                 for dist in (1, rayon):
                     # De meme, sur la ligne vers la droite
-                    if state_grille[i][j + dist] == joueur_case:
-                        compteur_pions_gains_potentiels_ligne += 1
-                    elif state_grille[i][j + dist]:
-                        compteur_pions_gains_potentiels_ligne = 0
-                        break
+                    if j + dist < 15:  # Si la coordonnées est valide
+                        if state_grille[i][j + dist] == joueur_case:
+                            compteur_pions_gains_potentiels_ligne += 1
+                        elif state_grille[i][j + dist]:
+                            compteur_pions_gains_potentiels_ligne = 0
+                            break
 
                 # Maintenant qu'on a fini de compter les pions potentiellement avantageux sur lignes colonnes diagonales, on les ajoute au compteur total de l'utilisateur
                 if joueur_case == IA_char:
