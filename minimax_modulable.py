@@ -105,7 +105,7 @@ def minimax(grille_state, joueur, tour=0, profondeur=3, borne_min=-math.inf, bor
             grille_state_action = result(grille_state, action, joueur)
             utility_action = minimax(grille_state_action, user_char, tour + 1, profondeur - 1, borne_min, borne_max)[0]
             new_maxi = max(utility_max, utility_action)  # nouveau maximum entre le maximum et l'utilité de cette action
-            if new_maxi > utility_max or action_max == None:  # Si le nouveau maximum est supérieur à l'ancien
+            if new_maxi > utility_max or action_max == None:  # Si le nouveau maximum est supérieur à l'ancien, ou pas d'action jouable sans perdre
                 (utility_max, action_max) = (new_maxi, action)  # on met à jour l'utilité max et son action associée
 
             # Elagage alpha-beta v
@@ -128,7 +128,7 @@ def minimax(grille_state, joueur, tour=0, profondeur=3, borne_min=-math.inf, bor
             grille_state_action = result(grille_state, action, joueur)
             utility_action = minimax(grille_state_action, IA_char, tour + 1, profondeur - 1, borne_min, borne_max)[0]
             new_mini = min(utility_min, utility_action)  # nouveau minimum entre le minimum et l'utilité de cette action
-            if new_mini < utility_min or action_min == None:  # Si le nouveau minimum est inférieur à l'ancien, ou s'il n'y a pas d'action jouable
+            if new_mini < utility_min or action_min == None:  # Si le nouveau minimum est inférieur à l'ancien, ou s'il n'y a pas d'action jouable sans perdre
                 (utility_min, action_min) = (new_mini, action)  # on met à jour l'utilité min et son action associée
 
             # Elagage alpha-beta v

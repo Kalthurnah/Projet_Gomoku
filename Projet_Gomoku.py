@@ -119,18 +119,18 @@ def heuristic(state_grille: np.ndarray):
 
                 compteur_pions_gains_potentiels_ligne = 1
                 compteur_pions_gains_potentiels_col = 1
-                compteur_pions_gains_potentiels_diaghg = 1
+                compteur_pions_gains_potentiels_diaghd = 1
                 compteur_pions_gains_potentiels_diagbd = 1
                 # On compte toutes les cases dans un rayon de 4 cases autour de lui
                 # Ligne : On prend un intervalle de valeurs entre i-rayon et i+rayon inclus, en excluant les valeurs hors de la grille
-                for dist in (1, rayon):  # On compte le nombre de pions sur les 5 prochaines cases de la diagonale vers le haut gauche
+                for dist in (1, rayon):  # On compte le nombre de pions sur les 5 prochaines cases de la diagonale vers le haut à droite
                     if i - dist >= 0 and j + dist < 15:  # Si la coordonnées est valide
                         if state_grille[i - dist][j + dist] == joueur_case:
                             # Si il y a un pion du joueur, on l'ajoute au compteur,
-                            compteur_pions_gains_potentiels_diaghg += 1
+                            compteur_pions_gains_potentiels_diaghd += 1
                         elif state_grille[i - dist][j + dist] != 0:
                             # Si il y a un pion de son adversaire, on réinitialise le compteur à 0 car la diagonale est "inexploitable"
-                            compteur_pions_gains_potentiels_diaghg = 0
+                            compteur_pions_gains_potentiels_diaghd = 0
                             break  # Et on arrete de chercher cette diagonale
 
                 for dist in (1, rayon):
@@ -162,9 +162,9 @@ def heuristic(state_grille: np.ndarray):
 
                 # Maintenant qu'on a fini de compter les pions potentiellement avantageux sur lignes colonnes diagonales, on les ajoute au compteur total de l'utilisateur
                 if joueur_case == IA_char:
-                    total_pions_gains_potentiels_IA += compteur_pions_gains_potentiels_ligne + compteur_pions_gains_potentiels_col + compteur_pions_gains_potentiels_diagbd + compteur_pions_gains_potentiels_diaghg
+                    total_pions_gains_potentiels_IA += compteur_pions_gains_potentiels_ligne + compteur_pions_gains_potentiels_col + compteur_pions_gains_potentiels_diagbd + compteur_pions_gains_potentiels_diaghd
                 else:
-                    total_pions_gains_potentiels_user += compteur_pions_gains_potentiels_ligne + compteur_pions_gains_potentiels_col + compteur_pions_gains_potentiels_diagbd + compteur_pions_gains_potentiels_diaghg
+                    total_pions_gains_potentiels_user += compteur_pions_gains_potentiels_ligne + compteur_pions_gains_potentiels_col + compteur_pions_gains_potentiels_diagbd + compteur_pions_gains_potentiels_diaghd
 
             # Si pas de pion sur cette case, on continue
 
