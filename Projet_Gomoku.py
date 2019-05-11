@@ -378,7 +378,17 @@ def verif_tour3(grille: np.ndarray, coordonnees: (int, int)):
     return res
 
 
-def verif_validite_action(grille: np.ndarray, coordonnees: (int, int), tour: int):
+def verif_coordonnees_valides(coordonnees):
+    """
+    Indique si un tuple de coordonnées et valide (ie dans la grille) ou pas
+
+    :param coordonnees: coordonnées à verifier
+    :return: booléen vrai si les coordonnées sont valides
+    """
+    return coordonnees[0] < 0 or coordonnees[0] > 14 or coordonnees[1] < 0 or coordonnees[1] > 14
+
+
+def verif_validite_action(grille: np.ndarray, coordonnees: (int, int), tour: int = 0):
     """
     Vérifie si une action est valide ou pas
 
@@ -388,16 +398,15 @@ def verif_validite_action(grille: np.ndarray, coordonnees: (int, int), tour: int
     :return: booléen indiquant si l'action est valide
     """
 
-    if coordonnees[0] < 0 or coordonnees[0] > 14 or coordonnees[1] < 0 or coordonnees[1] > 14:
-        # Si les coordonnées ne sont pas valides, l'action non plus
-        return False
+    # Booléen indiquant si les conditions de validité sont respectées : Donc si les coordonnées sont valides et qu'il n'y a pas de pion ici
+    validite_action = verif_coordonnees_valides(coordonnees) and grille[coordonnees[0]][coordonnees[1]] == 0  #
 
     # Le premier tour est géré en dur dans le jeu, puisque le joueur n'a qu'un choix.
-    if tour == 3:  # Si on est au tour 3 on vérifie la validité conformément au règles du tour 3
-        if not verif_tour3(grille, coordonnees):
-            return False
-    # Si la coordonnée est valide jusqu'à maintenant, on vérifie si la case est bien vide
-    return grille[coordonnees[0]][coordonnees[1]] == 0  # On retourne donc le booléen correspondant à cette égalité
+    if tour == 3:  # Si on est au tour 3 on vérifie également la validité conformément au règles du tour 3
+        # Si les règles du tour 3 ne sont pas respectées, l'action n'est pas valide, on ajoute donc au booléen la condition de validité du tour 3
+        validite_action = validite_action and verif_tour3(grille, coordonnees)
+
+    return validite_action  # On retourne donc le booléen correspondant à la réalisation de toutes les conditions  nécessaire
 
 
 def demander_couleur():
