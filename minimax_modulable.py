@@ -12,11 +12,12 @@ user_char = None
 vide_char = None
 
 
-def actions(state_grille, tour=0):
+def actions(state_grille, joueur, tour=0):
     '''
     Retourne les actions possibles d'un joueur sur une grille de jeu. Modèle, à remplacer par une fonction spécifique au jeu !
 
     :param state_grille: grille du jeu
+    :param joueur dont on cherche les actions possibles
     :param tour: numero du tour actuel pour les jeux dont le tour influe sur les actions possibles
     :return: liste des actions possibles du joueur, sous la forme de tuple de coordonnées
     '''
@@ -29,10 +30,10 @@ def terminal_test(state_grille):
     Teste si une grille donnée est en fin de jeu. Modèle, à remplacer par une fonction spécifique au jeu !
 
     :param state_grille:  état de la grille
-    :return: Soit le caractere du gagnant, soit True si il y a une égalité, soit False si l'état n'est pas terminal
+    :return: Soit le caractere du gagnant, soit 0 si il y a une égalité, soit -1 si l'état n'est pas terminal
     '''
 
-    return False
+    return -1
 
 
 def heuristic(state_grille):
@@ -61,12 +62,13 @@ def result(state_grille, action, joueur):
 def utility(state_grille):
     '''
     Fournit une évaluation de l'état de la grille. 100/-100 si l'un des joueurs gagne, et une valeur entre les deux si une heuristique est utilisée
+
     :param state_grille:  état de la grille
     :return: entier representant l'évaluation de la grille. Gain minimum si le joueur gagne, maximum si l'IA gagne
     '''
-    fin = terminal_test(state_grille)
+    fin = terminal_test(state_grille)  # Fin est le booléen indiquant si le jeu est fini ou pas.
 
-    if not fin:
+    if fin != -1:  # Si le jeu est fini
         if fin == user_char:
             return -100  # Adversaire gagne : gain minimum
         if fin == IA_char:
@@ -79,26 +81,26 @@ def utility(state_grille):
         return heuristic(state_grille)
 
 
-def minimax(grille_state, joueur, tour=0, profondeur=5, borne_min=-math.inf, borne_max=math.inf):
+def minimax(grille_state, joueur, tour=0, profondeur=3, borne_min=-math.inf, borne_max=math.inf):
     '''
     Algorithme principal du minimax. Vérifier que les fonctions heuristic, terminal_test, actions
 
     :param grille_state: grille de l'état actuel du jeu
-    :param joueur: joueur lors de l'état actuel du jeu
+    :param joueur: prochain joueur (dont on veut prédire la réaction)
     :param profondeur: maximum de profondeur de recherche du minimax
     :param tour: tour actuel du jeu, dans les jeux ou le tour influe sur les actions possibles
     :param borne_min:
     :param borne_max:
     :return:
     '''
-    if terminal_test(grille_state) or profondeur == 0:
+    if terminal_test(grille_state) != -1 or profondeur == 0:
         return (utility(grille_state), None)
 
     if joueur == IA_char:
         # On initialise le maximum d'utilité trouvé, par défaut - l'infini, et l'action associée (None par défaut)
         (utility_max, action_max) = (-math.inf, None)
 
-        for action in actions(grille_state, tour):
+        for action in actions(grille_state, joueur,tour):
             grille_state_action = result(grille_state, action, joueur)
             utility_action = minimax(grille_state_action, user_char, tour + 1, profondeur - 1, borne_min, borne_max)[0]
             new_maxi = max(utility_max, utility_action)  # nouveau maximum entre le maximum et l'utilité de cette action

@@ -1,6 +1,6 @@
 # -*- coding utf-8 -*-
 """
-Projet IA, Gomoku, Groupe TD A
+Projet IA, Gomoku (variante long pro), Groupe TD A
 @author: Damien ALOUGES, Amine AGOUSSAL, Cécile AMSALLEM
 """
 
@@ -10,15 +10,18 @@ import numpy as np
 user_char = None
 IA_char = None
 
-  
-def actions(state_grille, tour):
+def actions(state_grille, joueur, tour):
+
     '''
     Retourne les actions possibles d'un joueur à une grille de jeu, pour le Gomoku
 
     :param state_grille: grille du jeu
+    :param joueur dont on cherche les actions possibles
     :param tour: numero du tour actuel
     :return:actions possibles du joueur
     '''
+
+    #TODO : Reduire le champ des actions possibles d'un joueur pour n'inclure que les cas pertinents
     actions_possibles = []
     for j in range(0, 15):
         for i in range(0, 15):
@@ -34,16 +37,16 @@ def terminal_test(state_grille):
     Teste si une grille donnée est en fin de jeu, pour le Gomoku
 
     :param state_grille:  état de la grille
-    :return: soit le caractere du gagnant, soit True si il y a une égalité, soit False si l'état n'est pas terminal
+    :return: soit le caractère du gagnant, soit 0 si il y a une égalité, soit -1 si l'état n'est pas terminal
     '''
     if grille_complete(state_grille):  # Grille complète, égalité
-        return True
+        return 0
     gagnant = grille_a_gagne(state_grille)
     if gagnant != 0:
         return gagnant  # Si quelqu'un a gagné, on retourne son caractère
 
-    # Sinon, le jeu n'est pas fini, on retourne false
-    return False
+    # Sinon, le jeu n'est pas fini, on retourne -1
+    return -1
 
 
 def heuristic(state_grille):
@@ -103,13 +106,13 @@ def conversion_pos_coord(position: str):
     :return: un tuple correspondant aux coordonnées sur la grille de la position fournie. Si l'entrée est invalide, l'un des membres de ce tuple est -1.
     '''
 
-    (lettre, nombre) = (position[0], position[1:])
-    # On recupere lettre (1er char du string) et nombre (chars au dela du premier) depuis le string position donné
-
     try:
+        # On recupere lettre (1er char du string) et nombre (chars au dela du premier) depuis le string position donné
+        (lettre, nombre) = (position[0], position[1:])
         colonne = int(nombre) - 1  # On tente de convertir le string du nombre en entier
     except:
-        colonne = -1  # Si le charactère n'a pu être converti en entier, on le passe à -1
+        return (-1, -1)  # Si le caractère n'a pu être converti en entier ou pas pu être obtenu, on retourne -1,-1
+
     if (colonne < 0 | colonne >= 15):  # Si la colonne est supérieure ou égale à 15, ou inférieure à 0 elle est invalide
         colonne = -1  # On remplace alors la colonne par -1
 
@@ -121,8 +124,6 @@ def conversion_pos_coord(position: str):
             break  # Sortie de la boucle quand la lettre est trouvée
 
     return (ligne, colonne)
-    # TODO : Verif à l'utilisation si (i==-1 ou j == -1), auquel cas la position fournie par l'utilisateur est invalide.
-
 
 def conversion_coord_pos(coordonnees):
     '''
@@ -162,7 +163,6 @@ def grille_complete(grille: np.ndarray):
     # Le cas ou l'on a plus de pions que 120 n'est pas supposé arriver, mais on vérifie quand même au cas ou quelque chose tourne mal, et pour pouvoir tester plus facilement
     if cmpt >= 120:
         res = True
-        print("La grille est complète, le jeu est fini.")
     # On renvoie le résultat
     return res
 
@@ -187,12 +187,13 @@ def grille_a_gagne(grille: np.ndarray):
             if cmpt == 4:
                 # Si le symbole est différent de 0, quelqu'un a gagné, et on renvoie donc le gagnant, sinon on continue
                 if grille[i][j] != 0:
-                    print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné en ligne.")
                     return grille[i][j]
                 # Si c'était 5 zéros à la suite, personne a gagné on remet le compteur à 0
                 else:
                     cmpt = 0
-    # On remet le compteur à 0 pour s'il n'a pas trouvé de fin de jeu avant.
+        cmpt = 0  # On arrive en bout de ligne, on réinitialise donc le compteur
+
+    # On remet le compteur à 0 s'il n'a pas trouvé de fin de jeu avant.
     cmpt = 0
 
     # On vérifie de même les gains par lignes, ie si 5 cases adjacentes sont trouvées sur la même colonne
@@ -204,10 +205,11 @@ def grille_a_gagne(grille: np.ndarray):
                 cmpt = 0
             if cmpt == 4:
                 if grille[i][j] != 0:
-                    print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné en colonne.")
                     return grille[i][j]
                 else:
                     cmpt = 0
+            if i == 13:
+                cmpt = 0
 
     # Il s'agit maintenant de tester sur les diagonales. On remet encore le compteur à zéro.
     cmpt = 0
@@ -220,7 +222,6 @@ def grille_a_gagne(grille: np.ndarray):
                     and grille[i + 2][j + 2] == grille[i + 3][j + 3] and grille[i + 3][j + 3] == grille[i + 4][j + 4]:
                 # Si c'est le cas on vérifie qu'il ne s'agit pas d'un zéro.
                 if grille[i][j] != 0:
-                    print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné en diagonale.")
                     return grille[i][j]
     # Maintenant on teste les diagonales allant du bas gauche vers le haut droit.
     for i in range(4, 15):
@@ -230,9 +231,7 @@ def grille_a_gagne(grille: np.ndarray):
                     and grille[i - 2][j + 2] == grille[i - 3][j + 3] and grille[i - 3][j + 3] == grille[i - 4][j + 4]:
                 # Si c'est le cas on vérifie qu'il ne s'agit pas d'un zéro.
                 if grille[i][j] != 0:
-                    print("Le jeu est fini, le joueur " + str(grille[i][j]) + " a gagné en diagonale.")
                     return grille[i][j]
-    print("Le jeu n'est pas fini.")
     return 0
 
 
@@ -257,14 +256,12 @@ def verif_tour3(grille, coordonnees):
 
 
 def verif_validite_action(grille, coordonnees, tour):
-    if tour == 1:  # Au tour 1 le joueur ne peut poser son pion qu'en H8
-        return coordonnees == (7, 7)  # On retourne donc le booléen correspondant à cette égalité
+    # Le premier tour est géré en dur dans le jeu, puisque le joueur n'a qu'un choix.
     if tour == 3:  # Si on est au tour 3 on vérifie la validité conformément au règles du tour 3
         if not verif_tour3(grille, coordonnees):
             return False
     # Si la coordonnée est valide jusqu'à maintenant, on vérifie si la case est bien vide
     return grille[coordonnees[0]][coordonnees[1]] == 0  # On retourne donc le booléen correspondant à cette égalité
-
 
 
 def demander_couleur():
@@ -283,8 +280,50 @@ def demander_couleur():
 
 
 def Gomoku():
-    print(user_char)
+    print("Au premier tour, il n'est possible de jouer qu'au centre H8 - le 1er joueur voit donc son pion placé de force")
+    print("L'ordinateur sera le J%s. Vous serez le J%s. " % (IA_char, user_char))
+    grille_jeu = creation_plateau()  # On initialise le plateau
+    grille_jeu[7][7] = 1  # On place un pion du premier joueur au centre
+    afficher_plateau(grille_jeu)
+    tour_actif = 2  # On initialise le numéro du tour à 2, le premier tour ayant été joué ci dessus
+    joueur_actif = 2  # On initialise le 2eme joueur comme étant le joueur actif, le premier ayant joué de force ci dessus.
+
+    print("Au 3e tour, il est possible de jouer n’importe où excepté dans un carré de taille 7 cases sur 7 cases de centre H8.")
     # Fonctionnement du Gomoku ici
+    while terminal_test(grille_jeu) == -1:  # Tant que le jeu n'est pas fini
+
+        if joueur_actif == IA_char:  # tour IA :
+            print("L'ordinateur réfléchit.. Veuillez patienter.")
+            action_IA = minimax_modulable.minimax(grille_jeu, user_char, tour_actif)[1]  # Action choisie par l'IA suite à l'algo du minimax
+            grille_jeu = minimax_modulable.result(grille_jeu, action_IA, IA_char)  # On place le pion aux coordonnées demandées
+            position_choisie_IA = conversion_coord_pos(action_IA)
+            print("\nL'ordinateur a joué en %s." % position_choisie_IA)
+            joueur_actif = user_char
+
+        else:  # joueur_actif == user_char:
+            # tour joueur
+            position_valide = False
+            while not position_valide:  # Tant que la position n'est pas valide on en redemande une
+                print("Entrer une position valide où placer votre pion :")
+                position_choisie_user = input(">")
+                action_user = conversion_pos_coord(position_choisie_user)  # On obtient les coordonnées correspondant à l'entrée utilisateur
+                if action_user[0] != -1 and action_user[1] != -1:  # Si les coordonnées ne sont pas valides, l'action non plus
+                    position_valide = True
+            grille_jeu = minimax_modulable.result(grille_jeu, action_user, user_char)  # On place le pion aux coordonnées demandées
+            print("\nL'utilisateur a joué en %s." % position_choisie_user)
+            joueur_actif = IA_char
+
+        # Quelqu'un a joué, on affiche avant de passer au tour suivant
+        afficher_plateau(grille_jeu)
+        tour_actif += 1
+        print("Tour %s" % tour_actif)
+
+    joueur_gagnant = terminal_test(grille_jeu)
+    print("Fin du jeu !")
+    if joueur_gagnant == 0:
+        print("Egalité entre vous !")
+    else:
+        print("Le J%s a gagné." % joueur_gagnant)
 
 
 def charger_minimax():
@@ -300,6 +339,8 @@ def charger_minimax():
     minimax_modulable.actions = actions
     minimax_modulable.terminal_test = terminal_test
     minimax_modulable.heuristic = heuristic
+
+
 
 if __name__ == '__main__':
     # Appeler main ici
