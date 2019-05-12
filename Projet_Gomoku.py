@@ -101,7 +101,7 @@ def heuristic_opti(state_grille: np.ndarray):
     Ici, il s'agit du maximum de pions avantageux de l'IA - le maximum de pions avantageux du joueur
     """
 
-    total_pions_gains_potentiels_user = 0  # Max des pions avantageux pour l'IA autouR d'une case, initialisé à 0
+    total_pions_gains_potentiels_user = 0  # Total des pions avantageux pour l'IA autouR d'une case, initialisé à 0
     total_pions_gains_potentiels_IA = 0
 
     # On initialise les compteur de pions potentiellements gagnants dans tous les sens, à 0, ainsi que le joueur concerné par ce compteur.
@@ -126,7 +126,9 @@ def heuristic_opti(state_grille: np.ndarray):
 
             # Le joueur concerné par ces pions avantageux est celui dont le pion est déja présent, s'il y en a un
             if joueur_case != 0:
-                continue
+                for sens in pions_avantageusements_places.values():
+                    sens["joueur"] = joueur_case
+                    sens["compteur"] = 1
 
             ##DIAGONALES
 
@@ -374,27 +376,19 @@ def heuristic_opti(state_grille: np.ndarray):
                     # On passe donc à 0 le nombre de pions potentiellement gagnants ici
                     break
 
-            max_pions_gains_potentiels_case_IA = 0  # Total des pions avantageusement placés autours de cette case
-            max_pions_gains_potentiels_case_user = 0
-
             # Maintenant qu'on a fini de compter les pions potentiellement avantageux sur lignes colonnes diagonales,
             # On les ajoute au compteur total du joueur en question
 
             for sens in pions_avantageusements_places.values():
                 if sens["joueur"] == IA_char:
-                    max_pions_gains_potentiels_case_IA += max(max_pions_gains_potentiels_case_IA, sens["compteur"] ** 2)
+                    total_pions_gains_potentiels_IA += sens["compteur"] ** 3
                 else:
-                    max_pions_gains_potentiels_case_user += max(max_pions_gains_potentiels_case_user, sens["compteur"] ** 2)
+                    total_pions_gains_potentiels_user += sens["compteur"] **3
                 # Maintenant qu'on a récupéré la valeur, on réinitialise le compteur et son joueur associé
                 sens["compteur"] = 0
                 sens["joueur"] = 0
 
-            # Et on stocke le maximum des pions avantageusement placés obtenus.
-            total_pions_gains_potentiels_IA += max_pions_gains_potentiels_case_IA
-            total_pions_gains_potentiels_user += max_pions_gains_potentiels_case_user
-
-    return total_pions_gains_potentiels_IA - total_pions_gains_potentiels_user
-
+    return total_pions_gains_potentiels_IA-total_pions_gains_potentiels_user
 
 def heuristic(state_grille: np.ndarray):
     """
