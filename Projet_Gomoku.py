@@ -209,8 +209,7 @@ def grille_a_gagne(grille: np.ndarray):
                     return grille[i][j]
                 else:
                     cmpt = 0
-            if i == 13:
-                cmpt = 0
+        cmpt = 0
 
     # Il s'agit maintenant de tester sur les diagonales. On remet encore le compteur à zéro.
     cmpt = 0
