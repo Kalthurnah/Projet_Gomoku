@@ -103,8 +103,8 @@ def heuristic_opti(state_grille: np.ndarray):
     Ici, il s'agit du maximum de pions avantageux de l'IA - le maximum de pions avantageux du joueur
     """
 
-    max_pions_gains_potentiels_user = 0  # Max des pions avantageux pour l'IA autouR d'une case, initialisé à 0
-    max_pions_gains_potentiels_IA = 0
+    total_pions_gains_potentiels_user = 0  # Max des pions avantageux pour l'IA autouR d'une case, initialisé à 0
+    total_pions_gains_potentiels_IA = 0
 
     # On initialise les compteur de pions potentiellements gagnants dans tous les sens, à 0, ainsi que le joueur concerné par ce compteur.
     pions_avantageusements_places = {"colhaut": {"joueur": 0, "compteur": 0},
@@ -128,8 +128,7 @@ def heuristic_opti(state_grille: np.ndarray):
 
             # Le joueur concerné par ces pions avantageux est celui dont le pion est déja présent, s'il y en a un
             if joueur_case != 0:
-                for sens in pions_avantageusements_places.values():
-                    sens["joueur"] = joueur_case
+                continue
 
             ##DIAGONALES
 
@@ -153,7 +152,7 @@ def heuristic_opti(state_grille: np.ndarray):
                             pions_avantageusements_places["diaghg"]["compteur"] += 1
                         else:
                             # Si il y a un pion de son adversaire, on réinitialise le compteur à 0 car la diagonale est "inexploitable"
-                            pions_avantageusements_places["diaghg"]["compteur"] += 0
+                            pions_avantageusements_places["diaghg"]["compteur"] = 0
                             break  # Et on arrete de chercher sur les cases en diagonale vers le haut droite - les pions sont bloqués donc présentent pas d'interet
                     # Sinon, la case est vide, on ne change rien
 
@@ -183,7 +182,7 @@ def heuristic_opti(state_grille: np.ndarray):
                             pions_avantageusements_places["diaghd"]["compteur"] += 1
                         else:
                             # Si il y a un pion de son adversaire, on réinitialise le compteur à 0 car la diagonale est "inexploitable"
-                            pions_avantageusements_places["diaghd"]["compteur"] += 0
+                            pions_avantageusements_places["diaghd"]["compteur"] = 0
                             break  # Et on arrete de chercher sur les cases en diagonale vers le haut droite - les pions sont bloqués donc présentent pas d'interet
                     # Sinon, la case est vide, on ne change rien
 
@@ -213,7 +212,7 @@ def heuristic_opti(state_grille: np.ndarray):
                             pions_avantageusements_places["diagbg"]["compteur"] += 1
                         else:
                             # Si il y a un pion de son adversaire, on réinitialise le compteur à 0 car la diagonale est "inexploitable"
-                            pions_avantageusements_places["diagbg"]["compteur"] += 0
+                            pions_avantageusements_places["diagbg"]["compteur"] = 0
                             break  # Et on arrete de chercher sur les cases en diagonale vers le haut droite - les pions sont bloqués donc présentent pas d'interet
                     # Sinon, la case est vide, on ne change rien
 
@@ -243,7 +242,7 @@ def heuristic_opti(state_grille: np.ndarray):
                             pions_avantageusements_places["diagbd"]["compteur"] += 1
                         else:
                             # Si il y a un pion de son adversaire, on réinitialise le compteur à 0 car la diagonale est "inexploitable"
-                            pions_avantageusements_places["diagbd"]["compteur"] += 0
+                            pions_avantageusements_places["diagbd"]["compteur"] = 0
                             break  # Et on arrete de chercher sur les cases en diagonale vers le haut droite - les pions sont bloqués donc présentent pas d'interet
                     # Sinon, la case est vide, on ne change rien
 
@@ -275,7 +274,7 @@ def heuristic_opti(state_grille: np.ndarray):
                             pions_avantageusements_places["colbas"]["compteur"] += 1
                         else:
                             # Si il y a un pion de son adversaire, on réinitialise le compteur à 0 car la diagonale est "inexploitable"
-                            pions_avantageusements_places["colbas"]["compteur"] += 0
+                            pions_avantageusements_places["colbas"]["compteur"] = 0
                             break  # Et on arrete de chercher sur les cases en diagonale vers le haut droite - les pions sont bloqués donc présentent pas d'interet
                     # Sinon, la case est vide, on ne change rien
 
@@ -305,7 +304,7 @@ def heuristic_opti(state_grille: np.ndarray):
                             pions_avantageusements_places["colhaut"]["compteur"] += 1
                         else:
                             # Si il y a un pion de son adversaire, on réinitialise le compteur à 0 car la diagonale est "inexploitable"
-                            pions_avantageusements_places["colhaut"]["compteur"] += 0
+                            pions_avantageusements_places["colhaut"]["compteur"] = 0
                             break  # Et on arrete de chercher sur les cases en diagonale vers le haut droite - les pions sont bloqués donc présentent pas d'interet
                     # Sinon, la case est vide, on ne change rien
 
@@ -337,7 +336,7 @@ def heuristic_opti(state_grille: np.ndarray):
                             pions_avantageusements_places["ligneg"]["compteur"] += 1
                         else:
                             # Si il y a un pion de son adversaire, on réinitialise le compteur à 0 car la diagonale est "inexploitable"
-                            pions_avantageusements_places["ligneg"]["compteur"] += 0
+                            pions_avantageusements_places["ligneg"]["compteur"] = 0
                             break  # Et on arrete de chercher sur les cases en diagonale vers le haut droite - les pions sont bloqués donc présentent pas d'interet
                     # Sinon, la case est vide, on ne change rien
 
@@ -367,7 +366,7 @@ def heuristic_opti(state_grille: np.ndarray):
                             pions_avantageusements_places["ligned"]["compteur"] += 1
                         else:
                             # Si il y a un pion de son adversaire, on réinitialise le compteur à 0 car la diagonale est "inexploitable"
-                            pions_avantageusements_places["ligned"]["compteur"] += 0
+                            pions_avantageusements_places["ligned"]["compteur"] = 0
                             break  # Et on arrete de chercher sur les cases en diagonale vers le haut droite - les pions sont bloqués donc présentent pas d'interet
                     # Sinon, la case est vide, on ne change rien
 
@@ -377,26 +376,26 @@ def heuristic_opti(state_grille: np.ndarray):
                     # On passe donc à 0 le nombre de pions potentiellement gagnants ici
                     break
 
-            total_pions_gains_potentiels_case_IA = 0  # Total des pions avantageusement placés autours de cette case
-            total_pions_gains_potentiels_case_user = 0
+            max_pions_gains_potentiels_case_IA = 0  # Total des pions avantageusement placés autours de cette case
+            max_pions_gains_potentiels_case_user = 0
 
             # Maintenant qu'on a fini de compter les pions potentiellement avantageux sur lignes colonnes diagonales,
             # On les ajoute au compteur total du joueur en question
 
             for sens in pions_avantageusements_places.values():
                 if sens["joueur"] == IA_char:
-                    total_pions_gains_potentiels_case_IA += sens["compteur"]
+                    max_pions_gains_potentiels_case_IA += max(max_pions_gains_potentiels_case_IA, sens["compteur"] ** 2)
                 else:
-                    total_pions_gains_potentiels_case_user += sens["compteur"]
+                    max_pions_gains_potentiels_case_user += max(max_pions_gains_potentiels_case_user, sens["compteur"] ** 2)
                 # Maintenant qu'on a récupéré la valeur, on réinitialise le compteur et son joueur associé
                 sens["compteur"] = 0
                 sens["joueur"] = 0
 
             # Et on stocke le maximum des pions avantageusement placés obtenus.
-            max_pions_gains_potentiels_IA = max(max_pions_gains_potentiels_IA, total_pions_gains_potentiels_case_IA)
-            max_pions_gains_potentiels_user = max(max_pions_gains_potentiels_user, total_pions_gains_potentiels_case_user)
+            total_pions_gains_potentiels_IA += max_pions_gains_potentiels_case_IA
+            total_pions_gains_potentiels_user += max_pions_gains_potentiels_case_user
 
-    return max_pions_gains_potentiels_IA - max_pions_gains_potentiels_user
+    return total_pions_gains_potentiels_IA - total_pions_gains_potentiels_user
 
 
 def heuristic(state_grille: np.ndarray):
@@ -541,9 +540,6 @@ def conversion_pos_coord(position: str):
         colonne = int(nombre) - 1  # On tente de convertir le string du nombre en entier
     except:
         return (-1, -1)  # Si le caractère n'a pu être converti en entier ou pas pu être obtenu, on retourne -1,-1
-
-    if (colonne < 0 or colonne >= 15):  # Si la colonne est supérieure ou égale à 15, ou inférieure à 0 elle est invalide
-        colonne = -1  # On remplace alors la colonne par -1
 
     lettres = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"]
     ligne = -1  # Coordonnée invalide par défaut
@@ -695,7 +691,7 @@ def verif_validite_coordonnees(coordonnees):
     :return: booléen vrai si les coordonnées sont valides
     """
     # Les coordonnées sont valides si elles sont entre 0 et 14 inclus, puisque la grille est 15x15
-    return coordonnees[0] >= 0 and coordonnees[0] <= 14 and coordonnees[1] >= 0 and coordonnees[1] <= 14
+    return 0 <= coordonnees[0] <= 14 and 0 <= coordonnees[1] <= 14
 
 
 def verif_validite_action(grille: np.ndarray, coordonnees: (int, int), tour: int = 0):
