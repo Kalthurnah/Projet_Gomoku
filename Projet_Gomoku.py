@@ -181,7 +181,7 @@ def grille_a_gagne(grille: np.ndarray):
             case = grille[i][j]
             if case != 0 and case == grille[i][j + 1] and case == grille[i][j + 2] and case == grille[i][j + 3] and case == grille[i][
                 j + 4]:
-                return grille[i][j]
+                return case
 
     # On vérifie de même les gains par lignes, ie si 5 cases adjacentes sont trouvées sur la même colonne
     for j in range(0, 15):
@@ -189,7 +189,7 @@ def grille_a_gagne(grille: np.ndarray):
             case = grille[i][j]
             if case != 0 and case == grille[i + 1][j] and case == grille[i + 2][j] and case == grille[i + 3][j] and case == grille[i + 4][
                 j]:
-                return grille[i][j]
+                return case
 
     # Il s'agit maintenant de tester sur les diagonales.
     # On se limite à 0,11 car on ne doit pas dépasser les dimensions de la grille !
@@ -200,7 +200,7 @@ def grille_a_gagne(grille: np.ndarray):
             case = grille[i][j]
             if case != 0 and case == grille[i + 1][j + 1] and case == grille[i + 2][j + 2] \
                     and case == grille[i + 3][j + 3] and case == grille[i + 4][j + 4]:
-                return grille[i][j]
+                return case
     # Maintenant on teste les diagonales allant du bas gauche vers le haut droit.
     for i in range(4, 15):
         for j in range(0, 11):
