@@ -36,23 +36,18 @@ def actions_opti(state_grille: np.ndarray, tour: int, rayon=3):
 
     # Sinon, on suppose que le joueur ne joue que dans des cases qui sont dans un rayon donné d'un pion déja joué.
     else:
-        coordonneesretenues = []  # Stock des coordonnées
         for i in range(0, 15):
             for j in range(0, 15):
                 if state_grille[i][j] != 0:  # Si un pion est dans cette case
                     # On ajoute toutes les cases jouables dans un rayon de 4 cases autour de lui aux actions possibles,
                     # Ligne : On prend un intervalle de valeurs entre i-rayon et i+rayon inclus, en excluant les valeurs hors de la grille
                     for dist in range(0, rayon):
-                        # coordonnées des points à cette distance du point i,j en diagonale
-                        coordonneesretenues += [(i - dist, j - dist), (i - dist, j + dist), (i + dist, j - dist), (i + dist, j + dist)]
-                        # coordonnées des points à cette distance du point i,j en colonne et ligne
-                        coordonneesretenues += [(i + dist, j), (i - dist, j), (i, j - dist), (i, j + dist)]
-                        # On estime que le joueur a des chances d'y jouer, on l'y ajoute donc aux coordonnées possibles
-
-        for coordonnee in coordonneesretenues:
-            if verif_validite_action(state_grille, coordonnee, tour) and coordonnee not in actions_possibles:
-                actions_possibles.append(coordonnee)
-                # Si la coordonnées n'est pas déja dans la liste et est jouable, on la marque comme une action possible
+                        # pour chaque coordonnée de point à cette distance du point i,j en diagonale, colonne et ligne
+                        for coordonnee in [(i - dist, j - dist), (i - dist, j + dist), (i + dist, j - dist), (i + dist, j + dist),
+                                           (i + dist, j), (i - dist, j), (i, j - dist), (i, j + dist)]:
+                            if verif_validite_action(state_grille, coordonnee, tour) and coordonnee not in actions_possibles:
+                                actions_possibles.append(coordonnee)
+                                # Si la coordonnées n'est pas déja dans la liste et est jouable, on la marque comme une action possible
     return actions_possibles
 
 
