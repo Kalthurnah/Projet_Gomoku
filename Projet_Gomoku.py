@@ -42,7 +42,7 @@ def actions_opti(state_grille: np.ndarray, tour: int, rayon=3):
                 if state_grille[i][j] != 0:  # Si un pion est dans cette case
                     # On ajoute toutes les cases jouables dans un rayon de 4 cases autour de lui aux actions possibles,
                     # Ligne : On prend un intervalle de valeurs entre i-rayon et i+rayon inclus, en excluant les valeurs hors de la grille
-                    for dist in (0, rayon):
+                    for dist in range(0, rayon):
                         # coordonnées des points à cette distance du point i,j en diagonale
                         coordonneesretenues += [(i - dist, j - dist), (i - dist, j + dist), (i + dist, j - dist), (i + dist, j + dist)]
                         # coordonnées des points à cette distance du point i,j en colonne et ligne
@@ -396,8 +396,10 @@ def heuristic(state_grille: np.ndarray):
                 compteur_pions_gains_potentiels_diaghd = 1
                 compteur_pions_gains_potentiels_diagbd = 1
                 # On compte toutes les cases dans un rayon de 4 cases autour de lui
+
                 # Ligne : On prend un intervalle de valeurs entre i-rayon et i+rayon inclus, en excluant les valeurs hors de la grille
-                for dist in (1, rayon):  # On compte le nombre de pions sur les 5 prochaines cases de la diagonale vers le haut à droite
+                for dist in range(1, rayon):
+                    # On compte le nombre de pions sur les 5 prochaines cases de la diagonale vers le haut à droite
                     if i - dist >= 0 and j + dist < 15:  # Si la coordonnées est valide
                         if state_grille[i - dist][j + dist] == joueur_case:
                             # Si il y a un pion du joueur, on l'ajoute au compteur,
@@ -407,16 +409,16 @@ def heuristic(state_grille: np.ndarray):
                             compteur_pions_gains_potentiels_diaghd = 0
                             break  # Et on arrete de chercher cette diagonale
 
-                for dist in (1, rayon):
+                for dist in range(1, rayon):
                     # De meme, sur la diagonale bas droite
                     if i + dist < 15 and j + dist < 15:  # Si la coordonnées est valide
                         if state_grille[i + dist][j + dist] == joueur_case:
                             compteur_pions_gains_potentiels_diagbd += 1
-                        elif state_grille[i + dist][j] != 0:
+                        elif state_grille[i + dist][j + dist] != 0:
                             compteur_pions_gains_potentiels_diagbd = 0
                             break
 
-                for dist in (1, rayon):
+                for dist in range(1, rayon):
                     # De meme, sur la colonne descendante
                     if i + dist < 15:  # Si la coordonnées est valide
                         if state_grille[i + dist][j] == joueur_case:
@@ -425,7 +427,7 @@ def heuristic(state_grille: np.ndarray):
                             compteur_pions_gains_potentiels_col = 0
                             break
 
-                for dist in (1, rayon):
+                for dist in range(1, rayon):
                     # De meme, sur la ligne vers la droite
                     if j + dist < 15:  # Si la coordonnées est valide
                         if state_grille[i][j + dist] == joueur_case:
@@ -652,14 +654,15 @@ def verif_tour3(grille: np.ndarray, coordonnees: (int, int)):
     return res
 
 
-def verif_coordonnees_valides(coordonnees):
+def verif_validite_coordonnees(coordonnees):
     """
     Indique si un tuple de coordonnées et valide (ie dans la grille) ou pas
 
     :param coordonnees: coordonnées à verifier
     :return: booléen vrai si les coordonnées sont valides
     """
-    return coordonnees[0] < 0 or coordonnees[0] > 14 or coordonnees[1] < 0 or coordonnees[1] > 14
+    # Les coordonnées sont valides si elles sont entre 0 et 14 inclus, puisque la grille est 15x15
+    return coordonnees[0] >= 0 and coordonnees[0] <= 14 and coordonnees[1] >= 0 and coordonnees[1] <= 14
 
 
 def verif_validite_action(grille: np.ndarray, coordonnees: (int, int), tour: int = 0):
@@ -673,7 +676,7 @@ def verif_validite_action(grille: np.ndarray, coordonnees: (int, int), tour: int
     """
 
     # Booléen indiquant si les conditions de validité sont respectées : Donc si les coordonnées sont valides et qu'il n'y a pas de pion ici
-    validite_action = verif_coordonnees_valides(coordonnees) and grille[coordonnees[0]][coordonnees[1]] == 0  #
+    validite_action = verif_validite_coordonnees(coordonnees) and grille[coordonnees[0]][coordonnees[1]] == 0
 
     # Le premier tour est géré en dur dans le jeu, puisque le joueur n'a qu'un choix.
     if tour == 3:  # Si on est au tour 3 on vérifie également la validité conformément au règles du tour 3
