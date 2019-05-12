@@ -12,16 +12,19 @@ user_char = None
 IA_char = None
 
 
+
 def actions_opti(state_grille: np.ndarray, tour: int, rayon=3):
     """
     Retourne les actions possibles d'un joueur à une grille de jeu, pour le Gomoku, en ne prenant en compte que les cas les plus probables,
     c'est à dire les cases comportant un pion dans un rayon donné aux alentours
+
 
     :param state_grille: grille du jeu
     :param rayon: rayon dans lequel on doit trouver des pions autour d'une case pour qu'elle soit jugée probable d'être jouée
     :param tour: numero du tour actuel
     :return: actions possibles du joueur
     """
+
 
     actions_possibles = []
 
@@ -243,13 +246,16 @@ def conversion_pos_coord(position: str):
     return (ligne, colonne)
 
 
+
 def conversion_coord_pos(coordonnees: (int, int)):
     """
     Fonction qui pour un tuple de coordonnées retourne une position lisible
 
     :param coordonnees: tuple de coordonnées sous la forme (0,3)
     :return: chaine lisible sous la forme "A4"
+
     """
+    
     coord1 = str(0)
     coord2 = 0
 
@@ -292,65 +298,41 @@ def grille_a_gagne(grille: np.ndarray):
     :param grille: grille np.array d'entiers correspondant au plateau de jeu
     :return: 0 si personne n'a gagné, 1 si le joueur 1 a gagné, 2 si le joueur 2 a gagné.
     """
-    cmpt = 0
 
     # Verification des gains par colonne, si qqn a 5 pions adjacents sur une même ligne
     for i in range(0, 15):
-        for j in range(0, 14):
-            # On regarde si la case et la suivante sont égales
-            if grille[i][j] == grille[i][j + 1]:
-                cmpt = cmpt + 1  # On incrémente le compteur si elles sont égales
-            else:
-                cmpt = 0  # Sinon on remet le compteur à 0
-            # Si le compteur atteint 4, donc si on a 5 cases adjacentes identiques, on regarde si ce ne sont pas 5 zéros d'affilés.
-            if cmpt == 4:
-                # Si le symbole est différent de 0, quelqu'un a gagné, et on renvoie donc le gagnant, sinon on continue
-                if grille[i][j] != 0:
-                    return grille[i][j]
-                # Si c'était 5 zéros à la suite, personne a gagné on remet le compteur à 0
-                else:
-                    cmpt = 0
-        cmpt = 0  # On arrive en bout de ligne, on réinitialise donc le compteur
-
-    # On remet le compteur à 0 s'il n'a pas trouvé de fin de jeu avant.
-    cmpt = 0
+        for j in range(0, 11):
+            case = grille[i][j]
+            if case != 0 and case == grille[i][j + 1] and case == grille[i][j + 2] and case == grille[i][j + 3] and case == grille[i][
+                j + 4]:
+                return case
 
     # On vérifie de même les gains par lignes, ie si 5 cases adjacentes sont trouvées sur la même colonne
     for j in range(0, 15):
-        for i in range(0, 14):
-            if grille[i][j] == grille[i + 1][j]:
-                cmpt = cmpt + 1
-            else:
-                cmpt = 0
-            if cmpt == 4:
-                if grille[i][j] != 0:
-                    return grille[i][j]
-                else:
-                    cmpt = 0
-            if i == 13:
-                cmpt = 0
+        for i in range(0, 11):
+            case = grille[i][j]
+            if case != 0 and case == grille[i + 1][j] and case == grille[i + 2][j] and case == grille[i + 3][j] and case == grille[i + 4][
+                j]:
+                return case
 
-    # Il s'agit maintenant de tester sur les diagonales. On remet encore le compteur à zéro.
-    cmpt = 0
+    # Il s'agit maintenant de tester sur les diagonales.
     # On se limite à 0,11 car on ne doit pas dépasser les dimensions de la grille !
     # On teste donc d'abord pour les diagonales allant d'en haut à gauche à en bas à droite.
     for i in range(0, 11):
         for j in range(0, 11):
             # On regarde si les 5 cases en diagonales (haut gauche vers bas droite)sont identiques
-            if grille[i][j] == grille[i + 1][j + 1] and grille[i + 1][j + 1] == grille[i + 2][j + 2] \
-                    and grille[i + 2][j + 2] == grille[i + 3][j + 3] and grille[i + 3][j + 3] == grille[i + 4][j + 4]:
-                # Si c'est le cas on vérifie qu'il ne s'agit pas d'un zéro.
-                if grille[i][j] != 0:
-                    return grille[i][j]
+            case = grille[i][j]
+            if case != 0 and case == grille[i + 1][j + 1] and case == grille[i + 2][j + 2] \
+                    and case == grille[i + 3][j + 3] and case == grille[i + 4][j + 4]:
+                return case
     # Maintenant on teste les diagonales allant du bas gauche vers le haut droit.
     for i in range(4, 15):
         for j in range(0, 11):
             # On regarde si les 5 cases en diagonales (bas gauche vers haut droite) sont identiques
-            if grille[i][j] == grille[i - 1][j + 1] and grille[i - 1][j + 1] == grille[i - 2][j + 2] \
-                    and grille[i - 2][j + 2] == grille[i - 3][j + 3] and grille[i - 3][j + 3] == grille[i - 4][j + 4]:
-                # Si c'est le cas on vérifie qu'il ne s'agit pas d'un zéro.
-                if grille[i][j] != 0:
-                    return grille[i][j]
+            case = grille[i][j]
+            if case != 0 and case == grille[i - 1][j + 1] and case == grille[i - 2][j + 2] \
+                    and case == grille[i - 3][j + 3] and case == grille[i - 4][j + 4]:
+                return case
     return 0
 
 
@@ -431,6 +413,9 @@ def Gomoku():
     Fonction principale du jeu de Gomoku
 
     """
+    
+    print("Bienvenue. Pour gagner, il faut réussir à aligner 5 pions. Bonne chance 😏 !")
+
     print("Au premier tour, il n'est possible de jouer qu'au centre H8 - le 1er joueur voit donc son pion placé de force")
     print("L'ordinateur sera le J%s. Vous serez le J%s. " % (IA_char, user_char))
     grille_jeu = creation_plateau()  # On initialise le plateau
