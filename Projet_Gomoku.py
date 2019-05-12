@@ -10,8 +10,8 @@ import numpy as np
 user_char = None
 IA_char = None
 
-def actions(state_grille, joueur, tour):
 
+def actions(state_grille, joueur, tour):
     '''
     Retourne les actions possibles d'un joueur à une grille de jeu, pour le Gomoku
 
@@ -21,7 +21,7 @@ def actions(state_grille, joueur, tour):
     :return:actions possibles du joueur
     '''
 
-    #TODO : Reduire le champ des actions possibles d'un joueur pour n'inclure que les cas pertinents
+    # TODO : Reduire le champ des actions possibles d'un joueur pour n'inclure que les cas pertinents
     actions_possibles = []
     for j in range(0, 15):
         for i in range(0, 15):
@@ -125,6 +125,7 @@ def conversion_pos_coord(position: str):
 
     return (ligne, colonne)
 
+
 def conversion_coord_pos(coordonnees):
     '''
     Fonction qui pour un tuple de coordonnées retourne une position lisible
@@ -132,14 +133,14 @@ def conversion_coord_pos(coordonnees):
     :param coordonnees: tuple de coordonnées sous la forme (0,3)
     :return: chaine lisible sous la forme "A4"
     '''
-    coord1=str(0)
-    coord2=0
-    
-    coord1=chr(coordonnees[0]+65)
-    coord2=str((coordonnees[1]+1))
-    
-    position=coord1 + coord2
-    
+    coord1 = str(0)
+    coord2 = 0
+
+    coord1 = chr(coordonnees[0] + 65)
+    coord2 = str((coordonnees[1] + 1))
+
+    position = coord1 + coord2
+
     return (position)
 
 
@@ -280,6 +281,8 @@ def demander_couleur():
 
 
 def Gomoku():
+    print("Bienvenue. Pour gagner, il faut réussir à aligner 5 pions. Bonne chance 😏 !")
+
     print("Au premier tour, il n'est possible de jouer qu'au centre H8 - le 1er joueur voit donc son pion placé de force")
     print("L'ordinateur sera le J%s. Vous serez le J%s. " % (IA_char, user_char))
     grille_jeu = creation_plateau()  # On initialise le plateau
@@ -294,7 +297,7 @@ def Gomoku():
 
         if joueur_actif == IA_char:  # tour IA :
             print("L'ordinateur réfléchit.. Veuillez patienter.")
-            action_IA = minimax_modulable.minimax(grille_jeu, user_char, tour_actif)[1]  # Action choisie par l'IA suite à l'algo du minimax
+            action_IA = minimax_modulable.minimax(grille_jeu, IA_char, tour_actif)[1]  # Action choisie par l'IA suite à l'algo du minimax
             grille_jeu = minimax_modulable.result(grille_jeu, action_IA, IA_char)  # On place le pion aux coordonnées demandées
             position_choisie_IA = conversion_coord_pos(action_IA)
             print("\nL'ordinateur a joué en %s." % position_choisie_IA)
@@ -339,7 +342,6 @@ def charger_minimax():
     minimax_modulable.actions = actions
     minimax_modulable.terminal_test = terminal_test
     minimax_modulable.heuristic = heuristic
-
 
 
 if __name__ == '__main__':
