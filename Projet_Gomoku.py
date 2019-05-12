@@ -113,8 +113,9 @@ def heuristic_opti(state_grille: np.ndarray):
 
             joueur_case = state_grille[i][j]  # Le joueur dont le pion est sur la case parcourue, ou 0 si la case est vide
 
-            # On initialise les compteur de pions potentiellements gagnants dans tous les sens
-            pions_gains_potentiels = {"colhaut": {"joueur": joueur_case, "compteur": 0},
+            # On initialise les compteur de pions potentiellements gagnants dans tous les sens, à 0.
+            # Le joueur concerné par ces pions avantageux est celui dont le pion est déja présent, s'il y en a un
+            pions_avantageusements_places = {"colhaut": {"joueur": joueur_case, "compteur": 0},
                                       "colbas": {"joueur": joueur_case, "compteur": 0},
                                       "ligned": {"joueur": joueur_case, "compteur": 0},
                                       "ligneg": {"joueur": joueur_case, "compteur": 0},
@@ -123,7 +124,7 @@ def heuristic_opti(state_grille: np.ndarray):
                                       "diagbd": {"joueur": joueur_case, "compteur": 0},
                                       "diagbg": {"joueur": joueur_case, "compteur": 0}}
 
-            # Blabla TODO COMS
+            # On a donc un dictionnaire contenant pour chaque "sens" de gain possible, le nombre de pions qui s'y trouvent déja.
 
             ##DIAGONALES
 
@@ -134,26 +135,26 @@ def heuristic_opti(state_grille: np.ndarray):
                     pion_en_cours = state_grille[i - dist][j - dist]  # Pion placé sur la case en cours
                     if pion_en_cours != 0:  # Si la case n'est pas vide
 
-                        if pions_gains_potentiels["diaghg"]["joueur"] == 0:  # Si aucun joueur n'avait de pions sur la diagonale,
+                        if pions_avantageusements_places["diaghg"]["joueur"] == 0:  # Si aucun joueur n'avait de pions sur la diagonale,
                             # ie si c'est le premier pion trouvé sur la diagonale (donc que le joueur ayant déja des pions dessus était 0)
 
                             # Le joueur en cours devient celui dont on vient de trouver un pion, et son compteur passe à 1
-                            pions_gains_potentiels["diaghg"]["joueur"] = pion_en_cours
-                            pions_gains_potentiels["diaghg"]["compteur"] = 1
+                            pions_avantageusements_places["diaghg"]["joueur"] = pion_en_cours
+                            pions_avantageusements_places["diaghg"]["compteur"] = 1
 
-                        elif pion_en_cours == pions_gains_potentiels["diaghg"]["joueur"]:
+                        elif pion_en_cours == pions_avantageusements_places["diaghg"]["joueur"]:
                             # Si il y a un pion du joueur qui avait déja des pions sur cette la diagonale
                             # On l'ajoute au compteur de pions avantageux sur la diagonale
-                            pions_gains_potentiels["diaghg"]["compteur"] += 1
+                            pions_avantageusements_places["diaghg"]["compteur"] += 1
                         else:
                             # Si il y a un pion de son adversaire, on réinitialise le compteur à 0 car la diagonale est "inexploitable"
-                            pions_gains_potentiels["diaghg"]["compteur"] += 0
+                            pions_avantageusements_places["diaghg"]["compteur"] += 0
                             break  # Et on arrete de chercher sur les cases en diagonale vers le haut droite - les pions sont bloqués donc présentent pas d'interet
                     # Sinon, la case est vide, on ne change rien
 
                 else:  # Sinon, la coordonnée est invalide, les prochaines le seront donc aussi - on arrête la boucle
                     # De plus, si la coordonnée est invalide c'est qu'on se "prend un mur", donc tous les pions de cette ligne ne sont en fait pas avantageux
-                    pions_gains_potentiels["diaghg"]["compteur"] = 0#On passe donc à 0 le nombre de pions potentiellement gagnants ici
+                    pions_avantageusements_places["diaghg"]["compteur"] = 0#On passe donc à 0 le nombre de pions potentiellement gagnants ici
                     break
 
             # On compte le nombre de pions sur les 5 prochaines cases de la diagonale vers le haut à droite. diaghd,coord (i - dist, j + dist)
@@ -163,26 +164,26 @@ def heuristic_opti(state_grille: np.ndarray):
                     pion_en_cours = state_grille[i - dist][j + dist]  # Pion placé sur la case en cours
                     if pion_en_cours != 0:  # Si la case n'est pas vide
 
-                        if pions_gains_potentiels["diaghd"]["joueur"] == 0:  # Si aucun joueur n'avait de pions sur la diagonale,
+                        if pions_avantageusements_places["diaghd"]["joueur"] == 0:  # Si aucun joueur n'avait de pions sur la diagonale,
                             # ie si c'est le premier pion trouvé sur la diagonale (donc que le joueur ayant déja des pions dessus était 0)
 
                             # Le joueur en cours devient celui dont on vient de trouver un pion, et son compteur passe à 1
-                            pions_gains_potentiels["diaghd"]["joueur"] = pion_en_cours
-                            pions_gains_potentiels["diaghd"]["compteur"] = 1
+                            pions_avantageusements_places["diaghd"]["joueur"] = pion_en_cours
+                            pions_avantageusements_places["diaghd"]["compteur"] = 1
 
-                        elif pion_en_cours == pions_gains_potentiels["diaghd"]["joueur"]:
+                        elif pion_en_cours == pions_avantageusements_places["diaghd"]["joueur"]:
                             # Si il y a un pion du joueur qui avait déja des pions sur cette la diagonale
                             # On l'ajoute au compteur de pions avantageux sur la diagonale
-                            pions_gains_potentiels["diaghd"]["compteur"] += 1
+                            pions_avantageusements_places["diaghd"]["compteur"] += 1
                         else:
                             # Si il y a un pion de son adversaire, on réinitialise le compteur à 0 car la diagonale est "inexploitable"
-                            pions_gains_potentiels["diaghd"]["compteur"] += 0
+                            pions_avantageusements_places["diaghd"]["compteur"] += 0
                             break  # Et on arrete de chercher sur les cases en diagonale vers le haut droite - les pions sont bloqués donc présentent pas d'interet
                     # Sinon, la case est vide, on ne change rien
 
                 else:  # Sinon, la coordonnée est invalide, les prochaines le seront donc aussi - on arrête la boucle
                     # De plus, si la coordonnée est invalide c'est qu'on se "prend un mur", donc tous les pions de cette ligne ne sont en fait pas avantageux
-                    pions_gains_potentiels["diaghg"]["compteur"] = 0  # On passe donc à 0 le nombre de pions potentiellement gagnants ici
+                    pions_avantageusements_places["diaghg"]["compteur"] = 0  # On passe donc à 0 le nombre de pions potentiellement gagnants ici
                     break
 
             # On compte le nombre de pions sur les 5 prochaines cases de la diagonale vers le bas à gauche. diagbg, coord (i + dist, j - dist)
@@ -192,26 +193,26 @@ def heuristic_opti(state_grille: np.ndarray):
                     pion_en_cours = state_grille[i + dist][j - dist]  # Pion placé sur la case en cours
                     if pion_en_cours != 0:  # Si la case n'est pas vide
 
-                        if pions_gains_potentiels["diagbg"]["joueur"] == 0:  # Si aucun joueur n'avait de pions sur la diagonale,
+                        if pions_avantageusements_places["diagbg"]["joueur"] == 0:  # Si aucun joueur n'avait de pions sur la diagonale,
                             # ie si c'est le premier pion trouvé sur la diagonale (donc que le joueur ayant déja des pions dessus était 0)
 
                             # Le joueur en cours devient celui dont on vient de trouver un pion, et son compteur passe à 1
-                            pions_gains_potentiels["diagbg"]["joueur"] = pion_en_cours
-                            pions_gains_potentiels["diagbg"]["compteur"] = 1
+                            pions_avantageusements_places["diagbg"]["joueur"] = pion_en_cours
+                            pions_avantageusements_places["diagbg"]["compteur"] = 1
 
-                        elif pion_en_cours == pions_gains_potentiels["diagbg"]["joueur"]:
+                        elif pion_en_cours == pions_avantageusements_places["diagbg"]["joueur"]:
                             # Si il y a un pion du joueur qui avait déja des pions sur cette la diagonale
                             # On l'ajoute au compteur de pions avantageux sur la diagonale
-                            pions_gains_potentiels["diagbg"]["compteur"] += 1
+                            pions_avantageusements_places["diagbg"]["compteur"] += 1
                         else:
                             # Si il y a un pion de son adversaire, on réinitialise le compteur à 0 car la diagonale est "inexploitable"
-                            pions_gains_potentiels["diagbg"]["compteur"] += 0
+                            pions_avantageusements_places["diagbg"]["compteur"] += 0
                             break  # Et on arrete de chercher sur les cases en diagonale vers le haut droite - les pions sont bloqués donc présentent pas d'interet
                     # Sinon, la case est vide, on ne change rien
 
                 else:  # Sinon, la coordonnée est invalide, les prochaines le seront donc aussi - on arrête la boucle
                     # De plus, si la coordonnée est invalide c'est qu'on se "prend un mur", donc tous les pions de cette ligne ne sont en fait pas avantageux
-                    pions_gains_potentiels["diaghg"]["compteur"] = 0  # On passe donc à 0 le nombre de pions potentiellement gagnants ici
+                    pions_avantageusements_places["diaghg"]["compteur"] = 0  # On passe donc à 0 le nombre de pions potentiellement gagnants ici
                     break
 
             # On compte le nombre de pions sur les 5 prochaines cases de la diagonale vers le bas à droite. diagbd, coord (i + dist, j + dist)
@@ -221,26 +222,26 @@ def heuristic_opti(state_grille: np.ndarray):
                     pion_en_cours = state_grille[i + dist][j + dist]  # Pion placé sur la case en cours
                     if pion_en_cours != 0:  # Si la case n'est pas vide
 
-                        if pions_gains_potentiels["diagbd"]["joueur"] == 0:  # Si aucun joueur n'avait de pions sur la diagonale,
+                        if pions_avantageusements_places["diagbd"]["joueur"] == 0:  # Si aucun joueur n'avait de pions sur la diagonale,
                             # ie si c'est le premier pion trouvé sur la diagonale (donc que le joueur ayant déja des pions dessus était 0)
 
                             # Le joueur en cours devient celui dont on vient de trouver un pion, et son compteur passe à 1
-                            pions_gains_potentiels["diagbd"]["joueur"] = pion_en_cours
-                            pions_gains_potentiels["diagbd"]["compteur"] = 1
+                            pions_avantageusements_places["diagbd"]["joueur"] = pion_en_cours
+                            pions_avantageusements_places["diagbd"]["compteur"] = 1
 
-                        elif pion_en_cours == pions_gains_potentiels["diagbd"]["joueur"]:
+                        elif pion_en_cours == pions_avantageusements_places["diagbd"]["joueur"]:
                             # Si il y a un pion du joueur qui avait déja des pions sur cette la diagonale
                             # On l'ajoute au compteur de pions avantageux sur la diagonale
-                            pions_gains_potentiels["diagbd"]["compteur"] += 1
+                            pions_avantageusements_places["diagbd"]["compteur"] += 1
                         else:
                             # Si il y a un pion de son adversaire, on réinitialise le compteur à 0 car la diagonale est "inexploitable"
-                            pions_gains_potentiels["diagbd"]["compteur"] += 0
+                            pions_avantageusements_places["diagbd"]["compteur"] += 0
                             break  # Et on arrete de chercher sur les cases en diagonale vers le haut droite - les pions sont bloqués donc présentent pas d'interet
                     # Sinon, la case est vide, on ne change rien
 
                 else:  # Sinon, la coordonnée est invalide, les prochaines le seront donc aussi - on arrête la boucle
                     # De plus, si la coordonnée est invalide c'est qu'on se "prend un mur", donc tous les pions de cette ligne ne sont en fait pas avantageux
-                    pions_gains_potentiels["diaghg"]["compteur"] = 0  # On passe donc à 0 le nombre de pions potentiellement gagnants ici
+                    pions_avantageusements_places["diaghg"]["compteur"] = 0  # On passe donc à 0 le nombre de pions potentiellement gagnants ici
                     break
 
             ##COLONNES
@@ -252,26 +253,26 @@ def heuristic_opti(state_grille: np.ndarray):
                     pion_en_cours = state_grille[i + dist][j]  # Pion placé sur la case en cours
                     if pion_en_cours != 0:  # Si la case n'est pas vide
 
-                        if pions_gains_potentiels["colbas"]["joueur"] == 0:  # Si aucun joueur n'avait de pions sur la diagonale,
+                        if pions_avantageusements_places["colbas"]["joueur"] == 0:  # Si aucun joueur n'avait de pions sur la diagonale,
                             # ie Si c'est le premier pion trouvé sur la diagonale (donc que le joueur ayant déja des pions dessus était 0)
 
                             # Le joueur en cours devient celui dont on vient de trouver un pion, et son compteur passe à 1
-                            pions_gains_potentiels["colbas"]["joueur"] = pion_en_cours
-                            pions_gains_potentiels["colbas"]["compteur"] = 1
+                            pions_avantageusements_places["colbas"]["joueur"] = pion_en_cours
+                            pions_avantageusements_places["colbas"]["compteur"] = 1
 
-                        elif pion_en_cours == pions_gains_potentiels["colbas"]["joueur"]:
+                        elif pion_en_cours == pions_avantageusements_places["colbas"]["joueur"]:
                             # Si il y a un pion du joueur qui avait déja des pions sur cette la diagonale
                             # On l'ajoute au compteur de pions avantageux sur la diagonale
-                            pions_gains_potentiels["colbas"]["compteur"] += 1
+                            pions_avantageusements_places["colbas"]["compteur"] += 1
                         else:
                             # Si il y a un pion de son adversaire, on réinitialise le compteur à 0 car la diagonale est "inexploitable"
-                            pions_gains_potentiels["colbas"]["compteur"] += 0
+                            pions_avantageusements_places["colbas"]["compteur"] += 0
                             break  # Et on arrete de chercher sur les cases en diagonale vers le haut droite - les pions sont bloqués donc présentent pas d'interet
                     # Sinon, la case est vide, on ne change rien
 
                 else:  # Sinon, la coordonnée est invalide, les prochaines le seront donc aussi - on arrête la boucle
                     # De plus, si la coordonnée est invalide c'est qu'on se "prend un mur", donc tous les pions de cette ligne ne sont en fait pas avantageux
-                    pions_gains_potentiels["diaghg"]["compteur"] = 0  # On passe donc à 0 le nombre de pions potentiellement gagnants ici
+                    pions_avantageusements_places["diaghg"]["compteur"] = 0  # On passe donc à 0 le nombre de pions potentiellement gagnants ici
                     break
 
             # On compte le nombre de pions sur les 5 prochaines cases de la colonne vers le haut. colhaut, coord (i - dist, j)
@@ -281,26 +282,26 @@ def heuristic_opti(state_grille: np.ndarray):
                     pion_en_cours = state_grille[i - dist][j]  # Pion placé sur la case en cours
                     if pion_en_cours != 0:  # Si la case n'est pas vide
 
-                        if pions_gains_potentiels["colhaut"]["joueur"] == 0:  # Si aucun joueur n'avait de pions sur la diagonale,
+                        if pions_avantageusements_places["colhaut"]["joueur"] == 0:  # Si aucun joueur n'avait de pions sur la diagonale,
                             # ie Si c'est le premier pion trouvé sur la diagonale (donc que le joueur ayant déja des pions dessus était 0)
 
                             # Le joueur en cours devient celui dont on vient de trouver un pion, et son compteur passe à 1
-                            pions_gains_potentiels["colhaut"]["joueur"] = pion_en_cours
-                            pions_gains_potentiels["colhaut"]["compteur"] = 1
+                            pions_avantageusements_places["colhaut"]["joueur"] = pion_en_cours
+                            pions_avantageusements_places["colhaut"]["compteur"] = 1
 
-                        elif pion_en_cours == pions_gains_potentiels["colhaut"]["joueur"]:
+                        elif pion_en_cours == pions_avantageusements_places["colhaut"]["joueur"]:
                             # Si il y a un pion du joueur qui avait déja des pions sur cette la diagonale
                             # On l'ajoute au compteur de pions avantageux sur la diagonale
-                            pions_gains_potentiels["colhaut"]["compteur"] += 1
+                            pions_avantageusements_places["colhaut"]["compteur"] += 1
                         else:
                             # Si il y a un pion de son adversaire, on réinitialise le compteur à 0 car la diagonale est "inexploitable"
-                            pions_gains_potentiels["colhaut"]["compteur"] += 0
+                            pions_avantageusements_places["colhaut"]["compteur"] += 0
                             break  # Et on arrete de chercher sur les cases en diagonale vers le haut droite - les pions sont bloqués donc présentent pas d'interet
                     # Sinon, la case est vide, on ne change rien
 
                 else:  # Sinon, la coordonnée est invalide, les prochaines le seront donc aussi - on arrête la boucle
                     # De plus, si la coordonnée est invalide c'est qu'on se "prend un mur", donc tous les pions de cette ligne ne sont en fait pas avantageux
-                    pions_gains_potentiels["diaghg"]["compteur"] = 0  # On passe donc à 0 le nombre de pions potentiellement gagnants ici
+                    pions_avantageusements_places["diaghg"]["compteur"] = 0  # On passe donc à 0 le nombre de pions potentiellement gagnants ici
                     break
 
             ##LIGNES
@@ -312,26 +313,26 @@ def heuristic_opti(state_grille: np.ndarray):
                     pion_en_cours = state_grille[i][j - dist]  # Pion placé sur la case en cours
                     if pion_en_cours != 0:  # Si la case n'est pas vide
 
-                        if pions_gains_potentiels["ligneg"]["joueur"] == 0:  # Si aucun joueur n'avait de pions sur la diagonale,
+                        if pions_avantageusements_places["ligneg"]["joueur"] == 0:  # Si aucun joueur n'avait de pions sur la diagonale,
                             # ie Si c'est le premier pion trouvé sur la diagonale (donc que le joueur ayant déja des pions dessus était 0)
 
                             # Le joueur en cours devient celui dont on vient de trouver un pion, et son compteur passe à 1
-                            pions_gains_potentiels["ligneg"]["joueur"] = pion_en_cours
-                            pions_gains_potentiels["ligneg"]["compteur"] = 1
+                            pions_avantageusements_places["ligneg"]["joueur"] = pion_en_cours
+                            pions_avantageusements_places["ligneg"]["compteur"] = 1
 
-                        elif pion_en_cours == pions_gains_potentiels["ligneg"]["joueur"]:
+                        elif pion_en_cours == pions_avantageusements_places["ligneg"]["joueur"]:
                             # Si il y a un pion du joueur qui avait déja des pions sur cette la diagonale
                             # On l'ajoute au compteur de pions avantageux sur la diagonale
-                            pions_gains_potentiels["ligneg"]["compteur"] += 1
+                            pions_avantageusements_places["ligneg"]["compteur"] += 1
                         else:
                             # Si il y a un pion de son adversaire, on réinitialise le compteur à 0 car la diagonale est "inexploitable"
-                            pions_gains_potentiels["ligneg"]["compteur"] += 0
+                            pions_avantageusements_places["ligneg"]["compteur"] += 0
                             break  # Et on arrete de chercher sur les cases en diagonale vers le haut droite - les pions sont bloqués donc présentent pas d'interet
                     # Sinon, la case est vide, on ne change rien
 
                 else:  # Sinon, la coordonnée est invalide, les prochaines le seront donc aussi - on arrête la boucle
                     # De plus, si la coordonnée est invalide c'est qu'on se "prend un mur", donc tous les pions de cette ligne ne sont en fait pas avantageux
-                    pions_gains_potentiels["diaghg"]["compteur"] = 0  # On passe donc à 0 le nombre de pions potentiellement gagnants ici
+                    pions_avantageusements_places["diaghg"]["compteur"] = 0  # On passe donc à 0 le nombre de pions potentiellement gagnants ici
                     break
 
             # On compte le nombre de pions sur les 5 prochaines cases de la ligne vers la droite. ligned, coord (i, j+dist)
@@ -341,26 +342,26 @@ def heuristic_opti(state_grille: np.ndarray):
                     pion_en_cours = state_grille[i][j + dist]  # Pion placé sur la case en cours
                     if pion_en_cours != 0:  # Si la case n'est pas vide
 
-                        if pions_gains_potentiels["ligned"]["joueur"] == 0:  # Si aucun joueur n'avait de pions sur la diagonale,
+                        if pions_avantageusements_places["ligned"]["joueur"] == 0:  # Si aucun joueur n'avait de pions sur la diagonale,
                             # ie Si c'est le premier pion trouvé sur la diagonale (donc que le joueur ayant déja des pions dessus était 0)
 
                             # Le joueur en cours devient celui dont on vient de trouver un pion, et son compteur passe à 1
-                            pions_gains_potentiels["ligned"]["joueur"] = pion_en_cours
-                            pions_gains_potentiels["ligned"]["compteur"] = 1
+                            pions_avantageusements_places["ligned"]["joueur"] = pion_en_cours
+                            pions_avantageusements_places["ligned"]["compteur"] = 1
 
-                        elif pion_en_cours == pions_gains_potentiels["ligned"]["joueur"]:
+                        elif pion_en_cours == pions_avantageusements_places["ligned"]["joueur"]:
                             # Si il y a un pion du joueur qui avait déja des pions sur cette la diagonale
                             # On l'ajoute au compteur de pions avantageux sur la diagonale
-                            pions_gains_potentiels["ligned"]["compteur"] += 1
+                            pions_avantageusements_places["ligned"]["compteur"] += 1
                         else:
                             # Si il y a un pion de son adversaire, on réinitialise le compteur à 0 car la diagonale est "inexploitable"
-                            pions_gains_potentiels["ligned"]["compteur"] += 0
+                            pions_avantageusements_places["ligned"]["compteur"] += 0
                             break  # Et on arrete de chercher sur les cases en diagonale vers le haut droite - les pions sont bloqués donc présentent pas d'interet
                     # Sinon, la case est vide, on ne change rien
 
                 else:  # Sinon, la coordonnée est invalide, les prochaines le seront donc aussi - on arrête la boucle
                     # De plus, si la coordonnée est invalide c'est qu'on se "prend un mur", donc tous les pions de cette ligne ne sont en fait pas avantageux
-                    pions_gains_potentiels["diaghg"]["compteur"] = 0  # On passe donc à 0 le nombre de pions potentiellement gagnants ici
+                    pions_avantageusements_places["diaghg"]["compteur"] = 0  # On passe donc à 0 le nombre de pions potentiellement gagnants ici
                     break
 
             total_pions_gains_potentiels_case_IA = 0  # Total des pions avantageusement placés autours de cette case
@@ -369,7 +370,7 @@ def heuristic_opti(state_grille: np.ndarray):
             # Maintenant qu'on a fini de compter les pions potentiellement avantageux sur lignes colonnes diagonales,
             # On les ajoute au compteur total du joueur en question
 
-            for sens in pions_gains_potentiels.values():
+            for sens in pions_avantageusements_places.values():
                 if sens["joueur"] == IA_char:
                     total_pions_gains_potentiels_case_IA += sens["compteur"]
                 else:
