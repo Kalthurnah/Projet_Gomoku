@@ -95,15 +95,29 @@ def terminal_test(state_grille: np.ndarray):
 def heuristic_opti(state_grille: np.ndarray):
     """
     Fournit une heuristique évaluant approximativement l'état de la grille pour le Gomoku
-    Ici, on récupère le nombre de pions avantageux par case et par joueur
+    Ici, on récupère le maximum entre chaque case du nombre de pions avantageux autour de cette case, par joueur
     c'est à dire le nombre de pions sur une ligne, colonne ou diagonale de 5 cases autour d'une case, qui ne sont pas bloqués par l'adversaire.
+    maximum
 
     :param state_grille:  état de la grille
-    :return: Entier entre -infini et +infini exclus représentant le gain approximatif de la grille (son intêret, donc)
+    :return: Entier entre -infini et +infini exclus représentant le gain approximatif de la grille (son intêret, donc).
+    Ici, il s'agit du maximum de pions avantageux de l'IA - le maximum de pions avantageux du joueur
     """
 
     max_pions_gains_potentiels_user = 0  # Max des pions avantageux pour l'IA autouR d'une case, initialisé à 0
     max_pions_gains_potentiels_IA = 0
+
+    # On initialise les compteur de pions potentiellements gagnants dans tous les sens, à 0, ainsi que le joueur concerné par ce compteur.
+    pions_avantageusements_places = {"colhaut": {"joueur": 0, "compteur": 0},
+                                     "colbas": {"joueur": 0, "compteur": 0},
+                                     "ligned": {"joueur": 0, "compteur": 0},
+                                     "ligneg": {"joueur": 0, "compteur": 0},
+                                     "diaghd": {"joueur": 0, "compteur": 0},
+                                     "diaghg": {"joueur": 0, "compteur": 0},
+                                     "diagbd": {"joueur": 0, "compteur": 0},
+                                     "diagbg": {"joueur": 0, "compteur": 0}}
+
+    # On a donc un dictionnaire contenant pour chaque "sens" de gain possible, le nombre de pions qui s'y trouvent déja.
 
     rayon = 5  # Rayon de test au dela duquel on arrete de compter les pions non bloqués.
 
@@ -113,18 +127,10 @@ def heuristic_opti(state_grille: np.ndarray):
 
             joueur_case = state_grille[i][j]  # Le joueur dont le pion est sur la case parcourue, ou 0 si la case est vide
 
-            # On initialise les compteur de pions potentiellements gagnants dans tous les sens, à 0.
             # Le joueur concerné par ces pions avantageux est celui dont le pion est déja présent, s'il y en a un
-            pions_avantageusements_places = {"colhaut": {"joueur": joueur_case, "compteur": 0},
-                                             "colbas": {"joueur": joueur_case, "compteur": 0},
-                                             "ligned": {"joueur": joueur_case, "compteur": 0},
-                                             "ligneg": {"joueur": joueur_case, "compteur": 0},
-                                             "diaghd": {"joueur": joueur_case, "compteur": 0},
-                                             "diaghg": {"joueur": joueur_case, "compteur": 0},
-                                             "diagbd": {"joueur": joueur_case, "compteur": 0},
-                                             "diagbg": {"joueur": joueur_case, "compteur": 0}}
-
-            # On a donc un dictionnaire contenant pour chaque "sens" de gain possible, le nombre de pions qui s'y trouvent déja.
+            if joueur_case != 0:
+                for sens in pions_avantageusements_places.values():
+                    sens["joueur"] = joueur_case
 
             ##DIAGONALES
 
