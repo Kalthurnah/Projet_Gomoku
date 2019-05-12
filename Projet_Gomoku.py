@@ -96,8 +96,7 @@ def heuristic_opti(state_grille: np.ndarray):
     """
     Fournit une heuristique évaluant approximativement l'état de la grille pour le Gomoku
     Ici, on récupère le maximum entre chaque case du nombre de pions avantageux autour de cette case, par joueur
-    c'est à dire le nombre de pions sur une ligne, colonne ou diagonale de 5 cases autour d'une case, qui ne sont pas bloqués par l'adversaire.
-    maximum
+    c'est à dire le maximum de la somme des nombre de pions sur une ligne, colonne ou diagonale de 4 cases autour d'une case, qui ne sont pas bloqués par l'adversaire.
 
     :param state_grille:  état de la grille
     :return: Entier entre -infini et +infini exclus représentant le gain approximatif de la grille (son intêret, donc).
