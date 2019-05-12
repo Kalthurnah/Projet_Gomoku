@@ -389,7 +389,7 @@ def heuristic_opti(state_grille: np.ndarray):
                     total_pions_gains_potentiels_case_IA += sens["compteur"]
                 else:
                     total_pions_gains_potentiels_case_user += sens["compteur"]
-                # Maintenant qu'on a récupéré la valeur, on réinitialise le compteur
+                # Maintenant qu'on a récupéré la valeur, on réinitialise le compteur et son joueur associé
                 sens["compteur"] = 0
                 sens["joueur"] = 0
 
