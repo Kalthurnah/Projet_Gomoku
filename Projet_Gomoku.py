@@ -359,7 +359,7 @@ def heuristic_opti(state_grille: np.ndarray):
                 else:
                     total_pions_gains_potentiels_case_user += sens["compteur"]
 
-            #Et on stocke le maximum des pions avantageusement placés obtenus.
+            # Et on stocke le maximum des pions avantageusement placés obtenus.
             max_pions_gains_potentiels_IA = max(max_pions_gains_potentiels_IA, total_pions_gains_potentiels_case_IA)
             max_pions_gains_potentiels_user = max(max_pions_gains_potentiels_user, total_pions_gains_potentiels_case_user)
 
@@ -768,7 +768,7 @@ def charger_minimax():
     # On affecte les fonctions spécifiques au jeu pour qu'elles soient utilisées par notre minimax modulable
     minimax_modulable.actions = actions_opti
     minimax_modulable.terminal_test = terminal_test
-    minimax_modulable.heuristic = heuristic
+    minimax_modulable.heuristic = heuristic_opti
 
 
 if __name__ == '__main__':
