@@ -152,6 +152,8 @@ def heuristic_opti(state_grille: np.ndarray):
                     # Sinon, la case est vide, on ne change rien
 
                 else:  # Sinon, la coordonnée est invalide, les prochaines le seront donc aussi - on arrête la boucle
+                    # De plus, si la coordonnée est invalide c'est qu'on se "prend un mur", donc tous les pions de cette ligne ne sont en fait pas avantageux
+                    pions_gains_potentiels["diaghg"]["compteur"] = 0#On passe donc à 0 le nombre de pions potentiellement gagnants ici
                     break
 
             # On compte le nombre de pions sur les 5 prochaines cases de la diagonale vers le haut à droite. diaghd,coord (i - dist, j + dist)
@@ -179,6 +181,8 @@ def heuristic_opti(state_grille: np.ndarray):
                     # Sinon, la case est vide, on ne change rien
 
                 else:  # Sinon, la coordonnée est invalide, les prochaines le seront donc aussi - on arrête la boucle
+                    # De plus, si la coordonnée est invalide c'est qu'on se "prend un mur", donc tous les pions de cette ligne ne sont en fait pas avantageux
+                    pions_gains_potentiels["diaghg"]["compteur"] = 0  # On passe donc à 0 le nombre de pions potentiellement gagnants ici
                     break
 
             # On compte le nombre de pions sur les 5 prochaines cases de la diagonale vers le bas à gauche. diagbg, coord (i + dist, j - dist)
@@ -206,6 +210,8 @@ def heuristic_opti(state_grille: np.ndarray):
                     # Sinon, la case est vide, on ne change rien
 
                 else:  # Sinon, la coordonnée est invalide, les prochaines le seront donc aussi - on arrête la boucle
+                    # De plus, si la coordonnée est invalide c'est qu'on se "prend un mur", donc tous les pions de cette ligne ne sont en fait pas avantageux
+                    pions_gains_potentiels["diaghg"]["compteur"] = 0  # On passe donc à 0 le nombre de pions potentiellement gagnants ici
                     break
 
             # On compte le nombre de pions sur les 5 prochaines cases de la diagonale vers le bas à droite. diagbd, coord (i + dist, j + dist)
@@ -233,6 +239,8 @@ def heuristic_opti(state_grille: np.ndarray):
                     # Sinon, la case est vide, on ne change rien
 
                 else:  # Sinon, la coordonnée est invalide, les prochaines le seront donc aussi - on arrête la boucle
+                    # De plus, si la coordonnée est invalide c'est qu'on se "prend un mur", donc tous les pions de cette ligne ne sont en fait pas avantageux
+                    pions_gains_potentiels["diaghg"]["compteur"] = 0  # On passe donc à 0 le nombre de pions potentiellement gagnants ici
                     break
 
             ##COLONNES
@@ -262,6 +270,8 @@ def heuristic_opti(state_grille: np.ndarray):
                     # Sinon, la case est vide, on ne change rien
 
                 else:  # Sinon, la coordonnée est invalide, les prochaines le seront donc aussi - on arrête la boucle
+                    # De plus, si la coordonnée est invalide c'est qu'on se "prend un mur", donc tous les pions de cette ligne ne sont en fait pas avantageux
+                    pions_gains_potentiels["diaghg"]["compteur"] = 0  # On passe donc à 0 le nombre de pions potentiellement gagnants ici
                     break
 
             # On compte le nombre de pions sur les 5 prochaines cases de la colonne vers le haut. colhaut, coord (i - dist, j)
@@ -289,6 +299,8 @@ def heuristic_opti(state_grille: np.ndarray):
                     # Sinon, la case est vide, on ne change rien
 
                 else:  # Sinon, la coordonnée est invalide, les prochaines le seront donc aussi - on arrête la boucle
+                    # De plus, si la coordonnée est invalide c'est qu'on se "prend un mur", donc tous les pions de cette ligne ne sont en fait pas avantageux
+                    pions_gains_potentiels["diaghg"]["compteur"] = 0  # On passe donc à 0 le nombre de pions potentiellement gagnants ici
                     break
 
             ##LIGNES
@@ -318,6 +330,8 @@ def heuristic_opti(state_grille: np.ndarray):
                     # Sinon, la case est vide, on ne change rien
 
                 else:  # Sinon, la coordonnée est invalide, les prochaines le seront donc aussi - on arrête la boucle
+                    # De plus, si la coordonnée est invalide c'est qu'on se "prend un mur", donc tous les pions de cette ligne ne sont en fait pas avantageux
+                    pions_gains_potentiels["diaghg"]["compteur"] = 0  # On passe donc à 0 le nombre de pions potentiellement gagnants ici
                     break
 
             # On compte le nombre de pions sur les 5 prochaines cases de la ligne vers la droite. ligned, coord (i, j+dist)
@@ -345,6 +359,8 @@ def heuristic_opti(state_grille: np.ndarray):
                     # Sinon, la case est vide, on ne change rien
 
                 else:  # Sinon, la coordonnée est invalide, les prochaines le seront donc aussi - on arrête la boucle
+                    # De plus, si la coordonnée est invalide c'est qu'on se "prend un mur", donc tous les pions de cette ligne ne sont en fait pas avantageux
+                    pions_gains_potentiels["diaghg"]["compteur"] = 0  # On passe donc à 0 le nombre de pions potentiellement gagnants ici
                     break
 
             total_pions_gains_potentiels_case_IA = 0  # Total des pions avantageusement placés autours de cette case
@@ -464,7 +480,7 @@ def afficher_plateau(grille: np.ndarray):
     :param grille: matrice du plateau à afficher
     """
     # On commence par afficher les numéros des colonnes
-    print(' ', end='')
+    print('   ', end='')
     for k in range(1, 16):
         if k < 10:  # On espace les chiffres plus que les nombres, pour qu'ils soient correctement placés au dessus de la grille
             # Le end='' permet de ne pas faire de retour à la ligne avant un print vide
