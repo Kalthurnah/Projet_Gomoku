@@ -12,19 +12,16 @@ user_char = None
 IA_char = None
 
 
-
 def actions_opti(state_grille: np.ndarray, tour: int, rayon=3):
     """
     Retourne les actions possibles d'un joueur à une grille de jeu, pour le Gomoku, en ne prenant en compte que les cas les plus probables,
     c'est à dire les cases comportant un pion dans un rayon donné aux alentours
-
 
     :param state_grille: grille du jeu
     :param rayon: rayon dans lequel on doit trouver des pions autour d'une case pour qu'elle soit jugée probable d'être jouée
     :param tour: numero du tour actuel
     :return: actions possibles du joueur
     """
-
 
     actions_possibles = []
 
@@ -383,12 +380,13 @@ def heuristic_opti(state_grille: np.ndarray):
                 if sens["joueur"] == IA_char:
                     total_pions_gains_potentiels_IA += sens["compteur"] ** 3
                 else:
-                    total_pions_gains_potentiels_user += sens["compteur"] **3
+                    total_pions_gains_potentiels_user += sens["compteur"] ** 3
                 # Maintenant qu'on a récupéré la valeur, on réinitialise le compteur et son joueur associé
                 sens["compteur"] = 0
                 sens["joueur"] = 0
 
-    return total_pions_gains_potentiels_IA-total_pions_gains_potentiels_user
+    return total_pions_gains_potentiels_IA - total_pions_gains_potentiels_user
+
 
 def heuristic(state_grille: np.ndarray):
     """
@@ -543,16 +541,13 @@ def conversion_pos_coord(position: str):
     return (ligne, colonne)
 
 
-
 def conversion_coord_pos(coordonnees: (int, int)):
     """
     Fonction qui pour un tuple de coordonnées retourne une position lisible
 
     :param coordonnees: tuple de coordonnées sous la forme (0,3)
     :return: chaine lisible sous la forme "A4"
-
     """
-    
     coord1 = str(0)
     coord2 = 0
 
@@ -710,7 +705,7 @@ def Gomoku():
     Fonction principale du jeu de Gomoku
 
     """
-    
+
     print("Bienvenue. Pour gagner, il faut réussir à aligner 5 pions. Bonne chance 😏 !")
 
     print("Au premier tour, il n'est possible de jouer qu'au centre H8 - le 1er joueur voit donc son pion placé de force")
