@@ -42,7 +42,7 @@ def actions_opti(state_grille: np.ndarray, tour: int, rayon=3):
                 if state_grille[i][j] != 0:  # Si un pion est dans cette case
                     # On ajoute toutes les cases jouables dans un rayon de 4 cases autour de lui aux actions possibles,
                     # Ligne : On prend un intervalle de valeurs entre i-rayon et i+rayon inclus, en excluant les valeurs hors de la grille
-                    for dist in (0, rayon):
+                    for dist in range(0, rayon):
                         # coordonnées des points à cette distance du point i,j en diagonale
                         coordonneesretenues += [(i - dist, j - dist), (i - dist, j + dist), (i + dist, j - dist), (i + dist, j + dist)]
                         # coordonnées des points à cette distance du point i,j en colonne et ligne
@@ -123,7 +123,8 @@ def heuristic(state_grille: np.ndarray):
                 compteur_pions_gains_potentiels_diagbd = 1
                 # On compte toutes les cases dans un rayon de 4 cases autour de lui
                 # Ligne : On prend un intervalle de valeurs entre i-rayon et i+rayon inclus, en excluant les valeurs hors de la grille
-                for dist in (1, rayon):  # On compte le nombre de pions sur les 5 prochaines cases de la diagonale vers le haut à droite
+                for dist in range(1,
+                                  rayon):  # On compte le nombre de pions sur les 5 prochaines cases de la diagonale vers le haut à droite
                     if i - dist >= 0 and j + dist < 15:  # Si la coordonnées est valide
                         if state_grille[i - dist][j + dist] == joueur_case:
                             # Si il y a un pion du joueur, on l'ajoute au compteur,
@@ -133,7 +134,7 @@ def heuristic(state_grille: np.ndarray):
                             compteur_pions_gains_potentiels_diaghd = 0
                             break  # Et on arrete de chercher cette diagonale
 
-                for dist in (1, rayon):
+                for dist in range(1, rayon):
                     # De meme, sur la diagonale bas droite
                     if i + dist < 15 and j + dist < 15:  # Si la coordonnées est valide
                         if state_grille[i + dist][j + dist] == joueur_case:
@@ -142,7 +143,7 @@ def heuristic(state_grille: np.ndarray):
                             compteur_pions_gains_potentiels_diagbd = 0
                             break
 
-                for dist in (1, rayon):
+                for dist in range(1, rayon):
                     # De meme, sur la colonne descendante
                     if i + dist < 15:  # Si la coordonnées est valide
                         if state_grille[i + dist][j] == joueur_case:
@@ -151,7 +152,7 @@ def heuristic(state_grille: np.ndarray):
                             compteur_pions_gains_potentiels_col = 0
                             break
 
-                for dist in (1, rayon):
+                for dist in range(1, rayon):
                     # De meme, sur la ligne vers la droite
                     if j + dist < 15:  # Si la coordonnées est valide
                         if state_grille[i][j + dist] == joueur_case:
