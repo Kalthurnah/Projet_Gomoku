@@ -384,7 +384,7 @@ def heuristic_opti(state_grille: np.ndarray):
 
             for sens in pions_avantageusements_places.values():
                 if sens["joueur"] == IA_char:
-                    max_pions_gains_potentiels_case_IA += max(max_pions_gains_potentiels_case_IA, sens["compteur"] ** 2)
+                    max_pions_gains_potentiels_case_IA += max(max_pions_gains_potentiels_case_IA, sens["compteur"] ** 2) #La valeur est passée au carré pour que plus il y ait de pions avantageux sur une même ligne/col/diag, plus l'utilité obtenue s'en voit augmentée
                 else:
                     max_pions_gains_potentiels_case_user += max(max_pions_gains_potentiels_case_user, sens["compteur"] ** 2)
                 # Maintenant qu'on a récupéré la valeur, on réinitialise le compteur et son joueur associé
