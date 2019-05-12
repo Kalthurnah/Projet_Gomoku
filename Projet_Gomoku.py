@@ -378,14 +378,15 @@ def verif_tour3(grille: np.ndarray, coordonnees: (int, int)):
     return res
 
 
-def verif_coordonnees_valides(coordonnees):
+def verif_validite_coordonnees(coordonnees):
     """
     Indique si un tuple de coordonnées et valide (ie dans la grille) ou pas
 
     :param coordonnees: coordonnées à verifier
     :return: booléen vrai si les coordonnées sont valides
     """
-    return coordonnees[0] < 0 or coordonnees[0] > 14 or coordonnees[1] < 0 or coordonnees[1] > 14
+    # Les coordonnées sont valides si elles sont entre 0 et 14 inclus, puisque la grille est 15x15
+    return coordonnees[0] >= 0 and coordonnees[0] <= 14 and coordonnees[1] >= 0 and coordonnees[1] <= 14
 
 
 def verif_validite_action(grille: np.ndarray, coordonnees: (int, int), tour: int = 0):
@@ -399,7 +400,7 @@ def verif_validite_action(grille: np.ndarray, coordonnees: (int, int), tour: int
     """
 
     # Booléen indiquant si les conditions de validité sont respectées : Donc si les coordonnées sont valides et qu'il n'y a pas de pion ici
-    validite_action = verif_coordonnees_valides(coordonnees) and grille[coordonnees[0]][coordonnees[1]] == 0  #
+    validite_action = verif_validite_coordonnees(coordonnees) and grille[coordonnees[0]][coordonnees[1]] == 0
 
     # Le premier tour est géré en dur dans le jeu, puisque le joueur n'a qu'un choix.
     if tour == 3:  # Si on est au tour 3 on vérifie également la validité conformément au règles du tour 3

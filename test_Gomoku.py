@@ -168,6 +168,15 @@ def test_demander_couleur(monkeypatch, entree_utilisateur, resultat_attendu):
     assert demander_couleur() == resultat_attendu
 
 
+liste_validite_coord = [((-1, 0), False), ((-1, -1), False), ((0, -1), False), ((1, 0), True), ((12, 10), True), ((15, 0), False),
+                        ((0, 15), False), ]
+
+
+@pytest.mark.parametrize('coord,validite', liste_validite_coord)
+def test_verif_validite_coord(coord, validite):
+    assert verif_validite_coordonnees(coord) == validite
+
+
 def test_creation_plateau():
     assert np.all(creation_plateau() == 0)
 
