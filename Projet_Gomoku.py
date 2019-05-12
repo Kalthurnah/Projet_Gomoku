@@ -122,10 +122,10 @@ def heuristic(state_grille: np.ndarray):
                 compteur_pions_gains_potentiels_diaghd = 1
                 compteur_pions_gains_potentiels_diagbd = 1
                 # On compte toutes les cases dans un rayon de 4 cases autour de lui
-                
-                # Ligne : On prend un intervalle de valeurs entre i-rayon et i+rayon inclus, en excluant les valeurs hors de la grille
-                for dist in range(1,rayon):  # On compte le nombre de pions sur les 5 prochaines cases de la diagonale vers le haut à droite
 
+                # Ligne : On prend un intervalle de valeurs entre i-rayon et i+rayon inclus, en excluant les valeurs hors de la grille
+                for dist in range(1, rayon):
+                    # On compte le nombre de pions sur les 5 prochaines cases de la diagonale vers le haut à droite
                     if i - dist >= 0 and j + dist < 15:  # Si la coordonnées est valide
                         if state_grille[i - dist][j + dist] == joueur_case:
                             # Si il y a un pion du joueur, on l'ajoute au compteur,
@@ -140,7 +140,7 @@ def heuristic(state_grille: np.ndarray):
                     if i + dist < 15 and j + dist < 15:  # Si la coordonnées est valide
                         if state_grille[i + dist][j + dist] == joueur_case:
                             compteur_pions_gains_potentiels_diagbd += 1
-                        elif state_grille[i + dist][j+dist] != 0:
+                        elif state_grille[i + dist][j + dist] != 0:
                             compteur_pions_gains_potentiels_diagbd = 0
                             break
 
