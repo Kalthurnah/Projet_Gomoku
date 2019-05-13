@@ -87,15 +87,16 @@ def terminal_test(state_grille: np.ndarray):
     return -1
 
 
-def heuristic_opti(state_grille: np.ndarray):
+def heuristic(state_grille: np.ndarray):
     """
     Fournit une heuristique évaluant approximativement l'état de la grille pour le Gomoku
-    Ici, on récupère la somme des maximums entre chaque case du nombre de pions avantageux autour de cette case, par joueur
-    c'est à dire la somme des maximums des nombres de pions sur une ligne, colonne ou diagonale de 4 cases autour d'une case, qui ne sont pas bloqués par l'adversaire.
+    Ici, on récupère la somme du nombre de pions avantageux autour de chaque case, par joueur
+    c'est à dire la somme des nombres de pions (puissance 3) sur une ligne, colonne ou diagonale de 4 cases autour d'une case, qui ne sont pas bloqués par l'adversaire.
+    (On les mets à la puissance 3 pour que plus il y ait de pions alignés dans un même sens, plus ils sont importants pour l'heuristique)
 
     :param state_grille:  état de la grille
     :return: Entier entre -infini et +infini exclus représentant le gain approximatif de la grille (son intêret, donc).
-    Ici, il s'agit du maximum de pions avantageux de l'IA - le maximum de pions avantageux du joueur
+    Ici, il s'agit du nombre de pions avantageux de l'IA - le nombre de pions avantageux du joueur
     """
 
     total_pions_gains_potentiels_user = 0  # Total des pions avantageux pour l'IA autouR d'une case, initialisé à 0
@@ -386,87 +387,6 @@ def heuristic_opti(state_grille: np.ndarray):
                 # Maintenant qu'on a récupéré la valeur, on réinitialise le compteur et son joueur associé
                 sens["compteur"] = 0
                 sens["joueur"] = 0
-
-    return total_pions_gains_potentiels_IA - total_pions_gains_potentiels_user
-
-
-def heuristic(state_grille: np.ndarray):
-    """
-    Fournit une heuristique évaluant approximativement l'état de la grille pour le Gomoku
-    Ici, on compte le nombre de pions avantageux par joueur, c'est à dire le nombre de pions sur une ligne, colonne ou diagonale de 5 cases,
-    qui ne sont pas bloqués par l'adversaire.
-
-    :param state_grille:  état de la grille
-    :return: Entier entre -infini et +infini exclus représentant le gain approximatif de la grille (son intêret, donc)
-    """
-
-    total_pions_gains_potentiels_IA = 0  # Total des pions avantageux pour l'IA, initialisé à 0
-    total_pions_gains_potentiels_user = 0
-
-    rayon = 5  # Rayon de test au dela duquel on arrete de compter les pions non bloqués.
-
-    for i in range(0, 11):
-        for j in range(0, 11):
-            # On parcourt la grille de gauche à droite puis de bas en haut.
-            # Il ne suffit donc de verifier que les 5 cases sur les lignes vers la droite, colonnes vers le bas, et diagonales vers la droite
-
-            joueur_case = state_grille[i][j]  # Le joueur dont le pion est sur la case parcourue, ou 0 si la case est vide
-            if joueur_case != 0:  # Si un pion est dans cette case
-
-                # On initialise les compteur de pions potentiellements gagnants dans tous les sens
-
-                compteur_pions_gains_potentiels_ligne = 1
-                compteur_pions_gains_potentiels_col = 1
-                compteur_pions_gains_potentiels_diaghd = 1
-                compteur_pions_gains_potentiels_diagbd = 1
-                # On compte toutes les cases dans un rayon de 4 cases autour de lui
-
-                # Ligne : On prend un intervalle de valeurs entre i-rayon et i+rayon inclus, en excluant les valeurs hors de la grille
-                for dist in range(1, rayon):
-                    # On compte le nombre de pions sur les 5 prochaines cases de la diagonale vers le haut à droite
-                    if i - dist >= 0 and j + dist < 15:  # Si la coordonnées est valide
-                        if state_grille[i - dist][j + dist] == joueur_case:
-                            # Si il y a un pion du joueur, on l'ajoute au compteur,
-                            compteur_pions_gains_potentiels_diaghd += 1
-                        elif state_grille[i - dist][j + dist] != 0:
-                            # Si il y a un pion de son adversaire, on réinitialise le compteur à 0 car la diagonale est "inexploitable"
-                            compteur_pions_gains_potentiels_diaghd = 0
-                            break  # Et on arrete de chercher cette diagonale
-
-                for dist in range(1, rayon):
-                    # De meme, sur la diagonale bas droite
-                    if i + dist < 15 and j + dist < 15:  # Si la coordonnées est valide
-                        if state_grille[i + dist][j + dist] == joueur_case:
-                            compteur_pions_gains_potentiels_diagbd += 1
-                        elif state_grille[i + dist][j + dist] != 0:
-                            compteur_pions_gains_potentiels_diagbd = 0
-                            break
-
-                for dist in range(1, rayon):
-                    # De meme, sur la colonne descendante
-                    if i + dist < 15:  # Si la coordonnées est valide
-                        if state_grille[i + dist][j] == joueur_case:
-                            compteur_pions_gains_potentiels_col += 1
-                        elif state_grille[i + dist][j] != 0:
-                            compteur_pions_gains_potentiels_col = 0
-                            break
-
-                for dist in range(1, rayon):
-                    # De meme, sur la ligne vers la droite
-                    if j + dist < 15:  # Si la coordonnées est valide
-                        if state_grille[i][j + dist] == joueur_case:
-                            compteur_pions_gains_potentiels_ligne += 1
-                        elif state_grille[i][j + dist]:
-                            compteur_pions_gains_potentiels_ligne = 0
-                            break
-
-                # Maintenant qu'on a fini de compter les pions potentiellement avantageux sur lignes colonnes diagonales, on les ajoute au compteur total de l'utilisateur
-                if joueur_case == IA_char:
-                    total_pions_gains_potentiels_IA += compteur_pions_gains_potentiels_ligne + compteur_pions_gains_potentiels_col + compteur_pions_gains_potentiels_diagbd + compteur_pions_gains_potentiels_diaghd
-                else:
-                    total_pions_gains_potentiels_user += compteur_pions_gains_potentiels_ligne + compteur_pions_gains_potentiels_col + compteur_pions_gains_potentiels_diagbd + compteur_pions_gains_potentiels_diaghd
-
-            # Si pas de pion sur cette case, on continue
 
     return total_pions_gains_potentiels_IA - total_pions_gains_potentiels_user
 
@@ -768,7 +688,7 @@ def charger_minimax():
     # On affecte les fonctions spécifiques au jeu pour qu'elles soient utilisées par notre minimax modulable
     minimax_modulable.actions = actions_opti
     minimax_modulable.terminal_test = terminal_test
-    minimax_modulable.heuristic = heuristic_opti
+    minimax_modulable.heuristic = heuristic
 
 
 if __name__ == '__main__':
