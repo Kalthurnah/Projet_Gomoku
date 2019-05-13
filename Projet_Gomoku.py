@@ -12,7 +12,7 @@ user_char = None
 IA_char = None
 
 
-def actions_opti(state_grille: np.ndarray, tour: int, rayon=3):
+def actions(state_grille: np.ndarray, tour: int, rayon=3):
     """
     Retourne les actions possibles d'un joueur à une grille de jeu, pour le Gomoku, en ne prenant en compte que les cas les plus probables,
     c'est à dire les cases comportant un pion dans un rayon donné aux alentours
@@ -48,25 +48,6 @@ def actions_opti(state_grille: np.ndarray, tour: int, rayon=3):
                             if verif_validite_action(state_grille, coordonnee, tour) and coordonnee not in actions_possibles:
                                 actions_possibles.append(coordonnee)
                                 # Si la coordonnées n'est pas déja dans la liste et est jouable, on la marque comme une action possible
-    return actions_possibles
-
-
-def actions(state_grille: np.ndarray, tour: int):
-    """
-    Retourne les actions possibles d'un joueur à une grille de jeu, pour le Gomoku
-
-    :param state_grille: grille du jeu
-    :param tour: numero du tour actuel
-    :return: actions possibles du joueur
-    """
-
-    actions_possibles = []
-    for i in range(0, 15):
-        for j in range(0, 15):
-            # Pour chaque case du jeu, si l'action est valide, on l'ajoute aux actions possibles
-            if verif_validite_action(state_grille, (i, j), tour):
-                actions_possibles.append((i, j))
-
     return actions_possibles
 
 
@@ -686,7 +667,7 @@ def charger_minimax():
     minimax_modulable.IA_char = IA_char
     minimax_modulable.vide_char = 0
     # On affecte les fonctions spécifiques au jeu pour qu'elles soient utilisées par notre minimax modulable
-    minimax_modulable.actions = actions_opti
+    minimax_modulable.actions = actions
     minimax_modulable.terminal_test = terminal_test
     minimax_modulable.heuristic = heuristic
 
