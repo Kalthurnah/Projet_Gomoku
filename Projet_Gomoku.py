@@ -41,7 +41,7 @@ def actions(state_grille: np.ndarray, tour: int, rayon=3):
                 if state_grille[i][j] != 0:  # Si un pion est dans cette case
                     # On ajoute toutes les cases jouables dans un rayon de 4 cases autour de lui aux actions possibles,
                     # Ligne : On prend un intervalle de valeurs entre i-rayon et i+rayon inclus, en excluant les valeurs hors de la grille
-                    for dist in range(0, rayon):
+                    for dist in range(1, rayon):
                         # pour chaque coordonnée de point à cette distance du point i,j en diagonale, colonne et ligne
                         for coordonnee in [(i - dist, j - dist), (i - dist, j + dist), (i + dist, j - dist), (i + dist, j + dist),
                                            (i + dist, j), (i - dist, j), (i, j - dist), (i, j + dist)]:
