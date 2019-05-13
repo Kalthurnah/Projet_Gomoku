@@ -234,3 +234,11 @@ def test_heuristic(monkeypatch, grille_sauvee, grille_pas_sauvee):
     monkeypatch.setattr('Projet_Gomoku.user_char', 1)
 
     assert (heuristic(grille_sauvee) > heuristic(grille_pas_sauvee))
+
+
+@pytest.mark.parametrize('grille_sauvee,grille_pas_sauvee', grilles_heuristiques)
+def test_heuristic_opti(monkeypatch, grille_sauvee, grille_pas_sauvee):
+    monkeypatch.setattr('Projet_Gomoku.IA_char', 2)
+    monkeypatch.setattr('Projet_Gomoku.user_char', 1)
+
+    assert (heuristic_opti(grille_sauvee) > heuristic_opti(grille_pas_sauvee))
